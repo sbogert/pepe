@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".LoginnActivity"
+            android:exported="false" />
+        <activity
             android:name=".OrderConfirmActivity"
             android:exported="false"
             android:label="@string/title_activity_order_confirm"
