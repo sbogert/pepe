@@ -27,8 +27,6 @@ public class UpdateMenuActivity extends AppCompatActivity {
     private ImageView History;
     private ImageView Menu;
 
-
-
     private static final String url = "jdbc:mysql://localhost:3001/seller/update_menu\n";
     private static final String user = "root";
     private static final String pass = "root";

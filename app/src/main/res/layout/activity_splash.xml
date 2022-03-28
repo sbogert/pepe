@@ -9,40 +9,40 @@
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/sellerLogin"
         android:layout_width="253dp"
         android:layout_height="81dp"
         android:text="Seller Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/userLogin"
         app:layout_constraintVertical_bias="0.031" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/userSignup"
         android:layout_width="253dp"
         android:layout_height="81dp"
         android:text="User Signup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/sellerLogin"
         app:layout_constraintVertical_bias="0.041" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/sellerSignup"
         android:layout_width="253dp"
         android:layout_height="81dp"
         android:text="Seller Signup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/userSignup"
         app:layout_constraintVertical_bias="0.105" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/userLogin"
         android:layout_width="253dp"
         android:layout_height="81dp"
         android:text="User Login"

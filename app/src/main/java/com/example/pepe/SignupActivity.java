@@ -81,7 +81,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void validate(String username, String password) throws Exception {
         try {
-            //Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, user, pass);
 
             Statement stmt = con.createStatement();
