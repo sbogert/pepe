@@ -64,13 +64,11 @@ public class LoginnActivity extends AppCompatActivity {
 
     //Enter name for signup page
     private void openSignUp() {
-        Intent intent = new Intent(this, Signup.class);
+        Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
     }
 
     private void validate(String username, String password) throws Exception {
-        System.out.println("Connecting database...");
-
         try {
             //Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, user, pass);
@@ -84,9 +82,11 @@ public class LoginnActivity extends AppCompatActivity {
                 //user exists
                 if (u == username && p == password) {
                     //get user id
+                    rs = stmt.executeQuery("select id from users where username = " + username);
+                    Integer userID = rs.getInt("id");
                     LoggedInUser loguser = new LoggedInUser(userID, username);
 
-                    Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
+                    Intent intent = new Intent(this, MapsActivity.class);
                     startActivity(intent);
                 }
                 //user does not exist

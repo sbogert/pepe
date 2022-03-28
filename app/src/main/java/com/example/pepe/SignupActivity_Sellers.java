@@ -9,32 +9,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.pepe.data.model.LoggedInUser;
-
-import java.io.BufferedInputStream;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity_Sellers extends AppCompatActivity {
     private EditText Name;
     private EditText Password;
+    private EditText Location;
     private TextView Info;
     private TextView SignupInfo;
     private Button login;
     private Button signup;
-    private static final String url = "jdbc:mysql://localhost:3001/drinker/signup";
+    private static final String url = "jdbc:mysql://localhost:3001/seller/signup";
     private static final String user = "root";
     private static final String pass = "root";
 
@@ -46,6 +36,7 @@ public class SignupActivity extends AppCompatActivity {
 
         Name = (EditText) findViewById(R.id.etName);
         Password = (EditText) findViewById(R.id.etPassword);
+        Location = (EditText) findViewById(R.id.location);
         SignupInfo = (TextView) findViewById(R.id.haveaccount);
         Info = (TextView) findViewById(R.id.incorrect);
         login = (Button) findViewById(R.id.signupButton);
@@ -58,7 +49,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    validate(Name.getText().toString(), Password.getText().toString());
+                    validate(Name.getText().toString(), Password.getText().toString(), Location.getText().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -79,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void validate(String username, String password) throws Exception {
+    private void validate(String username, String password, String location) throws Exception {
         try {
             //Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, user, pass);
@@ -90,13 +81,14 @@ public class SignupActivity extends AppCompatActivity {
                 Info.setText("That username already exsists");
             } else {
                 // the mysql insert statement
-                String query = " insert into users (username, password)"
-                        + " values (?, ?)";
+                String query = " insert into users (username, password, location)"
+                        + " values (?, ?, ?)";
 
                 // create the mysql insert preparedstatement
                 PreparedStatement preparedStmt = con.prepareStatement(query);
                 preparedStmt.setString(1, username);
                 preparedStmt.setString(2, password);
+                preparedStmt.setString(3, location);
 
                 // execute the preparedstatement
                 preparedStmt.execute();
@@ -110,4 +102,5 @@ public class SignupActivity extends AppCompatActivity {
             System.out.println(err.getMessage());
         }
     }
+
 }
