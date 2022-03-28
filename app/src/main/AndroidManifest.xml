@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".UpdateMenuActivity"
+            android:exported="false" />
+        <activity
             android:name=".SignupActivity_Sellers"
             android:exported="false" />
         <activity
