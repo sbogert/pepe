@@ -12,7 +12,7 @@ import com.example.pepe.data.model.LoggedInUser;
 import com.example.pepe.R;
 
 public class LoginViewModel extends ViewModel {
-
+/*
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
@@ -67,4 +67,6 @@ public class LoginViewModel extends ViewModel {
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
     }
+
+ */
 }

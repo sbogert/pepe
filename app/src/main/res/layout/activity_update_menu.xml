@@ -123,8 +123,10 @@
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
         android:backgroundTint="#000000"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="564dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

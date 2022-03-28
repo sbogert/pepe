@@ -13,10 +13,11 @@
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/noun_food_menu_1294178.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/noun_map_1854991.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_history.xml" value="0.15057220458984377" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2874310921931612" />
         <entry key="app/src/main/res/layout/activity_loginn.xml" value="0.2609448861384737" />
         <entry key="app/src/main/res/layout/activity_loginn_seller.xml" value="0.17889492753623187" />
-        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.17889492753623187" />
+        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.24712460282920062" />
         <entry key="app/src/main/res/layout/activity_menu_update.xml" value="0.23680853359941123" />
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.14221014492753623" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.28733038418534873" />

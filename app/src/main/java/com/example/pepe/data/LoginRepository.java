@@ -7,7 +7,7 @@ import com.example.pepe.data.model.LoggedInUser;
  * maintains an in-memory cache of login status and user credentials information.
  */
 public class LoginRepository {
-
+/*
     private static volatile LoginRepository instance;
     private LoginDataSource dataSource;
     private LoggedInUser user = null;
@@ -45,4 +45,6 @@ public class LoginRepository {
         }
         return result;
     }
+
+ */
 }
