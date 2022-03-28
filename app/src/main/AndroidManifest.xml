@@ -11,6 +11,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".SplashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MenuUpdate"
+            android:exported="false"
+            android:label="@string/title_activity_menu_update" />
+        <activity
             android:name=".UpdateMenuActivity"
             android:exported="false" />
         <activity

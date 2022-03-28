@@ -50,7 +50,11 @@ public class LoginnActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                validate(Name.getText().toString(), Password.getText().toString());
+                try {
+                    validate(Name.getText().toString(), Password.getText().toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -70,6 +74,7 @@ public class LoginnActivity extends AppCompatActivity {
 
     private void validate(String username, String password) throws Exception {
         try {
+            //establish connection
             //Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, user, pass);
             Statement stmt = con.createStatement();
@@ -84,10 +89,9 @@ public class LoginnActivity extends AppCompatActivity {
                     //get user id
                     rs = stmt.executeQuery("select id from users where username = " + username);
                     Integer userID = rs.getInt("id");
-                    LoggedInUser loguser = new LoggedInUser(userID, username);
-
-                    Intent intent = new Intent(this, MapsActivity.class);
-                    startActivity(intent);
+                    Intent i = new Intent(this, MapsActivity.class);
+                    i.putExtra("USERID",userID);
+                    startActivity(i);
                 }
                 //user does not exist
                 else {

@@ -47,17 +47,29 @@ public class UpdateMenuActivity extends AppCompatActivity {
         History = (ImageView) findViewById(R.id.historyButton);
         Menu = (ImageView) findViewById(R.id.menuButton);
 
+        //get intent ID
+        Integer userid = null;
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+        if(b != null){
+            userid = b.getInt("USERID");
+        }
+        else{
+            System.out.println("could not find userid");
+        }
+        Integer finalUserid = userid;
+
         Map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openMap();
+                openMap(finalUserid);
             }
         });
 
         History.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openHistory();
+                openHistory(finalUserid);
             }
         });
 
@@ -70,7 +82,7 @@ public class UpdateMenuActivity extends AppCompatActivity {
                 int finalValue1=Integer.parseInt(value1);
 
                 try {
-                    validate(Name.getText().toString(), finalValue, finalValue1);
+                    validate(Name.getText().toString(), finalValue, finalValue1 , finalUserid);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -78,18 +90,20 @@ public class UpdateMenuActivity extends AppCompatActivity {
         });
     }
 
-    private void openMap() {
+    private void openMap(Integer userID) {
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("USERID",userID);
         startActivity(intent);
     }
 
     //Enter name
-    private void openHistory() {
+    private void openHistory(Integer userID) {
         Intent intent = new Intent(this, HistoryActivity.class);
+        intent.putExtra("USERID",userID);
         startActivity(intent);
     }
 
-    private void validate(String name, Integer price, Integer caffine) throws Exception {
+    private void validate(String name, Integer price, Integer caffine, Integer userid) throws Exception {
         try {
             //Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, user, pass);
@@ -100,9 +114,8 @@ public class UpdateMenuActivity extends AppCompatActivity {
                         + " values (?, ?, ?, ?)";
 
                 // create the mysql insert preparedstatement
-                Integer userID = loguser.getUserId();
                 PreparedStatement preparedStmt = con.prepareStatement(query);
-                preparedStmt.setInt(1, userID);
+                preparedStmt.setInt(1, userid);
                 preparedStmt.setString(2, name);
                 preparedStmt.setInt(3, price);
                 preparedStmt.setInt(4, caffine);
@@ -116,6 +129,4 @@ public class UpdateMenuActivity extends AppCompatActivity {
             System.out.println(err.getMessage());
         }
     }
-
-
 }
