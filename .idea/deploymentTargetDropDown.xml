@@ -7,11 +7,19 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
+<<<<<<< HEAD
             <value value="$PROJECT_DIR$/../.android/avd/Nexus_4_API_22.avd" />
+=======
+            <value value="C:\Users\sofib\.android\avd\Pixel_2_API_30_1.avd" />
+>>>>>>> 15861cb5c1b17dc703d7ad19b2b4f4a37ce6c4ce
           </Key>
         </deviceKey>
       </Target>
     </runningDeviceTargetSelectedWithDropDown>
+<<<<<<< HEAD
     <timeTargetWasSelectedWithDropDown value="2022-03-28T19:50:19.573926Z" />
+=======
+    <timeTargetWasSelectedWithDropDown value="2022-03-28T19:33:13.856914600Z" />
+>>>>>>> 15861cb5c1b17dc703d7ad19b2b4f4a37ce6c4ce
   </component>
 </project>

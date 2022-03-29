@@ -120,4 +120,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="seller_login">Seller Login</string>
+    <string name="user_signup">User Signup</string>
+    <string name="seller_signup">Seller Signup</string>
+    <string name="user_login">User Login</string>
+    <string name="username_exists">That username already exists</string>
 </resources>
