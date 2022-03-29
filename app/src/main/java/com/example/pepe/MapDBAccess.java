@@ -10,7 +10,7 @@ public class MapDBAccess {
     // in results set (select * from blah blah blah)
     private void sendGet() throws Exception {
         // verify url
-        String url = "http:/localhost:3006/";
+        String url = "http:/localhost:3001/";
         HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
         httpClient.setRequestMethod("GET");
 

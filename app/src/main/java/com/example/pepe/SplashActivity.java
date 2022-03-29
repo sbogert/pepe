@@ -11,20 +11,15 @@ import android.widget.TextView;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private Button userLogin;
-    private Button sellerLogin;
-    private Button userSignup;
-    private Button sellerSignup;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        userLogin = (Button) findViewById(R.id.userLogin);
-        sellerLogin = (Button) findViewById(R.id.sellerLogin);
-        userSignup = (Button) findViewById(R.id.userSignup);
-        sellerSignup = (Button) findViewById(R.id.sellerSignup);
+        Button userLogin = (Button) findViewById(R.id.userLogin);
+        Button sellerLogin = (Button) findViewById(R.id.sellerLogin);
+        Button userSignup = (Button) findViewById(R.id.userSignup);
+        Button sellerSignup = (Button) findViewById(R.id.sellerSignup);
 
         userLogin.setOnClickListener(new View.OnClickListener() {
             @Override
