@@ -7,9 +7,14 @@ import java.net.URL;
 
 public class MapDBAccess {
 
+    // in results set (select * from blah blah blah)
     private void sendGet() throws Exception {
         // verify url
+<<<<<<< HEAD
         String url = "http:/localhost:3001/";
+=======
+        String url = "http:/localhost:3006/";
+>>>>>>> 8b1cef663212190d6f26454b244b80bde8cdb264
         HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
         httpClient.setRequestMethod("GET");
 
