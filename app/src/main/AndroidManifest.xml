@@ -29,14 +29,10 @@
             android:exported="false" />
         <activity
             android:name=".SignupActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_signup" >
 
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         <activity
             android:name=".LoginnActivity"
@@ -64,8 +60,14 @@
 
         <activity
             android:name=".MapsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_maps" />
+            android:exported="true"
+            android:label="@string/title_activity_maps" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
     </application>
 
 </manifest>
