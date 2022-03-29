@@ -23,7 +23,6 @@ public class LoginnActivity extends AppCompatActivity {
     private EditText Name;
     private EditText Password;
     private TextView Info;
-    private TextView SignupInfo;
     private Button login;
     private Button signup;
     private static final String url = "jdbc:mysql://localhost:3001/drinker/login";
@@ -38,7 +37,7 @@ public class LoginnActivity extends AppCompatActivity {
 
         Name = (EditText) findViewById(R.id.etName);
         Password = (EditText) findViewById(R.id.etPassword);
-        SignupInfo = (TextView) findViewById(R.id.haveaccount);
+        TextView signupInfo = (TextView) findViewById(R.id.haveaccount);
         Info = (TextView) findViewById(R.id.incorrect);
         login = (Button) findViewById(R.id.signupButton);
         signup = (Button) findViewById(R.id.loginButton);

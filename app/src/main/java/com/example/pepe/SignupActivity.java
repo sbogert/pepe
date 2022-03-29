@@ -86,8 +86,8 @@ public class SignupActivity extends AppCompatActivity {
 
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select * from users where username = " + username);
-            if (rs.next() == true) {
-                Info.setText("That username already exsists");
+            if (rs.next()) {
+                Info.setText(R.string.username_exists);
             } else {
                 // the mysql insert statement
                 String query = " insert into users (username, password)"
