@@ -5,6 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
+
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -26,9 +34,9 @@ public class HistoryActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
-            Toast.makeText(MainActivity.this, "Please wait...", Toast.LENGTH_SHORT)
-                    .show();
+//            super.onPreExecute();
+//            Toast.makeText(MapsActivity.this, "Please wait...", Toast.LENGTH_SHORT)
+//                    .show();
 
         }
 
@@ -61,5 +69,4 @@ public class HistoryActivity extends AppCompatActivity {
         }
     }
 
-}
 }

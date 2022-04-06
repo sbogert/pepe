@@ -9,23 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.pepe.data.model.LoggedInUser;
-
-import java.io.BufferedInputStream;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
     private EditText Name;
@@ -42,7 +31,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loginn);
+        setContentView(R.layout.activity_signup);
 
         Name = (EditText) findViewById(R.id.etName);
         Password = (EditText) findViewById(R.id.etPassword);
@@ -75,7 +64,7 @@ public class SignupActivity extends AppCompatActivity {
 
     //Enter name for signup page
     private void openLogin() {
-        Intent intent = new Intent(this, LoginnActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 

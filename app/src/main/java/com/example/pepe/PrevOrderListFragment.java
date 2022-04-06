@@ -5,6 +5,7 @@ import android.content.ClipDescription;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -62,7 +63,7 @@ public class PrevOrderListFragment extends Fragment {
     private FragmentPrevorderListBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentPrevorderListBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -70,15 +71,13 @@ public class PrevOrderListFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ViewCompat.addOnUnhandledKeyEventListener(view, unhandledKeyEventListenerCompat);
 
         RecyclerView recyclerView = binding.prevorderList;
 
-        // Leaving this not using view binding as it relies on if the view is visible the current
-        // layout configuration (layout, layout-sw600dp)
         View itemDetailFragmentContainer = view.findViewById(R.id.prevorder_detail_nav_container);
 
         setupRecyclerView(recyclerView, itemDetailFragmentContainer);
@@ -113,8 +112,9 @@ public class PrevOrderListFragment extends Fragment {
             mItemDetailFragmentContainer = itemDetailFragmentContainer;
         }
 
+        @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
             PrevorderListContentBinding binding =
                     PrevorderListContentBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);

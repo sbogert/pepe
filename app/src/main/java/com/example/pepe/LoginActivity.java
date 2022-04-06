@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.pepe.data.model.LoggedInUser;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -18,7 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class LoginnActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private EditText Name;
     private EditText Password;
@@ -33,7 +31,7 @@ public class LoginnActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loginn);
+        setContentView(R.layout.activity_login);
 
         Name = (EditText) findViewById(R.id.etName);
         Password = (EditText) findViewById(R.id.etPassword);
@@ -84,7 +82,7 @@ public class LoginnActivity extends AppCompatActivity {
                 String u = rs.getString("username");
                 String p = rs.getString("password");
                 //user exists
-                if (u == username && p == password) {
+                if (u.equals(username) && p.equals(password)) {
                     //get user id
                     rs = stmt.executeQuery("select id from users where username = " + username);
                     Integer userID = rs.getInt("id");

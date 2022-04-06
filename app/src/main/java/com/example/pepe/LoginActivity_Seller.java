@@ -15,7 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class LoginnActivity_Seller extends AppCompatActivity {
+public class LoginActivity_Seller extends AppCompatActivity {
 
     private EditText Name;
     private EditText Password;
@@ -31,7 +31,7 @@ public class LoginnActivity_Seller extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loginn);
+        setContentView(R.layout.activity_login_seller);
 
         Name = (EditText) findViewById(R.id.etName);
         Password = (EditText) findViewById(R.id.etPassword);
@@ -46,7 +46,6 @@ public class LoginnActivity_Seller extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 try {
                     validate(Name.getText().toString(), Password.getText().toString());
                 } catch (Exception e) {
@@ -65,7 +64,7 @@ public class LoginnActivity_Seller extends AppCompatActivity {
 
     //Enter name for signup page
     private void openSignUp() {
-        Intent intent = new Intent(this, SignupActivity.class);
+        Intent intent = new Intent(this, SignupActivity_Sellers.class);
         startActivity(intent);
     }
 
@@ -77,14 +76,14 @@ public class LoginnActivity_Seller extends AppCompatActivity {
             Statement stmt = con.createStatement();
 
             //database name
-            ResultSet rs = stmt.executeQuery("select * from users");
+            ResultSet rs = stmt.executeQuery("select * from sellers");
             while (rs.next()) {
                 String u = rs.getString("username");
                 String p = rs.getString("password");
                 //user exists
                 if (u == username && p == password) {
                     //get user id
-                    rs = stmt.executeQuery("select id from users where username = " + username);
+                    rs = stmt.executeQuery("select id from sellers where username = " + username);
                     Integer userID = rs.getInt("id");
                     Intent i = new Intent(this, MapsActivity.class);
                     i.putExtra("USERID",userID);
@@ -92,7 +91,7 @@ public class LoginnActivity_Seller extends AppCompatActivity {
                 }
                 //user does not exist
                 else {
-                    Info.setText("Username or Password Incorrect");
+                    Info.setText("@string/incorrect_login");
                 }
             }
         } catch (SQLException err) {

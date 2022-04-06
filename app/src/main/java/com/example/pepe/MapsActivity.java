@@ -50,9 +50,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             // connect to db and get seller information
 
-           Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/310project?user=+ "user" +
-                    "=java" +
-                    "&password=root");
+           Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/310project?user=" +
+                    "=java&password=root");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT username, latitude, longitude FROM 310project.sellers");
             // Do something with result set
@@ -64,11 +63,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(loc).title(rs.getString("username")));
 
             }
-        } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+        } catch (SQLException /*| ClassNotFoundException | IllegalAccessException | InstantiationException */
+        e) {
             // handle any errors
             System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            e.printStackTrace();
+//            System.out.println("SQLState: " + e.getSQLState());
+//            System.out.println("VendorError: " + e.getErrorCode());
         }
     }
 }

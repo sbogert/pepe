@@ -32,7 +32,7 @@ public class SignupActivity_Sellers extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loginn);
+        setContentView(R.layout.activity_signup_sellers);
 
         Name = (EditText) findViewById(R.id.etName);
         Password = (EditText) findViewById(R.id.etPassword);
@@ -66,7 +66,7 @@ public class SignupActivity_Sellers extends AppCompatActivity {
 
     //Enter name for signup page
     private void openLogin() {
-        Intent intent = new Intent(this, LoginnActivity.class);
+        Intent intent = new Intent(this, LoginActivity_Seller.class);
         startActivity(intent);
     }
 
@@ -76,12 +76,12 @@ public class SignupActivity_Sellers extends AppCompatActivity {
             Connection con = DriverManager.getConnection(url, user, pass);
 
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from users where username = " + username);
-            if (rs.next() == true) {
-                Info.setText("That username already exsists");
+            ResultSet rs = stmt.executeQuery("select * from sellers where username = " + username);
+            if (rs.next()) {
+                Info.setText(R.string.username_exists);
             } else {
                 // the mysql insert statement
-                String query = " insert into users (username, password, location)"
+                String query = " insert into sellers (username, password, location)"
                         + " values (?, ?, ?)";
 
                 // create the mysql insert preparedstatement
