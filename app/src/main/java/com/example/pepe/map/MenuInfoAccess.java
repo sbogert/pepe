@@ -24,22 +24,19 @@ public class MenuInfoAccess {
      * https://www.geeksforgeeks.org/http-headers/#
      *  It is a request type header. This is use to hold the previous page link where this new page come, that the back button of the browsers can work.
      */
-    public static OkHttpClient client = null;
+    public OkHttpClient client = null;
 
-    // makes new client if one doesn't exist
-    public static OkHttpClient getClient() {
+    public void sendGet() {
+        System.out.println("\n\nCAN YOU SEE ME\n\n");
+
         if (client == null) {
             client = new OkHttpClient();
         }
 
-        return client;
-    }
-
-    public void sendGet() {
-
-        String url = "http://localhost:3306/310project";
+        String url = "http://127.0.0.1:80/310project";
 
         Request request = new Request.Builder().url(url).get().build();
+        System.out.println("Connected");
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -54,6 +51,10 @@ public class MenuInfoAccess {
 
                     System.out.println(responseBody.string());
 
+                }
+
+                finally {
+                   response.close();
                 }
 
             }
