@@ -13,6 +13,8 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -34,8 +36,9 @@ public class MenuInfoAccess {
             client = new OkHttpClient();
         }
 
-        String url = "http://127.0.0.1:3306/310project";
-        Request request = new Request.Builder().url(url).get().build();
+        String url = "http://10.0.2.2:3306/310project/sellers";
+        Request request = new Request.Builder().url(url).header("Connection", "close").get().build();
+         
         System.out.println("Connected");
 
         client.newCall(request).enqueue(new Callback() {
