@@ -2,6 +2,8 @@ package com.example.pepe.map;
 
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+
 import com.example.pepe.map.StoreLocation;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -27,25 +29,25 @@ public class MenuInfoAccess {
     public OkHttpClient client = null;
 
     public void sendGet() {
-        System.out.println("\n\nCAN YOU SEE ME\n\n");
 
         if (client == null) {
             client = new OkHttpClient();
         }
 
-        String url = "http://127.0.0.1:80/310project";
-
+        String url = "http://127.0.0.1:3306/310project";
         Request request = new Request.Builder().url(url).get().build();
         System.out.println("Connected");
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, IOException e) {
                 e.printStackTrace();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                System.out.println("onResponse");
+
                 try (ResponseBody responseBody = response.body()) {
                     if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
