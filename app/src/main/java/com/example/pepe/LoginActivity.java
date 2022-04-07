@@ -9,11 +9,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -42,16 +53,17 @@ public class LoginActivity extends AppCompatActivity {
 
         Info.setText("");
 
-
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String getResponse = null;
                 try {
-                    validate(Name.getText().toString(), Password.getText().toString());
+                    getResponse = get();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                System.out.println(getResponse);
+                Info.setText(getResponse);
             }
         });
 
@@ -62,6 +74,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    public String get() throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("http://localhost:3001/drinker/signup")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+    }
+
 
     //Enter name for signup page
     private void openSignUp() {
@@ -87,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                     rs = stmt.executeQuery("select id from users where username = " + username);
                     Integer userID = rs.getInt("id");
                     Intent i = new Intent(this, MapsActivity.class);
-                    i.putExtra("USERID",userID);
+                    i.putExtra("USERID", userID);
                     startActivity(i);
                 }
                 //user does not exist
@@ -100,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
+
 
     /*
      private void t() throws Exception {

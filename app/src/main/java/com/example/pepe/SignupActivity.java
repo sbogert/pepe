@@ -45,18 +45,17 @@ public class SignupActivity extends AppCompatActivity {
         Password = (EditText) findViewById(R.id.etPassword);
         SignupInfo = (TextView) findViewById(R.id.haveaccount);
         Info = (TextView) findViewById(R.id.incorrect);
-        login = (Button) findViewById(R.id.signupButton);
-        signup = (Button) findViewById(R.id.loginButton);
+        login = (Button) findViewById(R.id.loginButton);
+        signup = (Button) findViewById(R.id.signupButton);
 
         Info.setText("");
-
-
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    sendPost(Name.getText().toString(), Password.getText().toString());
+                    validate(Name.getText().toString(), Password.getText().toString());
+                    String response = sendPost(Name.getText().toString(), Password.getText().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -71,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    public void sendPost(String username, String password) throws IOException {
+    public String sendPost(String username, String password) throws IOException {
         OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
                 .add("username", username)
@@ -85,18 +84,23 @@ public class SignupActivity extends AppCompatActivity {
 
         Call call = client.newCall(request);
         Response response = call.execute();
+
         if(response.code() == 400){
             //username is already in use
             Info.setText(R.string.username_exists);
+            System.out.println("ERROR");
+            return("ERROR");
+
         }
         else{
             //successfully logged in
             //save username?????
             Intent intent = new Intent(this, MapsActivity.class);
             startActivity(intent);
+            System.out.println("LOOOOGIG");
+            return response.body().string();
         }
     }
-
 
     //Enter name for signup page
     private void openLogin() {
@@ -106,8 +110,11 @@ public class SignupActivity extends AppCompatActivity {
 
     private void validate(String username, String password) throws Exception {
         try {
+            System.out.println("Attempting to connect");
+
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, user, pass);
+            System.out.println("Connection successful");
 
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select * from users where username = " + username);
@@ -126,6 +133,7 @@ public class SignupActivity extends AppCompatActivity {
                 // execute the preparedstatement
                 preparedStmt.execute();
 
+                System.out.println("Closing connection");
                 con.close();
 
                 Intent intent = new Intent(this, MapsActivity.class);
