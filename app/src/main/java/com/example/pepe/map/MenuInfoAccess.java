@@ -1,19 +1,110 @@
-package com.example.pepe;
+package com.example.pepe.map;
 
-import android.content.Intent;
+import android.os.AsyncTask;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.example.pepe.map.StoreLocation;
 
-public class MapDBAccess {
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+
+public class MenuInfoAccess {
+
+    /**
+     * for being able to move between different menus and the map
+     * https://www.geeksforgeeks.org/http-headers/#
+     *  It is a request type header. This is use to hold the previous page link where this new page come, that the back button of the browsers can work.
+     */
+    public static OkHttpClient client = null;
+
+    // makes new client if one doesn't exist
+    public static OkHttpClient getClient() {
+        if (client == null) {
+            client = new OkHttpClient();
+        }
+
+        return client;
+    }
+
+    public void sendGet() {
+
+        String url = "http://localhost:3306/310project";
+
+        Request request = new Request.Builder().url(url).get().build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try (ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                    System.out.println(responseBody.string());
+
+                }
+
+            }
+
+
+        });
+//        Call call = getClient().newCall(request);
+//        call.enqueue(callback);
+//
+//        return call;
+    }
+
+    public void getLocations() {
+    }
+
+
+}
+
+
+
+
+
+//    String getMapMarkers () {
+//
+//        String responseBody = null;
+//
+//        Request request = new Request.Builder()
+//                .url(url)
+//                .build();
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            responseBody = response.body().string();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//
+//             // note that line breaks disappeared after parsing it to string
+//            String[] parts = answer.split("#");
+//
+//            for (String point : parts) {
+//                String[] pointData = point.split(",");
+//                Float lat= Float.parseFloat(pointData[0]);
+//                Float lng= Float.parseFloat(pointData[1]);
+///// check if fit your actual map, remember you need everything required here loaded and declared before calling.
+//                mMap.addMarker(new MarkerOptions()
+//                        .position(new LatLng(lat, lng))
+//                        .title("Hello world"));
+//
+//
+//            }
+//    }
 
 //    private Connection conn = null;
 //    private Statement stmt = null;
@@ -52,7 +143,7 @@ public class MapDBAccess {
 //            }
 //        }
 //    }
-}
+
 //    private void validate(String username, String password) throws Exception {
 //        try {
 //            //establish connection
