@@ -9,12 +9,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import okhttp3.Call;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SignupActivity extends AppCompatActivity {
     private EditText Name;
@@ -43,11 +51,12 @@ public class SignupActivity extends AppCompatActivity {
         Info.setText("");
 
 
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    validate(Name.getText().toString(), Password.getText().toString());
+                    sendPost(Name.getText().toString(), Password.getText().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -61,6 +70,33 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void sendPost(String username, String password) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder()
+                .add("username", username)
+                .add("password", password)
+                .build();
+
+        Request request = new Request.Builder()
+                .url("http://localhost:3001/drinker/signup")
+                .post(formBody)
+                .build();
+
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        if(response.code() == 400){
+            //username is already in use
+            Info.setText(R.string.username_exists);
+        }
+        else{
+            //successfully logged in
+            //save username?????
+            Intent intent = new Intent(this, MapsActivity.class);
+            startActivity(intent);
+        }
+    }
+
 
     //Enter name for signup page
     private void openLogin() {
