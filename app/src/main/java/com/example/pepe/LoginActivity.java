@@ -11,11 +11,18 @@ import android.widget.TextView;
 
 import com.example.pepe.map.MapsActivity;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -39,8 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         Password = (EditText) findViewById(R.id.etPassword);
         TextView signupInfo = (TextView) findViewById(R.id.haveaccount);
         Info = (TextView) findViewById(R.id.incorrect);
-        login = (Button) findViewById(R.id.signupButton);
-        signup = (Button) findViewById(R.id.loginButton);
+        login = (Button) findViewById(R.id.loginButton);
+        signup = (Button) findViewById(R.id.signupButton);
 
         Info.setText("");
 
@@ -70,6 +77,28 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
     }
+
+    private void httpGet(){
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("http://publicobject.com/helloworld.txt")
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            public void onResponse(Call call, Response response)
+                    throws IOException {
+                // ...
+            }
+
+            public void onFailure(Call call, IOException e) {
+                fail();
+            }
+        });
+    }
+
+
 
     private void validate(String username, String password) throws Exception {
         try {

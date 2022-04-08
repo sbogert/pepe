@@ -52,11 +52,11 @@ public class SignupActivity extends AppCompatActivity {
 
         Info.setText("");
 
-
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
+                    httpReqest(Name.getText().toString(), Password.getText().toString());
                     validate(Name.getText().toString(), Password.getText().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -78,12 +78,12 @@ public class SignupActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void httpReqest(){
+    private void httpReqest(String user, String pass){
         OkHttpClient client = new OkHttpClient();
 
         RequestBody formBody = new FormBody.Builder()
-                .add("username", "test")
-                .add("password", "test")
+                .add("username", user)
+                .add("password", pass)
                 .build();
         Request request = new Request.Builder()
                 .url("https://en.wikipedia.org/w/index.php")
