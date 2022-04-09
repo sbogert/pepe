@@ -89,8 +89,7 @@ public class SignupActivity extends AppCompatActivity {
                 .url("https://en.wikipedia.org/w/index.php")
                 .post(formBody)
                 .build();
-
-
+        
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 System.out.println(response.body().string());
