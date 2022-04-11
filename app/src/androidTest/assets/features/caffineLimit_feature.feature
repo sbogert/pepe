@@ -1,11 +1,10 @@
-Feature: Caffine limit reached
-  @smoke
-    @e2e
-  Scenario Outline: Caffine limit
+Feature: Caffeine limit reached
+
+  Scenario Outline: Caffeine limit
     Given I am on the menu page for <drinker>
     When I click drink
-    And I click drive
     And I click order
-    Then I get a caffine limit reached notification
+    And I get a caffeine limit reached notification
+    Then I click dismiss
     Examples:
       | drinker |

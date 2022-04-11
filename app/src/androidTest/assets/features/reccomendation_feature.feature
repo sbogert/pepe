@@ -1,16 +1,10 @@
-Feature: Enter login details
+Feature: Get recommendation
   @smoke
     @e2e
-  Scenario Outline: Successful login
-    Given I start the application
+  Scenario Outline: Get recommendation
+    Given I am logged on as a user
     When I click email field
-    And I enter valid email <email>
-    And I close the keyboard
-    And I click password field
-    And I enter valid password <password>
-    And I close the keyboard
-    And I click sign in button
-    Then I go to the maps page
+    And I get recommendation notification
+    Then I press dismiss
     Examples:
-      | email        | password |
-      | celiamarino@gmail.com | 123456 |
+      |  |

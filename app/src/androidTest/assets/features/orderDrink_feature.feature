@@ -1,16 +1,11 @@
-Feature: Enter login details
-  @smoke
-    @e2e
-  Scenario Outline: Successful login
-    Given I start the application
-    When I click email field
-    And I enter valid email <email>
-    And I close the keyboard
-    And I click password field
-    And I enter valid password <password>
-    And I close the keyboard
-    And I click sign in button
-    Then I go to the maps page
+Feature: Order Drink
+
+  Scenario Outline: Order Drink
+    Given I am logged on as a drinker
+    When I click <seller> store
+    And I click menu
+    And I click drink
+    And I click order
+    Then I am directed to order in progress page
     Examples:
-      | email        | password |
-      | celiamarino@gmail.com | 123456 |
+      | seller |

@@ -1,15 +1,12 @@
-Feature: Enter login details
+Feature: Edit Menu
 
-  Outline: Successful login
-    Given I start the application
-    When I click email field
-    And I enter valid email <email>
-    And I close the keyboard
-    And I click password field
-    And I enter valid password <password>
-    And I close the keyboard
-    And I click sign in button
-    Then I go to the maps page
+  Scenario Outline: Edit Menu
+    Given I am logged on as seller
+    When I edit menu
+    And I enter drink name <drink>
+    And I enter caffeine level <caffeine>
+    And I enter price <price>
+    And I press add
+    Then Item is added to my menu
     Examples:
-      | email        | password |
-      | celiamarino@gmail.com | 123456 |
+      | Latte | 2 | 5.00 |

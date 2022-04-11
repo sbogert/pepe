@@ -1,16 +1,10 @@
-Feature: Enter login details
+Feature: View past orders
   @smoke
     @e2e
-  Scenario Outline: Successful login
-    Given I start the application
-    When I click email field
-    And I enter valid email <email>
-    And I close the keyboard
-    And I click password field
-    And I enter valid password <password>
-    And I close the keyboard
-    And I click sign in button
-    Then I go to the maps page
+  Scenario Outline: User view past orders
+    Given I am logged on as a drinker
+    When I click my profile
+    And I click view past orders button
+    Then I am able to see past orders
     Examples:
-      | email        | password |
-      | celiamarino@gmail.com | 123456 |
+      |  |

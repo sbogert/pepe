@@ -1,16 +1,11 @@
 Feature: Edit Profile
-  @smoke
-    @e2e
+
   Scenario Outline: Edit profile
-    Given I am on the maps page
+    Given I am on the maps page as a Seller
     When I click view profile
-    And I click
-    And I close the keyboard
-    And I click password field
-    And I enter valid password <password>
-    And I close the keyboard
-    And I click sign in button
-    Then I go to the maps page
+    And I click edit profile
+    And enter valid email <email>
+    And I click change password
+    Then My changed information is displayed
     Examples:
-      | email        | password |
-      | celiamarino@gmail.com | 123456 |
+      | email |

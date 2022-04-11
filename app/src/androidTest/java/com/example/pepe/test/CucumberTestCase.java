@@ -1,12 +1,11 @@
 package com.example.pepe.test;
 
+import org.junit.runner.RunWith;
 import cucumber.api.CucumberOptions;
 
-import cucumber.api.CucumberOptions
+//@RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "features",
-        glue = "com.sniper.bdd.cucumber.steps",
-        tags = "@e2e", "@smoke"
+        features = {"src/androidTest/assets/features"}
 )
 
 @SuppressWarnings("unused")

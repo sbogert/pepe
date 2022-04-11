@@ -1,16 +1,10 @@
-Feature: Enter login details
-  @smoke
-    @e2e
-  Scenario Outline: Successful login
-    Given I start the application
-    When I click email field
-    And I enter valid email <email>
-    And I close the keyboard
-    And I click password field
-    And I enter valid password <password>
-    And I close the keyboard
-    And I click sign in button
-    Then I go to the maps page
+Feature: View Delivery options
+
+  Scenario Outline: View delivery options
+    Given I am logged on as a drinker
+    When I click a store
+    And I click view directions
+    And I click bike
+    Then I get a time for delivery
     Examples:
-      | email        | password |
-      | celiamarino@gmail.com | 123456 |
+      |  |
