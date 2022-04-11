@@ -1,47 +1,48 @@
 package com.example.pepe.map;
 
-import android.os.AsyncTask;
-
 import androidx.annotation.NonNull;
 
-import com.example.pepe.map.StoreLocation;
-
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.IOException;
+import java.lang.reflect.Type;
+
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.Headers;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 public class MenuInfoAccess {
 
+    // i think i need to have some type of handler for this so that there are no issues
+    // stack overflow example explains it but I haven't changed anythings2
     /**
      * for being able to move between different menus and the map
      * https://www.geeksforgeeks.org/http-headers/#
      *  It is a request type header. This is use to hold the previous page link where this new page come, that the back button of the browsers can work.
      */
-    public OkHttpClient client = null;
+    public OkHttpClient menuClient = null;
 
     public void sendGet() {
 
-        if (client == null) {
-            client = new OkHttpClient();
+        if (menuClient == null) {
+            menuClient = new OkHttpClient();
         }
 
-        String url = "http://10.0.2.2:3306/310project/sellers";
-        Request request = new Request.Builder().url(url).header("Connection", "close").get().build();
+        // trying port 3000 from 3306 nownp
+        String url = "http://10.0.2.2:3001/310project/sellers";
+        Request request = new Request.Builder().url(url).addHeader("Connection", "close").get().build();
          
         System.out.println("Connected");
 
-        client.newCall(request).enqueue(new Callback() {
+        menuClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, IOException e) {
                 e.printStackTrace();
@@ -52,9 +53,17 @@ public class MenuInfoAccess {
                 System.out.println("onResponse");
 
                 try (ResponseBody responseBody = response.body()) {
-                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                    if (!response.isSuccessful()) {
+                        throw new IOException("Unexpected code " + response);
+                    }
 
                     System.out.println(responseBody.string());
+                    
+                    Gson gson =
+                            new GsonBuilder().registerTypeAdapter(StoreLocation.class,
+                                    new MyDeserializer()).create();
+//                    return gson.fromJson(Objects.requireNonNull(response.body()).string(),
+//                            StoreLocation.class);
 
                 }
 
@@ -73,6 +82,15 @@ public class MenuInfoAccess {
     }
 
     public void getLocations() {
+    }
+    // Code adapted from https://stackoverflow.com/questions/23070298/get-nested-json-object-with-gson-using-retrofit
+    class MyDeserializer implements JsonDeserializer<StoreLocationArray> {
+        @Override
+        public StoreLocationArray deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
+            JsonElement content = je.getAsJsonObject();
+
+            return new Gson().fromJson(content, StoreLocationArray.class);
+        }
     }
 
 

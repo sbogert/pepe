@@ -5,19 +5,44 @@ package com.example.pepe.data.model;
  */
 public class LoggedInUser {
 
-    private Integer userId;
-    private String displayName;
+    private String id;
+    private String username;
+    private String password;
+    private Integer caffeine;
 
-    public LoggedInUser(Integer userId, String displayName) {
-        this.userId = userId;
-        this.displayName = displayName;
+    public LoggedInUser(String id_, String username_, String password_, Integer caffeine_) {
+        this.id = id_;
+        this.username = username_;
+        this.password = password_;
+        this.caffeine = caffeine_;
     }
 
-    public Integer getUserId() {
-        return userId;
+// getters and setters for each field
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getCaffeine() {
+        return caffeine;
+    }
+    public void setCaffeine(Integer caffeine) {
+        this.caffeine = caffeine;
     }
 }

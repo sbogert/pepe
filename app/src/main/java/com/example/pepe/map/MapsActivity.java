@@ -42,8 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         MenuInfoAccess menuInfoAccess = new MenuInfoAccess();
-//        menuInfoAccess.getClient();
-        menuInfoAccess.sendGet();
+//        menuInfoAccess.sendGet();
     }
 
     /**
