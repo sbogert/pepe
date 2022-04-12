@@ -17,15 +17,17 @@
     "mysql": "^2.18.1",
     "nyc": "^15.1.0",
     "socket.io": "^4.4.1",
-    "supertest": "^6.2.2",
     "underscore": "^1.13.2",
     "when": "^3.7.8"
   },
   "scripts": {
-
     "test": "nyc mocha",
     "start": "node main/app.js",
     "create_database": "node main/mysql_setup/create_database.js",
     "migrate": "node main/mysql_setup/migrate.js"
+  },
+  "devDependencies": {
+    "supertest": "^6.2.2",
+    "supertest-session": "^4.1.0"
   }
 }
