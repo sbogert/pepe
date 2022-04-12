@@ -18,4 +18,18 @@ public class UserProfiles {
     public ArrayList<LoggedInUser> getUserProfiles() {
         return userProfiles;
     }
+
+
+    /** find a user by searching through the arraylist until the usernames match*/
+    public LoggedInUser findUser(String username, String password) {
+        for (LoggedInUser userI : userProfiles) {
+            if (userI.getUsername() == username) {
+                if (userI.getPassword() == password) {
+                    return userI;
+                }
+            }
+        }
+
+        return null;
+    }
 }

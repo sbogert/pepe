@@ -23,10 +23,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -44,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView Info;
     private Button login;
     private Button signup;
-    private static final String url = "http://10.0.2.2:3001/310project/drinkers";
+    private static final String url = "http://10.26.10.68:3306/310project/drinkers";
     private static final String user = "root";
     private static final String pass = "root";
     private UserProfiles userProfiles;
@@ -68,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 try {
                     validate(Name.getText().toString(), Password.getText().toString());
                 } catch (Exception e) {
@@ -94,16 +92,39 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private String getUserDB() {
+        String sqlSelectUser = "SELECT id FROM Drinkers WHERE username = ?";
+        String connectionUrl = "jdbc:mysql://localhost:3306/CS310project";
+        String id = "";
+        // query database to get the user's id
+        try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "root");
+             PreparedStatement ps = conn.prepareStatement(sqlSelectUser);
+             ResultSet rs = ps.executeQuery()) {
+            id = rs.getString("id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // handle the exception
+        }
+        return id;
+    }
+
+
     private void httpGet(){
         OkHttpClient client = new OkHttpClient();
 
-
+        // prints the user and pass twice
+        // goes through all of this each time login is clicked, dont do that
+        // find way to only sent request first time
         Request request = new Request.Builder()
                 .url(url)
+                .header("Connection", "close")
+                .header("Accept-Encoding", "identity")
                 .build();
 
         System.out.println("Connected");
 
+
+        // github says these errors are on the server side
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, IOException e) {
@@ -112,14 +133,12 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                System.out.println("onResponse");
-
                 try (ResponseBody responseBody = response.body()) {
                     if (!response.isSuccessful()) {
                         throw new IOException("Unexpected code " + response);
                     }
 
-                    System.out.println(responseBody.string());
+                    System.out.println("N   " + responseBody.string() + "    N");
 
                     Gson gson =
                             new GsonBuilder().registerTypeAdapter(UserProfiles.class,
@@ -178,10 +197,8 @@ public class LoginActivity extends AppCompatActivity {
 //                    Info.setText("Username or Password Incorrect");
 //                }
 //            }
-            httpGet();
-            // idk do something like this to get the user's info from arraylist that is returned
-            userProfiles.findUser(password);
-            Integer userID = .getInt("id");
+            String userID = getUserDB();
+            // get the user's info from arraylist that is returned from findUser()
                     Intent i = new Intent(this, MapsActivity.class);
                     i.putExtra("USERID",userID);
             startActivity(i);
