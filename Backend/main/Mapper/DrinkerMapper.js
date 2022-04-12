@@ -8,7 +8,7 @@ exports.InsertIntoDrinker = function(payload, drinker, callback){
             //console.log(results);
             if (error) {
                 console.log(error);
-                throw error;
+                //throw error;
             }
             if(callback !== null){
                 callback(payload, results)
