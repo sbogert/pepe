@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,11 +14,13 @@ import java.sql.SQLException;
 
 
 public class MenuInfoAccess {
-    public static StoreLocationArray getMarkerz() {
+    public static StoreLocationArray getMarkerz() throws ClassNotFoundException {
         String sqlSelectUser = "SELECT * FROM SELLERS";
         String connectionUrl = "jdbc:mysql://localhost:3306/CS310project";
         StoreLocationArray storeLocArray = new StoreLocationArray();
         StoreLocation storeLocation;
+        Class.forName("com.mysql.jdbc.Driver");
+
         // query database to get the user's id
         try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
              PreparedStatement ps = conn.prepareStatement(sqlSelectUser);

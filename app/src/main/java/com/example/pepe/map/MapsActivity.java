@@ -56,7 +56,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // map initially is focused on USC/centered on USC
         LatLng uscStart = new LatLng(34.02226492129773, -118.2876243116412);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uscStart, 13F));
-        StoreLocationArray markerArray = MenuInfoAccess.getMarkerz();
+        StoreLocationArray markerArray = null;
+        try {
+            markerArray = MenuInfoAccess.getMarkerz();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         // adding each store location to the map
         for (StoreLocation storeLoc : markerArray.getStoreLocationArray()) {

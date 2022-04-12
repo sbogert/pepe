@@ -22,6 +22,7 @@ import com.google.gson.JsonParseException;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -84,10 +85,14 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private String getUserDB() {
+    private String getUserDB() throws ClassNotFoundException {
         String sqlSelectUser = "SELECT id FROM Drinkers WHERE username = ?";
         String connectionUrl = "jdbc:mysql://localhost:3306/CS310project";
         String id = "";
+
+        Class.forName("com.mysql.jdbc.Driver");
+
+
         // query database to get the user's id
         try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
              PreparedStatement ps = conn.prepareStatement(sqlSelectUser);
