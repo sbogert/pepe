@@ -28,13 +28,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -56,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Name = findViewById(R.id.etName);
         Password = findViewById(R.id.etPassword);
-        TextView signupInfo =  findViewById(R.id.haveaccount);
+        TextView signupInfo = findViewById(R.id.haveaccount);
         Info = findViewById(R.id.incorrect);
         login = findViewById(R.id.loginButton);
         signup = findViewById(R.id.signupButton);
@@ -68,11 +61,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    validate(Name.getText().toString(), Password.getText().toString());
+                    getUserDB();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
-                finally {
+                } finally {
                     System.out.println(Name.getText().toString() + " " + Password.getText().toString());
                 }
             }
@@ -97,63 +89,73 @@ public class LoginActivity extends AppCompatActivity {
         String connectionUrl = "jdbc:mysql://localhost:3306/CS310project";
         String id = "";
         // query database to get the user's id
-        try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "root");
+        try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
              PreparedStatement ps = conn.prepareStatement(sqlSelectUser);
              ResultSet rs = ps.executeQuery()) {
             id = rs.getString("id");
+            System.out.println(rs.getString("id"));
         } catch (SQLException e) {
             e.printStackTrace();
             // handle the exception
         }
+        if (id == null) {
+            // send user to signup
+        } else {
+            Intent i = new Intent(this, MapsActivity.class);
+            i.putExtra("USERID", id);
+            startActivity(i);
+        }
         return id;
+
+
     }
 
 
-    private void httpGet(){
-        OkHttpClient client = new OkHttpClient();
-
-        // prints the user and pass twice
-        // goes through all of this each time login is clicked, dont do that
-        // find way to only sent request first time
-        Request request = new Request.Builder()
-                .url(url)
-                .header("Connection", "close")
-                .header("Accept-Encoding", "identity")
-                .build();
-
-        System.out.println("Connected");
-
-
-        // github says these errors are on the server side
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try (ResponseBody responseBody = response.body()) {
-                    if (!response.isSuccessful()) {
-                        throw new IOException("Unexpected code " + response);
-                    }
-
-                    System.out.println("N   " + responseBody.string() + "    N");
-
-                    Gson gson =
-                            new GsonBuilder().registerTypeAdapter(UserProfiles.class,
-                                    new MyDeserializer()).create();
-                    userProfiles = gson.fromJson(Objects.requireNonNull(response.body()).string(),
-                            UserProfiles.class);
-
-                }
-
-                finally {
-                    response.close();
-                }
-
-            }
-        });
+//    private void httpGet(){
+//        OkHttpClient client = new OkHttpClient();
+//
+//        // prints the user and pass twice
+//        // goes through all of this each time login is clicked, dont do that
+//        // find way to only sent request first time
+//        Request request = new Request.Builder()
+//                .url(url)
+//                .header("Connection", "close")
+//                .header("Accept-Encoding", "identity")
+//                .build();
+//
+//        System.out.println("Connected");
+//
+//
+//        // github says these errors are on the server side
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(@NonNull Call call, IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                try (ResponseBody responseBody = response.body()) {
+//                    if (!response.isSuccessful()) {
+//                        throw new IOException("Unexpected code " + response);
+//                    }
+//
+//                    System.out.println("N   " + responseBody.string() + "    N");
+//
+//                    Gson gson =
+//                            new GsonBuilder().registerTypeAdapter(UserProfiles.class,
+//                                    new MyDeserializer()).create();
+//                    userProfiles = gson.fromJson(Objects.requireNonNull(response.body()).string(),
+//                            UserProfiles.class);
+//
+//                }
+//
+//                finally {
+//                    response.close();
+//                }
+//
+//            }
+//        });
 
 //
 //        Call call = client.newCall(request);
@@ -167,12 +169,12 @@ public class LoginActivity extends AppCompatActivity {
 //                fail();
 //            }
 //        });
-    }
-
-
-
-    private void validate(String username, String password) throws Exception {
-        try {
+//    }
+//
+//
+//
+//    private void validate(String username, String password) throws Exception {
+//        try {
 //            //establish connection
 //            //Class.forName("com.mysql.jdbc.Driver");
 //            Connection con = DriverManager.getConnection(url, user, pass);
@@ -197,53 +199,59 @@ public class LoginActivity extends AppCompatActivity {
 //                    Info.setText("Username or Password Incorrect");
 //                }
 //            }
-            String userID = getUserDB();
-            // get the user's info from arraylist that is returned from findUser()
-                    Intent i = new Intent(this, MapsActivity.class);
-                    i.putExtra("USERID",userID);
-            startActivity(i);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    // Code adapted from https://stackoverflow.com/questions/23070298/get-nested-json-object-with-gson-using-retrofit
-    class MyDeserializer implements JsonDeserializer<UserProfiles> {
-        @Override
-        public UserProfiles deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
-            JsonElement content = je.getAsJsonObject();
-
-            return new Gson().fromJson(content, UserProfiles.class);
-        }
-    }
+//          String userID = getUserDB();
+//          // send userID to the next activity
+//            if (userID == null) {
+//
+//            }
+//            else {
+//                Intent i = new Intent(this, MapsActivity.class);
+//                i.putExtra("USERID",userID);
+//                startActivity(i);
+//            }
+//       } catch (Exception e) {
+//          System.out.println(e.getMessage());
+//       }
+//}
+////
+////    // Code adapted from https://stackoverflow.com/questions/23070298/get-nested-json-object-with-gson-using-retrofit
+////    class MyDeserializer implements JsonDeserializer<UserProfiles> {
+////        @Override
+////        public UserProfiles deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
+////            JsonElement content = je.getAsJsonObject();
+////
+////            return new Gson().fromJson(content, UserProfiles.class);
+////        }
+////    }
+//}
+//
+//    /*
+//     private void t() throws Exception {
+//        URL url = new URL("http://localhost:3001");
+//        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//        con.setRequestMethod("GET");
+//
+//
+//
+//        HttpGet request = new HttpGet("https://");
+//
+//        // add request headers
+//        request.addHeader("custom-key", "mkyong");
+//
+//        try (CloseableHttpResponse response = httpClient.execute(request)) {
+//            // Get HttpResponse Status
+//            System.out.println(response.getStatusLine().toString());
+//
+//            HttpEntity entity = response.getEntity();
+//            Header headers = entity.getContentType();
+//            System.out.println(headers);
+//
+//            if (entity != null) {
+//                // return it as a String
+//                String result = EntityUtils.toString(entity);
+//                System.out.println(result);
+//            }
+//        }
+//    }
+//     */
 }
-
-    /*
-     private void t() throws Exception {
-        URL url = new URL("http://localhost:3001");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
-
-
-
-        HttpGet request = new HttpGet("https://");
-
-        // add request headers
-        request.addHeader("custom-key", "mkyong");
-
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-            // Get HttpResponse Status
-            System.out.println(response.getStatusLine().toString());
-
-            HttpEntity entity = response.getEntity();
-            Header headers = entity.getContentType();
-            System.out.println(headers);
-
-            if (entity != null) {
-                // return it as a String
-                String result = EntityUtils.toString(entity);
-                System.out.println(result);
-            }
-        }
-    }
-     */
