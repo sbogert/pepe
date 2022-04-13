@@ -21,8 +21,6 @@ public class HistoryActivity extends AppCompatActivity {
     private static final String pass = "1234";
     TextView txtData;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
