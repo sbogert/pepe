@@ -6,10 +6,7 @@ public class StoreLocationArray {
 
     private ArrayList<StoreLocation> storeLocationArray = new ArrayList<StoreLocation>();
 
-    public StoreLocationArray (ArrayList<StoreLocation> storeLocationArray_) {
-
-        System.out.println(storeLocationArray_.get(0));
-        this.storeLocationArray = storeLocationArray_;
+    public StoreLocationArray () {
     }
 
     public void setUserProfiles(ArrayList<StoreLocation> storeLocationArray_) {
@@ -18,6 +15,10 @@ public class StoreLocationArray {
 
     public ArrayList<StoreLocation> getStoreLocationArray() {
         return storeLocationArray;
+    }
+
+    public void addStore(StoreLocation newStore) {
+        storeLocationArray.add(newStore);
     }
 
 

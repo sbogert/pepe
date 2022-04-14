@@ -23,6 +23,8 @@ public class UpdateMenuActivity extends AppCompatActivity {
     private EditText Price;
     private EditText Caffine;
     private Button Add;
+    private Button Back;
+
     private ImageView Map;
     private ImageView History;
     private ImageView Menu;
@@ -41,6 +43,7 @@ public class UpdateMenuActivity extends AppCompatActivity {
         Price = (EditText) findViewById(R.id.etPrice);
         Caffine = (EditText) findViewById(R.id.etCaffine);
         Add = (Button) findViewById(R.id.addButton);
+        Back = (Button) findViewById(R.id.back);
         Map = (ImageView) findViewById(R.id.mapButton);
         History = (ImageView) findViewById(R.id.historyButton);
         Menu = (ImageView) findViewById(R.id.menuButton);
@@ -71,6 +74,13 @@ public class UpdateMenuActivity extends AppCompatActivity {
             }
         });
 
+        Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBack(finalUserid);
+            }
+        });
+
         Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +104,12 @@ public class UpdateMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void openBack(Integer userID) {
+        Intent intent = new Intent(this, menu.class);
+        intent.putExtra("USERID",userID);
+        startActivity(intent);
+    }
+
     //Enter name
     private void openHistory(Integer userID) {
         Intent intent = new Intent(this, HistoryActivity.class);
@@ -107,22 +123,22 @@ public class UpdateMenuActivity extends AppCompatActivity {
             Connection con = DriverManager.getConnection(url, user, pass);
 
             Statement stmt = con.createStatement();
-                // the mysql insert statement
-                String query = " insert into users (seller_id, name, price, caffine)"
-                        + " values (?, ?, ?, ?)";
+            // the mysql insert statement
+            String query = " insert into users (seller_id, name, price, caffine)"
+                    + " values (?, ?, ?, ?)";
 
-                // create the mysql insert preparedstatement
-                PreparedStatement preparedStmt = con.prepareStatement(query);
-                preparedStmt.setInt(1, userid);
-                preparedStmt.setString(2, name);
-                preparedStmt.setInt(3, price);
-                preparedStmt.setInt(4, caffine);
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt(1, userid);
+            preparedStmt.setString(2, name);
+            preparedStmt.setInt(3, price);
+            preparedStmt.setInt(4, caffine);
 
 
-                // execute the preparedstatement
-                preparedStmt.execute();
+            // execute the preparedstatement
+            preparedStmt.execute();
 
-                con.close();
+            con.close();
         } catch(SQLException err){
             System.out.println(err.getMessage());
         }
