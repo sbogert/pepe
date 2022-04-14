@@ -44,9 +44,7 @@ android {
 
 dependencies {
 
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.7-dmr'
-//    implementation 'com.oracle.database.jdbc:ojdbc8:19.6.0.0'
-//    implementation 'com.oracle.database.jdbc:ucp:19.6.0.0'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
 //    implementation 'com.squareup.okhttp3:okhttp:4.1.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
