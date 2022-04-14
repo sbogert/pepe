@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,24 +13,15 @@ import android.widget.TextView;
 
 import com.example.pepe.data.model.UserProfiles;
 import com.example.pepe.map.MapsActivity;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Objects;
+import java.sql.Statement;
 
 
+/** class for users logging into the app */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText Name;
@@ -48,12 +40,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Name = findViewById(R.id.etName);
-        Password = findViewById(R.id.etPassword);
-        TextView signupInfo = findViewById(R.id.haveaccount);
-        Info = findViewById(R.id.incorrect);
-        login = findViewById(R.id.loginButton);
-        signup = findViewById(R.id.signupButton);
+        Name = (EditText) findViewById(R.id.etName);
+        Password = (EditText) findViewById(R.id.etPassword);
+        TextView signupInfo = (TextView) findViewById(R.id.haveaccount);
+        Info = (TextView) findViewById(R.id.incorrect);
+        login = (Button) findViewById(R.id.loginButton);
+        signup = (Button) findViewById(R.id.signupButton);
 
         Info.setText("");
 
@@ -61,15 +53,18 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String id = null;
+                System.out.println(Name.getText().toString() + " " + Password.getText().toString());
                 try {
-                    getUserDB();
+                    id = getUserDB(Name.getText().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
-                } finally {
-                    System.out.println(Name.getText().toString() + " " + Password.getText().toString());
                 }
             }
         });
+
+
+
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,41 +73,85 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
     //Enter name for signup page
     private void openSignUp() {
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
     }
 
-    private String getUserDB() throws ClassNotFoundException {
-        String sqlSelectUser = "SELECT id FROM Drinkers WHERE username = ?";
-        String connectionUrl = "jdbc:mysql://localhost:3306/CS310project";
-        String id = "";
 
-        Class.forName("com.mysql.jdbc.Driver");
+    private String getUserDB(String givenName) throws ClassNotFoundException {
+        String connectionUrl = "jdbc:mysql://localhost:3306/310project?useSSL=false&useUnicode=true" +
+                "&useJDBCCompliantTimeZoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        String id = "";
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException ie) {
+            ie.printStackTrace();
+        }
 
 
         // query database to get the user's id
-        try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
-             PreparedStatement ps = conn.prepareStatement(sqlSelectUser);
-             ResultSet rs = ps.executeQuery()) {
+        try  {
+            Connection conn = null;
+
+            try {
+                conn = DriverManager.getConnection(connectionUrl, "root", "root");
+
+                if (conn != null) {
+                    System.out.println("Connected to the database!");
+                } else {
+                    System.out.println("Failed to make connection!");
+                }
+            } catch (SQLException sqle) {
+                System.err.format("SQL State: %s\n%s", sqle.getSQLState(), sqle.getMessage());
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT id FROM drinkers WHERE username = " + givenName);
+//            PreparedStatement ps = conn.prepareStatement(sqlSelectUser);
+//            ResultSet rs = ps.executeQuery()
+
+            // print the given ID
             id = rs.getString("id");
             System.out.println(rs.getString("id"));
         } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
             e.printStackTrace();
-            // handle the exception
-        }
-        if (id == null) {
-            // send user to signup
-        } else {
-            Intent i = new Intent(this, MapsActivity.class);
-            i.putExtra("USERID", id);
-            startActivity(i);
+        } finally {
+            // close resources
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException sqlEx) { } // ignore
+                rs = null;
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException sqlEx) { } // ignore
+                stmt = null;
+            }
+            if (id == null) {
+                // send user to signup
+                openSignUp();
+            } else {
+                Intent i = new Intent(this, MapsActivity.class);
+                i.putExtra("USERID", id);
+                startActivity(i);
+            }
         }
         return id;
-
-
     }
 
 

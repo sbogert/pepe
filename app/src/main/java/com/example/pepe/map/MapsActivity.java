@@ -64,13 +64,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         // adding each store location to the map
-        for (StoreLocation storeLoc : markerArray.getStoreLocationArray()) {
-            double lat = storeLoc.getLatitude();
-            double lng = storeLoc.getLongitude();
-            mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(lat, lng))
-                        .title(storeLoc.getName()));
-        }
+//        for (StoreLocation storeLoc : markerArray.getStoreLocationArray()) {
+//            double lat = storeLoc.getLatitude();
+//            double lng = storeLoc.getLongitude();
+//            System.out.println(lat + "\t" + lng);
+//            mMap.addMarker(new MarkerOptions()
+//                        .position(new LatLng(lat, lng))
+//                        .title(storeLoc.getName()));
+//        }
     }
 }
 //        try {

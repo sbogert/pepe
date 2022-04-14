@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="deploymentTargetDropDown">
-    <runningDeviceTargetSelectedWithDropDown>
+    <targetSelectedWithDropDown>
       <Target>
-        <type value="RUNNING_DEVICE_TARGET" />
+        <type value="QUICK_BOOT_TARGET" />
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-<<<<<<< HEAD
-            <value value="$PROJECT_DIR$/../.android/avd/Nexus_4_API_22.avd" />
-=======
-            <value value="C:\Users\sofib\.android\avd\Pixel_2_API_30_1.avd" />
->>>>>>> 15861cb5c1b17dc703d7ad19b2b4f4a37ce6c4ce
+            <value value="C:\Users\sofib\.android\avd\Pixel_3_API_32.avd" />
           </Key>
         </deviceKey>
       </Target>
-    </runningDeviceTargetSelectedWithDropDown>
-<<<<<<< HEAD
-    <timeTargetWasSelectedWithDropDown value="2022-03-28T19:50:19.573926Z" />
-=======
-    <timeTargetWasSelectedWithDropDown value="2022-03-28T19:33:13.856914600Z" />
->>>>>>> 15861cb5c1b17dc703d7ad19b2b4f4a37ce6c4ce
+    </targetSelectedWithDropDown>
+    <timeTargetWasSelectedWithDropDown value="2022-04-14T04:45:34.320032100Z" />
   </component>
 </project>

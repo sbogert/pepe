@@ -16,10 +16,11 @@ import java.sql.SQLException;
 public class MenuInfoAccess {
     public static StoreLocationArray getMarkerz() throws ClassNotFoundException {
         String sqlSelectUser = "SELECT * FROM SELLERS";
-        String connectionUrl = "jdbc:mysql://localhost:3306/CS310project";
+        String connectionUrl = "jdbc:mysql://localhost:3306/CS310project?useUnicode=true&characterEncoding" +
+                "=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=PST";
         StoreLocationArray storeLocArray = new StoreLocationArray();
         StoreLocation storeLocation;
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
 
         // query database to get the user's id
         try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
