@@ -54,10 +54,10 @@
     <androidx.constraintlayout.widget.Group
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="logoname,imageView" />
+        app:constraint_referenced_ids="ddlogo,imageView" />
 
     <TextView
-        android:id="@+id/logoname"
+        android:id="@+id/ddlogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"

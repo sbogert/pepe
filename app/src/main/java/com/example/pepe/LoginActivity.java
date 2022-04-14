@@ -1,6 +1,5 @@
 package com.example.pepe;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -26,13 +25,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText Name;
     private EditText Password;
-    private TextView Info;
-    private Button login;
-    private Button signup;
     private static final String url = "http://10.26.10.68:3306/310project/drinkers";
     private static final String user = "root";
     private static final String pass = "root";
     private UserProfiles userProfiles;
+    private Throwable throwExcept;
 
 
     @Override
@@ -43,28 +40,19 @@ public class LoginActivity extends AppCompatActivity {
         Name = (EditText) findViewById(R.id.etName);
         Password = (EditText) findViewById(R.id.etPassword);
         TextView signupInfo = (TextView) findViewById(R.id.haveaccount);
-        Info = (TextView) findViewById(R.id.incorrect);
-        login = (Button) findViewById(R.id.loginButton);
-        signup = (Button) findViewById(R.id.signupButton);
+        TextView info = (TextView) findViewById(R.id.incorrect);
+        Button login = (Button) findViewById(R.id.loginButton);
+        Button signup = (Button) findViewById(R.id.signupButton);
 
-        Info.setText("");
-
+        info.setText("");
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = null;
                 System.out.println(Name.getText().toString() + " " + Password.getText().toString());
-                try {
-                    id = getUserDB(Name.getText().toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                getUserDB(Name.getText().toString());
             }
         });
-
-
-
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,36 +61,32 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    //Enter name for signup page
+
+    //sends user to signup page
     private void openSignUp() {
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
     }
 
-
-    private String getUserDB(String givenName) throws ClassNotFoundException {
+    private void getUserDB(String givenName) {
+        // connect to database
         String connectionUrl = "jdbc:mysql://localhost:3306/310project?useSSL=false&useUnicode=true" +
-                "&useJDBCCompliantTimeZoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+            "&useJDBCCompliantTimeZoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         String id = "";
         Statement stmt = null;
         ResultSet rs = null;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | InstantiationException | ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (InstantiationException ie) {
-            ie.printStackTrace();
         }
 
-
         // query database to get the user's id
-        try  {
+        try {
             Connection conn = null;
-
             try {
                 conn = DriverManager.getConnection(connectionUrl, "root", "root");
-
                 if (conn != null) {
                     System.out.println("Connected to the database!");
                 } else {
@@ -110,16 +94,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
             } catch (SQLException sqle) {
                 System.err.format("SQL State: %s\n%s", sqle.getSQLState(), sqle.getMessage());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
+            // making sure there is a connection before continuing
+            if (conn == null) {
+                throw throwExcept;
+            }
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT id FROM drinkers WHERE username = " + givenName);
-//            PreparedStatement ps = conn.prepareStatement(sqlSelectUser);
-//            ResultSet rs = ps.executeQuery()
-
             // print the given ID
             id = rs.getString("id");
             System.out.println(rs.getString("id"));
@@ -128,31 +112,32 @@ public class LoginActivity extends AppCompatActivity {
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
             e.printStackTrace();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         } finally {
             // close resources
             if (rs != null) {
                 try {
                     rs.close();
-                } catch (SQLException sqlEx) { } // ignore
+                } catch (SQLException ignored) {} // ignore
                 rs = null;
             }
             if (stmt != null) {
                 try {
                     stmt.close();
-                } catch (SQLException sqlEx) { } // ignore
+                } catch (SQLException ignored) {} // ignore
                 stmt = null;
             }
+            // send user to signup if they dont have an account
             if (id == null) {
-                // send user to signup
                 openSignUp();
-            } else {
-                Intent i = new Intent(this, MapsActivity.class);
-                i.putExtra("USERID", id);
-                startActivity(i);
             }
         }
-        return id;
+        Intent i = new Intent(this, MapsActivity.class);
+        i.putExtra("USERID", id);
+        startActivity(i);
     }
+}
 
 
 //    private void httpGet(){
@@ -298,4 +283,3 @@ public class LoginActivity extends AppCompatActivity {
 //        }
 //    }
 //     */
-}

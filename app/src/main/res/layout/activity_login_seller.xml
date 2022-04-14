@@ -93,7 +93,7 @@
         app:layout_constraintVertical_bias="0.133" />
 
     <TextView
-        android:id="@+id/logoname"
+        android:id="@+id/ddlogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
@@ -118,7 +118,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoname"
+        app:layout_constraintTop_toBottomOf="@+id/ddlogo"
         app:layout_constraintVertical_bias="0.163" />
 
     <EditText
