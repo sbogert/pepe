@@ -36,7 +36,7 @@ exports.drinkerLogin = function (payload, results){
         req.session.userId = userId;
         validUsers.add(userId)
         //console.log(req.session)
-        res.status(200).end();
+        res.json(userId);
     }else{
         res.status(400).end();
     }
@@ -94,9 +94,10 @@ function drinkerWarnCaffeine(payload, results){
 }
 
 exports.drinkerGetHistoryOrder = function (payload, results){
-    let res = payload
+    let res = payload[0]
+    let userId = payload[1]
     results = JSON.parse(JSON.stringify(results)) // just parsing
-    if(!results.length){
+    if(!validate(userId)){
         res.status(400).end()
     }else{
         _.each(results, function (item){

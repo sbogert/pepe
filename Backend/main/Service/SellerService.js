@@ -36,8 +36,8 @@ exports.sellerLogin = function (payload, results){
         let userId = results[0].id
         req.session.userId = userId;
         validUsers.add(userId)
-        //console.log(req.session)
-        res.status(200).end();
+        //console.log(userId)
+        res.json(userId);
     }else{
         res.status(400).end();
     }
@@ -54,9 +54,11 @@ exports.updateMenu = function (userId, res, items){
 }
 
 exports.sellerGetHistoryOrder = function (payload, results){
-    let res = payload
+    let res = payload[0]
+    let userId = payload[1]
     results = JSON.parse(JSON.stringify(results)) // just parsing
-    if(!results.length){
+    if(!validate(userId)){
+        console.log("not validated")
         res.status(400).end()
     }else{
         _.each(results, function (item){

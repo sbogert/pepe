@@ -52,3 +52,18 @@ exports.SelectNearBySeller = function(payload, latitude ,longitude, callback){
             }
         })
 }
+
+exports.DeleteSellerByUsername = function (payload, username, callback){
+    connection.query("DELETE From Sellers WHERE username = ?",
+        username,
+        function (error, results) {
+            //console.log(results);
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+            if(callback !== null){
+                callback(payload, results)
+            }
+        })
+}

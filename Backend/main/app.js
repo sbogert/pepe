@@ -29,17 +29,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 //Cookie Parser
 
-app.use(cookieParser());
-
-const DrinkerRouter = require("./Router/DrinkerRouter").router
-app.use("/drinker", DrinkerRouter);
-
-const SellerRouter = require("./Router/SellerRouter").router
-app.use("/seller", SellerRouter);
-
-let onlineDrinkers = {}
-let onlineSellers = {}
-
 exports.getDrinkerSocket = function (drinker_id){
     let drinker_info = onlineDrinkers[drinker_id]
     if(!drinker_info.status){ // 0 means online
@@ -52,6 +41,19 @@ exports.getSellerSocket = function (seller_id){
         return onlineSellers[seller_id].socketId
     }return null
 }
+
+app.use(cookieParser());
+
+const DrinkerRouter = require("./Router/DrinkerRouter").router
+app.use("/drinker", DrinkerRouter);
+
+const SellerRouter = require("./Router/SellerRouter").router
+app.use("/seller", SellerRouter);
+
+let onlineDrinkers = {}
+let onlineSellers = {}
+
+
 io.on("connection", function (socket){
     socket.emit('success', 'connected to the server')
 
@@ -78,7 +80,7 @@ io.on("connection", function (socket){
             }
             socket.emit("success", "online")
         }
-        console.log(socket.id)
+        //console.log(socket.id)
     })
 
     socket.on("order", orders => {
@@ -115,5 +117,5 @@ app.listen(3001,() => {
 })
 
 http.listen(3000)
-module.exports = app
+exports.app = app
 
