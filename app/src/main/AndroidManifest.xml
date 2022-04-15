@@ -28,7 +28,7 @@
             android:name=".sellerMain"
             android:exported="false" />
         <activity
-            android:name=".viewStore"
+            android:name=".ViewStore"
             android:exported="false" />
         <activity
             android:name=".menu"

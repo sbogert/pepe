@@ -35,6 +35,7 @@ public class MenuInfoAccess {
 
         try (Response response = client.newCall(request).execute()) {
             System.out.println(response.code());
+
             System.out.println(Objects.requireNonNull(response.body()).string());
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();

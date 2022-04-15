@@ -42,7 +42,7 @@ public class UpdateMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_update_menu);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -71,6 +71,10 @@ public class UpdateMenuActivity extends AppCompatActivity {
                 Integer v1 = Integer.parseInt(value2);
 
                 request(value, v, v1);
+
+                Name.setText("");
+                Price.setText("");
+                Caffeine.setText("");
             }
         });
     }
@@ -102,8 +106,10 @@ public class UpdateMenuActivity extends AppCompatActivity {
         try (Response response = client.newCall(request).execute()) {
             if (response.code() == 200) {
                 //success
+                System.out.println("adding menu item success!");
             } else if (response.code() != 200) {
                 //failure
+                System.out.println("adding menu item failure:(");
             }
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();

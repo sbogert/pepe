@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.pepe.R;
+import com.example.pepe.ViewStore;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,9 +48,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // map initially is focused on USC/centered on USC
         LatLng uscStart = new LatLng(34.02226492129773, -118.2876243116412);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uscStart, 13F));
+
+        // getting the map markers
         StoreLocationArray markerArray = null;
         try {
-            Intent i = new Intent(this, MapsActivity.class);
+            Intent i = new Intent(this, ViewStore.class);
             markerArray = MenuInfoAccess.getMarkerz();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
