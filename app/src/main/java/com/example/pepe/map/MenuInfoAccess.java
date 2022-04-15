@@ -1,6 +1,8 @@
 package com.example.pepe.map;
 
 import com.example.pepe.LoginActivity;
+import com.example.pepe.MyApplication;
+
 import java.io.IOException;
 import java.util.Objects;
 
@@ -17,10 +19,11 @@ public class MenuInfoAccess {
     public static StoreLocationArray getMarkerz() throws ClassNotFoundException {
 
         String url = "http://10.0.2.2:3001/drinker/get_near_by_sellers";
+        MyApplication myApp = new MyApplication();
 
         OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
-                .add("userID", LoginActivity.userID)
+                .add("userID", myApp.getUser())
                 .build();
 
         HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
