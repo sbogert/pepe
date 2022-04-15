@@ -25,9 +25,6 @@ public class UpdateMenuActivity extends AppCompatActivity {
     private Button Add;
     private Button Back;
 
-    private ImageView Map;
-    private ImageView History;
-    private ImageView Menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +36,6 @@ public class UpdateMenuActivity extends AppCompatActivity {
         Caffine = (EditText) findViewById(R.id.etCaffine);
         Add = (Button) findViewById(R.id.addButton);
         Back = (Button) findViewById(R.id.back);
-        Map = (ImageView) findViewById(R.id.mapButton);
-        History = (ImageView) findViewById(R.id.historyButton);
-        Menu = (ImageView) findViewById(R.id.menuButton);
 
         //get intent ID
         Integer userid = null;
@@ -55,24 +49,11 @@ public class UpdateMenuActivity extends AppCompatActivity {
         }
         Integer finalUserid = userid;
 
-        Map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openMap(finalUserid);
-            }
-        });
-
-        History.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openHistory(finalUserid);
-            }
-        });
 
         Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openBack(finalUserid);
+                openMap();
             }
         });
 
@@ -85,7 +66,6 @@ public class UpdateMenuActivity extends AppCompatActivity {
                 int finalValue1=Integer.parseInt(value1);
 
                 try {
-                    validate(Name.getText().toString(), finalValue, finalValue1 , finalUserid);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -93,22 +73,9 @@ public class UpdateMenuActivity extends AppCompatActivity {
         });
     }
 
-    private void openMap(Integer userID) {
+
+    private void openMap() {
         Intent intent = new Intent(this, MapsActivity.class);
-        intent.putExtra("USERID",userID);
-        startActivity(intent);
-    }
-
-    private void openBack(Integer userID) {
-        Intent intent = new Intent(this, menu.class);
-        intent.putExtra("USERID",userID);
-        startActivity(intent);
-    }
-
-    //Enter name
-    private void openHistory(Integer userID) {
-        Intent intent = new Intent(this, HistoryActivity.class);
-        intent.putExtra("USERID",userID);
         startActivity(intent);
     }
 }
