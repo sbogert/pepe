@@ -20,7 +20,6 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.Objects;
 
-
 /** class for users logging into the app */
 public class LoginActivity extends AppCompatActivity {
 
@@ -108,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             if (response.code() == 200) {
                 noUser = false;
                 i.putExtra("USERID", id);
+                ((MyApplication) this.getApplication()).setUser(id);
             } else if (response.code() != 200) {
                 noUser = true;
             }

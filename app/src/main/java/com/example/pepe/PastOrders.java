@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 
 import com.example.pepe.map.MapsActivity;
 
@@ -22,12 +23,15 @@ public class PastOrders extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_past_orders);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     /** connect to database and verify user */
-    private boolean getUserDB (String userID) {
+    private boolean getUserDB () {
         String url = "http://10.0.2.2:3001/drinker/get_history_order";
-        String id;
+        String userID = ((MyApplication) this.getApplication()).getUser();
         boolean noUser = true;
 
         // given login information is sent to check
