@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText Name;
     private EditText Password;
     private Intent i;
-    private OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient();
     private int count = 4;
     public String userID;
 

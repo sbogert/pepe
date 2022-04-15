@@ -12,9 +12,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.pepe.databinding.ActivityMapsBinding;
-import com.example.pepe.map.MenuInfoAccess;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -48,25 +47,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // map initially is focused on USC/centered on USC
         LatLng uscStart = new LatLng(34.02226492129773, -118.2876243116412);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uscStart, 13F));
-
         // getting the map markers
-        StoreLocationArray markerArray = null;
         try {
             Intent i = new Intent(this, ViewStore.class);
-            markerArray = MenuInfoAccess.getMarkerz();
+            StoreLocationArray markerArray = MenuInfoAccess.getMarkers();
+            for (StoreLocation storeLoc : markerArray.getStoreLocationArray()) {
+                System.out.println("map marker");
+                float lat = (float) storeLoc.getLatitude();
+                float lng = (float) storeLoc.getLongitude();
+                LatLng latlng = new LatLng(lat, lng);
+                System.out.println(lat + "\t" + lng);
+                mMap.addMarker(new MarkerOptions()
+                            .position(latlng)
+                            .title(storeLoc.getName()));
+        }
+
+            // something about them choosing a store
+            // pass store info along to next pg
+//            startActivity(i);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
+
         // adding each store location to the map
-//        for (StoreLocation storeLoc : markerArray.getStoreLocationArray()) {
-//            double lat = storeLoc.getLatitude();
-//            double lng = storeLoc.getLongitude();
-//            System.out.println(lat + "\t" + lng);
-//            mMap.addMarker(new MarkerOptions()
-//                        .position(new LatLng(lat, lng))
-//                        .title(storeLoc.getName()));
-//        }
+//
     }
 }
 //        try {
