@@ -1,5 +1,7 @@
 package com.example.pepe.map;
 
+import android.content.Intent;
+
 import androidx.annotation.NonNull;
 
 import java.io.IOException;
@@ -10,14 +12,43 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
+import okhttp3.FormBody;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class MenuInfoAccess {
     public static StoreLocationArray getMarkerz() throws ClassNotFoundException {
-        String sqlSelectUser = "SELECT * FROM SELLERS";
-        String connectionUrl = "jdbc:mysql://localhost:3306/CS310project?useUnicode=true&characterEncoding" +
-                "=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=PST";
+
+            String url = "http://10.0.2.2:3001/seller/";
+
+            OkHttpClient client = new OkHttpClient();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("username", Name.getText().toString())
+                    .add("password", Password.getText().toString())
+                    .build();
+
+            HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
+            String fullUrl = urlBuilder.build().toString();
+            Request request = new Request.Builder()
+                    .url(fullUrl)
+                    .post(formBody)
+                    .build();
+            System.out.println(request);
+
+            try (Response response = client.newCall(request).execute()) {
+                System.out.println(response.code());
+                System.out.println(Objects.requireNonNull(response.body()).string());
+            } catch (IOException | NullPointerException e) {
+                e.printStackTrace();
+            }
+            startActivity(i);
+        }
         StoreLocationArray storeLocArray = new StoreLocationArray();
         StoreLocation storeLocation;
         Class.forName("com.mysql.cj.jdbc.Driver");
