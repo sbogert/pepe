@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.pepe.map.MapsActivity;
 
@@ -13,11 +16,14 @@ import java.util.Objects;
 
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class PastOrders extends AppCompatActivity {
+    private TextView Display;
+    private Button Back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +32,28 @@ public class PastOrders extends AppCompatActivity {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+        Display = (TextView) findViewById(R.id.display);
+        Back = (Button) findViewById(R.id.goBack);
+
+        Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBack();
+            }
+        });
+
+        //display past orders on screen
+        request();
     }
 
-    /** connect to database and verify user */
-    private boolean getUserDB () {
+    /**
+     * connect to database and verify user
+     */
+    private void request() {
+        OkHttpClient client = new OkHttpClient();
         String url = "http://10.0.2.2:3001/drinker/get_history_order";
         String userID = ((MyApplication) this.getApplication()).getUser();
-        boolean noUser = true;
 
         // given login information is sent to check
         RequestBody formBody = new FormBody.Builder()
@@ -46,17 +67,20 @@ public class PastOrders extends AppCompatActivity {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            id = Objects.requireNonNull(response.body()).string();
             if (response.code() == 200) {
-                noUser = false;
-                i.putExtra("USERID", id);
+                //print the past orders
+                //Display.setText();
             } else if (response.code() != 200) {
-                noUser = true;
+                //print nothing
+                Display.setText("");
             }
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
+    }
 
-        return noUser;
+    private void openBack() {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 }

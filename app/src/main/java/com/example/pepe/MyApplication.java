@@ -20,5 +20,5 @@ public class MyApplication extends Application {
 //((MyApplication) this.getApplication()).setUser("foo");
 
 // get
-//String s = ((MyApplication) this.getApplication()).getUser();
+//((MyApplication) this.getApplication()).getUser();
 

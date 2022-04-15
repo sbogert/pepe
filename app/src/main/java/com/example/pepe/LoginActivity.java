@@ -106,12 +106,6 @@ public class LoginActivity extends AppCompatActivity {
             userID = Objects.requireNonNull(response.body()).string();
             if (response.code() == 200) {
                 noUser = false;
-<<<<<<< HEAD
-                i.putExtra("USERID", id);
-                ((MyApplication) this.getApplication()).setUser(id);
-=======
-                i.putExtra("USERID", userID);
->>>>>>> b9e01b0b67fe98fdf55f5f6dda4c7599e72bef73
             } else if (response.code() != 200) {
                 noUser = true;
             }
