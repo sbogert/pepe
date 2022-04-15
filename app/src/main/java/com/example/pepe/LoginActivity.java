@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private Intent i;
     private OkHttpClient client = new OkHttpClient();
     private int count = 4;
+    public String userID;
 
 
     @Override
@@ -87,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
     private boolean getUserDB (String givenName, String givenPass) {
         i = new Intent(this, MapsActivity.class);
         String url = "http://10.0.2.2:3001/drinker/login";
-        String id;
         boolean noUser = true;
 
         // given login information is sent to check
@@ -103,18 +103,21 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            id = Objects.requireNonNull(response.body()).string();
+            userID = Objects.requireNonNull(response.body()).string();
             if (response.code() == 200) {
                 noUser = false;
+<<<<<<< HEAD
                 i.putExtra("USERID", id);
                 ((MyApplication) this.getApplication()).setUser(id);
+=======
+                i.putExtra("USERID", userID);
+>>>>>>> b9e01b0b67fe98fdf55f5f6dda4c7599e72bef73
             } else if (response.code() != 200) {
                 noUser = true;
             }
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
-
         return noUser;
     }
 }
