@@ -47,13 +47,15 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean noUser = true;
+                boolean noUser;
                 if  (count > 0) {
                     noUser = getUserDB(Name.getText().toString(), Password.getText().toString());
                     // if a user logs in successfully
                     if (!noUser) {
                         startActivity(i);
                     }
+                    // if the information they entered doesn't match any user, form clears and they can retry
+                    // they have 4 attempts before getting sent to the signup page
                     else {
                         count--;
                         Name.setText("");
@@ -81,16 +83,15 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     /** connect to database and verify user */
     private boolean getUserDB (String givenName, String givenPass) {
         i = new Intent(this, MapsActivity.class);
         String url = "http://10.0.2.2:3001/drinker/login";
-        String id = "";
-        int count = 4;
+        String id;
         boolean noUser = true;
 
         // given login information is sent to check
-
         RequestBody formBody = new FormBody.Builder()
                 .add("username", Name.getText().toString())
                 .add("password", Password.getText().toString())
@@ -101,12 +102,9 @@ public class LoginActivity extends AppCompatActivity {
                 .url(fullUrl)
                 .post(formBody)
                 .build();
-        System.out.println(request);
 
         try (Response response = client.newCall(request).execute()) {
             id = Objects.requireNonNull(response.body()).string();
-
-            System.out.println(response.code());
             if (response.code() == 200) {
                 noUser = false;
                 i.putExtra("USERID", id);
