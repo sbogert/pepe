@@ -56,6 +56,7 @@ let onlineSellers = {}
 
 io.on("connection", function (socket){
     socket.emit('success', 'connected to the server')
+    console.log("connected")
 
     socket.on('disconnect', (info) => {
         io.emit('quit', socket.id)

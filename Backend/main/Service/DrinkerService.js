@@ -45,34 +45,28 @@ exports.drinkerLogin = function (payload, results){
 exports.drinkerGetNearBySeller = function (payload, results){
     let res = payload[0];
     let userId = payload[1];
-    if(validate(userId)){
-        results = JSON.parse(JSON.stringify(results)) // just parsing
-        res.send(results).end()
-    }else{
-        res.status(400).end();
-    }
+    results = JSON.parse(JSON.stringify(results)) // just parsing
+    res.send(results).end()
 }
 
 exports.drinkerGetMenu = function (payload, results){
     let res = payload[0];
     let userId = payload[1]
-    if(validate(userId)){
-        results = JSON.parse(JSON.stringify(results)) // just parsing
+    results = JSON.parse(JSON.stringify(results)) // just parsing
 
-        if(!results.length){
-            res.status(400).end();
-            return
-        }
-        //console.log("here")
-        let seller_id = results[0].seller_id
-        let seller_socket = app.getSellerSocket(seller_id)
-        //console.log(seller_socket)
-        if(seller_socket){
-            res.send([seller_socket, results])
-            return
-        }
+    if(!results.length){
+        res.status(400).end();
+        return
     }
-    res.status(400).end();
+    //console.log("here")
+    let seller_id = results[0].seller_id
+    let seller_socket = app.getSellerSocket(seller_id)
+    //console.log(seller_socket)
+    if(seller_socket){
+        res.send([seller_socket, results])
+        return
+    }
+
 
 }
 
@@ -97,14 +91,11 @@ exports.drinkerGetHistoryOrder = function (payload, results){
     let res = payload[0]
     let userId = payload[1]
     results = JSON.parse(JSON.stringify(results)) // just parsing
-    if(!validate(userId)){
-        res.status(400).end()
-    }else{
-        _.each(results, function (item){
-            item.items = JSON.parse(item.items)
-        })
-        res.send(results)
-    }
+    _.each(results, function (item){
+        item.items = JSON.parse(item.items)
+    })
+    res.send(results)
+
 }
 
 exports.drinkerGetRecommendation1 = function (socket_id, drinker_id){
