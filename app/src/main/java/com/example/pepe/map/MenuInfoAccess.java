@@ -1,5 +1,7 @@
 package com.example.pepe.map;
 
+import android.content.Intent;
+
 import androidx.annotation.NonNull;
 
 import java.io.IOException;
@@ -10,38 +12,69 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
+import okhttp3.FormBody;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class MenuInfoAccess {
     public static StoreLocationArray getMarkerz() throws ClassNotFoundException {
-        String sqlSelectUser = "SELECT * FROM SELLERS";
-        String connectionUrl = "jdbc:mysql://localhost:3306/CS310project?useUnicode=true&characterEncoding" +
-                "=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=PST";
-        StoreLocationArray storeLocArray = new StoreLocationArray();
-        StoreLocation storeLocation;
-        Class.forName("com.mysql.cj.jdbc.Driver");
 
-        // query database to get the user's id
-        try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
-             PreparedStatement ps = conn.prepareStatement(sqlSelectUser);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                double storeLat = rs.getDouble("latitude");
-                double storeLong = rs.getDouble("longitude");
-                String storeName = rs.getString("username");
-                storeLocation = new StoreLocation(storeName, storeLat, storeLong);
-                storeLocArray.addStore(storeLocation);
-            }
-        } catch (SQLException e) {
+        String url = "http://10.0.2.2:3001/seller/";
+
+        OkHttpClient client = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder()
+//                .add("username", Name.getText().toString())
+//                .add("password", Password.getText().toString())
+                .build();
+
+        HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
+        String fullUrl = urlBuilder.build().toString();
+        Request request = new Request.Builder()
+                .url(fullUrl)
+                .post(formBody)
+                .build();
+        System.out.println(request);
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(Objects.requireNonNull(response.body()).string());
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-            // handle the exception
         }
-        return storeLocArray;
-
+        return new StoreLocationArray();
+//        startActivity(i);
     }
 }
-
+//        StoreLocationArray storeLocArray = new StoreLocationArray();
+//        StoreLocation storeLocation;
+//        Class.forName("com.mysql.cj.jdbc.Driver");
+//
+//        // query database to get the user's id
+//        try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
+//             PreparedStatement ps = conn.prepareStatement(sqlSelectUser);
+//             ResultSet rs = ps.executeQuery()) {
+//            while (rs.next()) {
+//                double storeLat = rs.getDouble("latitude");
+//                double storeLong = rs.getDouble("longitude");
+//                String storeName = rs.getString("username");
+//                storeLocation = new StoreLocation(storeName, storeLat, storeLong);
+//                storeLocArray.addStore(storeLocation);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            // handle the exception
+//        }
+//        return storeLocArray;
+//
+//    }
+//}
+//
 
     // i think i need to have some type of handler for this so that there are no issues
     // stack overflow example explains it but I haven't changed anythings2

@@ -2,6 +2,7 @@ package com.example.pepe.map;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.pepe.R;
@@ -58,6 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uscStart, 13F));
         StoreLocationArray markerArray = null;
         try {
+            Intent i = new Intent(this, MapsActivity.class);
             markerArray = MenuInfoAccess.getMarkerz();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

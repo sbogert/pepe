@@ -29,11 +29,6 @@ public class UpdateMenuActivity extends AppCompatActivity {
     private ImageView History;
     private ImageView Menu;
 
-    private static final String url = "jdbc:mysql://localhost:3001/CS310project/seller";
-    private static final String user = "root";
-    private static final String pass = "root";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,32 +110,5 @@ public class UpdateMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HistoryActivity.class);
         intent.putExtra("USERID",userID);
         startActivity(intent);
-    }
-
-    private void validate(String name, Integer price, Integer caffine, Integer userid) throws Exception {
-        try {
-            //Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(url, user, pass);
-
-            Statement stmt = con.createStatement();
-            // the mysql insert statement
-            String query = " insert into users (seller_id, name, price, caffine)"
-                    + " values (?, ?, ?, ?)";
-
-            // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = con.prepareStatement(query);
-            preparedStmt.setInt(1, userid);
-            preparedStmt.setString(2, name);
-            preparedStmt.setInt(3, price);
-            preparedStmt.setInt(4, caffine);
-
-
-            // execute the preparedstatement
-            preparedStmt.execute();
-
-            con.close();
-        } catch(SQLException err){
-            System.out.println(err.getMessage());
-        }
     }
 }
