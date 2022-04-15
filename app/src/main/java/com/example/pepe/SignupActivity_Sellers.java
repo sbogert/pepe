@@ -26,9 +26,6 @@ public class SignupActivity_Sellers extends AppCompatActivity {
     private TextView SignupInfo;
     private Button login;
     private Button signup;
-    private static final String url = "jdbc:mysql://localhost:3001/seller/signup";
-    private static final String user = "root";
-    private static final String pass = "root";
 
 
     @Override
@@ -51,7 +48,7 @@ public class SignupActivity_Sellers extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    validate(Name.getText().toString(), Password.getText().toString(), Location.getText().toString());
+                    //validate(Name.getText().toString(), Password.getText().toString(), Location.getText().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -71,6 +68,9 @@ public class SignupActivity_Sellers extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity_Seller.class);
         startActivity(intent);
     }
+
+    /*
+
 
     private void validate(String username, String password, String location) throws Exception {
         try {
@@ -104,5 +104,7 @@ public class SignupActivity_Sellers extends AppCompatActivity {
             System.out.println(err.getMessage());
         }
     }
+
+     */
 
 }
