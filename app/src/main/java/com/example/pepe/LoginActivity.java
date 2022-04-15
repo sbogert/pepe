@@ -25,8 +25,10 @@ import okhttp3.CipherSuite;
 import okhttp3.ConnectionSpec;
 import okhttp3.Credentials;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.Route;
@@ -43,6 +45,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -98,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getUserDB(String givenName, String givenPass) {
         Intent i = new Intent(this, MapsActivity.class);
-        String url = "http://localhost:3306/310project";
+        String url = "http://localhost:3001/drinker/login";
 
         // prints the user and pass twice
         // goes through all of this each time login is clicked, dont do that
@@ -132,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
+
         OkHttpClient client =
                 new OkHttpClient.Builder().connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT)).build();
 //        Retrofit retrofit = new Retrofit.Builder()
@@ -140,12 +144,12 @@ public class LoginActivity extends AppCompatActivity {
 //                .client(client)
 //                .build();
 
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(url + "/drinkers").newBuilder();
-        urlBuilder.addQueryParameter("username", givenName);
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(url).newBuilder();
         String fullUrl = urlBuilder.build().toString();
         Request request = new Request.Builder()
                 .url(fullUrl)
                 .build();
+        System.out.println(request);
         try (Response response = client.newCall(request).execute()) {
             System.out.println(response.body().string());
         } catch (IOException | NullPointerException e) {
@@ -181,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
 //
 //            }
 //        });
-//        startActivity(i);
+       startActivity(i);
     }
 
     // Code adapted from https://stackoverflow.com/questions/23070298/get-nested-json-object-with-gson-using-retrofit
