@@ -29,11 +29,6 @@ public class UpdateMenuActivity extends AppCompatActivity {
     private ImageView History;
     private ImageView Menu;
 
-    private static final String url = "jdbc:mysql://localhost:3001/CS310project/seller";
-    private static final String user = "root";
-    private static final String pass = "root";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +111,7 @@ public class UpdateMenuActivity extends AppCompatActivity {
         intent.putExtra("USERID",userID);
         startActivity(intent);
     }
+
 
     private void validate(String name, Integer price, Integer caffine, Integer userid) throws Exception {
         try {
