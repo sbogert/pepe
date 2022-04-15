@@ -111,32 +111,4 @@ public class UpdateMenuActivity extends AppCompatActivity {
         intent.putExtra("USERID",userID);
         startActivity(intent);
     }
-
-
-    private void validate(String name, Integer price, Integer caffine, Integer userid) throws Exception {
-        try {
-            //Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(url, user, pass);
-
-            Statement stmt = con.createStatement();
-            // the mysql insert statement
-            String query = " insert into users (seller_id, name, price, caffine)"
-                    + " values (?, ?, ?, ?)";
-
-            // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = con.prepareStatement(query);
-            preparedStmt.setInt(1, userid);
-            preparedStmt.setString(2, name);
-            preparedStmt.setInt(3, price);
-            preparedStmt.setInt(4, caffine);
-
-
-            // execute the preparedstatement
-            preparedStmt.execute();
-
-            con.close();
-        } catch(SQLException err){
-            System.out.println(err.getMessage());
-        }
-    }
 }
