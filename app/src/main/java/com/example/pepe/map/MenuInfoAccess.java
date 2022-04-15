@@ -1,17 +1,7 @@
 package com.example.pepe.map;
 
-import android.content.Intent;
-
-import androidx.annotation.NonNull;
-
+import com.example.pepe.LoginActivity;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Objects;
 
 import okhttp3.FormBody;
@@ -20,17 +10,17 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 
 public class MenuInfoAccess {
     public static StoreLocationArray getMarkerz() throws ClassNotFoundException {
 
-        String url = "http://10.0.2.2:3001/seller/";
+        String url = "http://10.0.2.2:3001/drinker/get_near_by_sellers";
 
         OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
-//                .add("username", Name.getText().toString())
-//                .add("password", Password.getText().toString())
+                .add("userID", LoginActivity.userID)
                 .build();
 
         HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
@@ -39,7 +29,6 @@ public class MenuInfoAccess {
                 .url(fullUrl)
                 .post(formBody)
                 .build();
-        System.out.println(request);
 
         try (Response response = client.newCall(request).execute()) {
             System.out.println(response.code());
@@ -51,14 +40,7 @@ public class MenuInfoAccess {
 //        startActivity(i);
     }
 }
-//        StoreLocationArray storeLocArray = new StoreLocationArray();
-//        StoreLocation storeLocation;
-//        Class.forName("com.mysql.cj.jdbc.Driver");
 //
-//        // query database to get the user's id
-//        try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
-//             PreparedStatement ps = conn.prepareStatement(sqlSelectUser);
-//             ResultSet rs = ps.executeQuery()) {
 //            while (rs.next()) {
 //                double storeLat = rs.getDouble("latitude");
 //                double storeLong = rs.getDouble("longitude");
