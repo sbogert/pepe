@@ -11,7 +11,7 @@ router.post("/login",(req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     //console.log(username);
-    //console.log("Receive log in request from user:", username);
+    console.log("Receive log in request from user:", username);
     DrinkerMapper.SelectDrinkerByUsername([req, res, username, password], username ,DrinkerService.drinkerLogin) // note the pass the response to adminMapper.js, to let it do the rest
 });
 

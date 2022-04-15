@@ -24,6 +24,7 @@ import okhttp3.Callback;
 import okhttp3.CipherSuite;
 import okhttp3.ConnectionSpec;
 import okhttp3.Credentials;
+import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -76,11 +77,6 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String proxyHost = System.getProperty("http.proxyHost");
-                String proxyPort = System.getProperty("http.proxyPort");
-                String proxyUser = System.getProperty("http.proxyUser");
-                String proxyPassword = System.getProperty("http.proxyPassword");
-                System.out.println("Using proxy with host: "+ proxyHost + ", port: "+ proxyPort + ", user: " + proxyUser);
                 getUserDB(Name.getText().toString(), Password.getText().toString());
             }
         });
@@ -101,57 +97,27 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getUserDB(String givenName, String givenPass) {
         Intent i = new Intent(this, MapsActivity.class);
-        String url = "http://localhost:3001/drinker/login";
+        String url = "http://10.0.2.2:3001/drinker/login";
 
-        // prints the user and pass twice
-        // goes through all of this each time login is clicked, dont do that
-        // find way to only sent request first time
-//        .header("Connection", "close")
-//        .header("Accept-Encoding", "identity")
-        ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS)
-                .supportsTlsExtensions(true)
-                .tlsVersions(TlsVersion.TLS_1_2, TlsVersion.TLS_1_1, TlsVersion.TLS_1_0)
-                .cipherSuites(
-                        CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-                        CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-                        CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
-                        CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
-                        CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
-                        CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
-                        CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-                        CipherSuite.TLS_ECDHE_ECDSA_WITH_RC4_128_SHA,
-                        CipherSuite.TLS_ECDHE_RSA_WITH_RC4_128_SHA,
-                        CipherSuite.TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
-                        CipherSuite.TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
-                        CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA)
+        OkHttpClient client = new OkHttpClient();
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("username", Name.getText().toString())
+                .add("password", Password.getText().toString())
                 .build();
 
-        Authenticator proxyAuthenticator = new Authenticator() {
-            @Override public Request authenticate(Route route, Response response) throws IOException {
-                String credential = Credentials.basic(user, pass);
-                return response.request().newBuilder()
-                        .header("Proxy-Authorization", credential)
-                        .build();
-            }
-        };
-
-
-        OkHttpClient client =
-                new OkHttpClient.Builder().connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT)).build();
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(url)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .client(client)
-//                .build();
-
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(url).newBuilder();
+        HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
         String fullUrl = urlBuilder.build().toString();
         Request request = new Request.Builder()
                 .url(fullUrl)
+//                .addHeader("Authorization", Credentials.basic("root", "root"))
+                .post(formBody)
                 .build();
         System.out.println(request);
+
         try (Response response = client.newCall(request).execute()) {
-            System.out.println(response.body().string());
+            System.out.println(response.code());
+            System.out.println(Objects.requireNonNull(response.body()).string());
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
