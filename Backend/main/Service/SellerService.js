@@ -44,26 +44,18 @@ exports.sellerLogin = function (payload, results){
 }
 
 exports.updateMenu = function (userId, res, items){
-    if(validate(userId)){
-        res.status(200).end();
-        ItemMapper.InsertIntoItem(null, [userId, items.name, items.price, items.caffeine], null)
 
-    }else{
-        res.status(400).end();
-    }
+    res.status(200).end();
+    ItemMapper.InsertIntoItem(null, [userId, items.name, items.price, items.caffeine], null)
+
 }
 
 exports.sellerGetHistoryOrder = function (payload, results){
     let res = payload[0]
     let userId = payload[1]
     results = JSON.parse(JSON.stringify(results)) // just parsing
-    if(!validate(userId)){
-        console.log("not validated")
-        res.status(400).end()
-    }else{
-        _.each(results, function (item){
-            item.items = JSON.parse(item.items)
-        })
-        res.send(results)
-    }
+    _.each(results, function (item){
+        item.items = JSON.parse(item.items)
+    })
+    res.send(results)
 }

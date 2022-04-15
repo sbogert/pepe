@@ -15,7 +15,7 @@ router.post("/login",(req, res) => {
     DrinkerMapper.SelectDrinkerByUsername([req, res, username, password], username ,DrinkerService.drinkerLogin) // note the pass the response to adminMapper.js, to let it do the rest
 });
 
-router.post("/signup", (req, res) => {
+router.get("/signup", (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     //console.log(username);
@@ -24,16 +24,14 @@ router.post("/signup", (req, res) => {
 });
 
 router.post("/get_near_by_sellers", (req, res) => {
-    let userId = req.session.userId
-    let location = req.body.location;
-    location = JSON.parse(location)
+    let userId = req.body.userId
     //console.log(location.latitude);
     //console.log("Receive get sellers request from user:", userId);
-    SellerMapper.SelectNearBySeller([res, userId], location.latitude, location.longitude, DrinkerService.drinkerGetNearBySeller) // note the pass the response to adminMapper.js, to let it do the rest
+    SellerMapper.SelectNearBySeller([res, userId], null, null, DrinkerService.drinkerGetNearBySeller) // note the pass the response to adminMapper.js, to let it do the rest
 })
 
 router.post("/get_menu", (req, res) => {
-    let userId = req.session.userId
+    let userId = req.body.userId
     let seller_id = req.body.seller_id;
     //console.log(location.latitude);
     //console.log("Receive get menu request from user:", userId);
@@ -41,7 +39,7 @@ router.post("/get_menu", (req, res) => {
 })
 
 router.post("/get_history_order", (req, res) => {
-    let userId = req.session.userId
+    let userId = req.body.userId
     //console.log(location.latitude);
     //console.log("Receive get history order request from drinker:", userId);
     if(userId){

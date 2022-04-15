@@ -24,7 +24,7 @@ router.post("/signup", (req, res) => {
 });
 
 router.post("/update_menu", (req, res) => {
-    let userId = req.session.userId
+    let userId = req.body.userId
     let items = req.body.items;
     items = JSON.parse(items)
     //console.log(username);
@@ -33,7 +33,7 @@ router.post("/update_menu", (req, res) => {
 });
 
 router.post("/get_history_order", (req, res) => {
-    let userId = req.session.userId
+    let userId = req.body.userId
     //console.log(location.latitude);
     //console.log("Receive get history order request from seller:", userId);
     if(userId) {

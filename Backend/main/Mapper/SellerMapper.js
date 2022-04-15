@@ -39,8 +39,7 @@ exports.SelectNearBySeller = function(payload, latitude ,longitude, callback){
     set[2] = longitude - range;
     set[3] = longitude + range;
 
-    connection.query("SELECT id, username, latitude, longitude FROM SELLERS WHERE latitude BETWEEN ? AND ? AND longitude BETWEEN ? AND ?",
-        set, // notice here, class_code is an array of professor_name, class_date, class_Codes
+    connection.query("SELECT id, username, latitude, longitude FROM SELLERS", // notice here, class_code is an array of professor_name, class_date, class_Codes
         function (error, results) {
             //console.log(results);
             if (error) {
