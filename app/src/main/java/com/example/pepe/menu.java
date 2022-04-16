@@ -77,6 +77,7 @@ public class menu extends AppCompatActivity {
     }
 
     public String getMenu(){
+
         //request to get menu from database
         return null;
     }
