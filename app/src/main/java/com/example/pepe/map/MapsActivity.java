@@ -13,13 +13,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.example.pepe.databinding.ActivityMapsBinding;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+    Intent i = new Intent(this, ViewStore.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uscStart, 13F));
         // getting the map markers
         try {
-            Intent i = new Intent(this, ViewStore.class);
             StoreLocationArray markerArray = MenuInfoAccess.getMarkers();
             for (StoreLocation storeLoc : markerArray.getStoreLocationArray()) {
                 System.out.println("map marker");
@@ -61,43 +63,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .position(latlng)
                             .title(storeLoc.getName()));
         }
-
-            // something about them choosing a store
-            // pass store info along to next pg
-//            startActivity(i);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        // Set a listener for marker click.
+        mMap.setOnMarkerClickListener(this);
+    }
 
+    /** Called when the user clicks a marker. */
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        // send store name to next page
+        i.putExtra("storeName", marker.getTitle());
+        startActivity(i);
 
-
-        // adding each store location to the map
-//
+        return true;
     }
 }
-//        try {
-//            // connect to db and get seller information
-//
-//           Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/310project?user=" +
-//                    "=root&password=root");
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery("SELECT username, latitude, longitude FROM 310project.sellers");
-//            // Do something with result set
-//            System.out.println(rs);
-//
-//            // add markers for each store
-//            while (rs.next()) {
-//                LatLng loc = new LatLng(rs.getDouble("latitude"), rs.getDouble("longitude"));
-//                mMap.addMarker(new MarkerOptions().position(loc).title(rs.getString("username")));
-//
-//            }
-//        } catch (SQLException /*| ClassNotFoundException | IllegalAccessException | InstantiationException */
-//        e) {
-//            // handle any errors
-//            System.out.println("SQLException: " + e.getMessage());
-//            e.printStackTrace();
-////            System.out.println("SQLState: " + e.getSQLState());
-////            System.out.println("VendorError: " + e.getErrorCode());
-//        }
-//    }
-//}
