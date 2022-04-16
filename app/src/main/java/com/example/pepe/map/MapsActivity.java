@@ -6,24 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.pepe.R;
-import com.google.android.gms.common.api.Response;
+import com.example.pepe.ViewStore;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.pepe.databinding.ActivityMapsBinding;
-import com.example.pepe.map.MenuInfoAccess;
-//import com.squareup.okhttp3:okhttp:4.9.3;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -57,23 +47,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // map initially is focused on USC/centered on USC
         LatLng uscStart = new LatLng(34.02226492129773, -118.2876243116412);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uscStart, 13F));
-        StoreLocationArray markerArray = null;
+        // getting the map markers
         try {
-            Intent i = new Intent(this, MapsActivity.class);
-            markerArray = MenuInfoAccess.getMarkerz();
+            Intent i = new Intent(this, ViewStore.class);
+            StoreLocationArray markerArray = MenuInfoAccess.getMarkers();
+            for (StoreLocation storeLoc : markerArray.getStoreLocationArray()) {
+                System.out.println("map marker");
+                float lat = (float) storeLoc.getLatitude();
+                float lng = (float) storeLoc.getLongitude();
+                LatLng latlng = new LatLng(lat, lng);
+                System.out.println(lat + "\t" + lng);
+                mMap.addMarker(new MarkerOptions()
+                            .position(latlng)
+                            .title(storeLoc.getName()));
+        }
+
+            // something about them choosing a store
+            // pass store info along to next pg
+//            startActivity(i);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
+
         // adding each store location to the map
-//        for (StoreLocation storeLoc : markerArray.getStoreLocationArray()) {
-//            double lat = storeLoc.getLatitude();
-//            double lng = storeLoc.getLongitude();
-//            System.out.println(lat + "\t" + lng);
-//            mMap.addMarker(new MarkerOptions()
-//                        .position(new LatLng(lat, lng))
-//                        .title(storeLoc.getName()));
-//        }
+//
     }
 }
 //        try {

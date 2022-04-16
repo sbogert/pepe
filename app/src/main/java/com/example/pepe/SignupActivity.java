@@ -13,12 +13,6 @@ import android.widget.TextView;
 import com.example.pepe.map.MapsActivity;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Objects;
 
 import okhttp3.FormBody;
@@ -35,6 +29,8 @@ public class SignupActivity extends AppCompatActivity {
     private TextView Info;
     private Button login;
     private Button signup;
+    private Intent i;
+    private final OkHttpClient client = new OkHttpClient();
 
 
     @Override
@@ -55,7 +51,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    httpReqest(Name.getText().toString(), Password.getText().toString());
+                    httpRequest(Name.getText().toString(), Password.getText().toString());
+                    startActivity(i);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -76,8 +73,8 @@ public class SignupActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void httpReqest(String user, String pass){
-       OkHttpClient client = new OkHttpClient();
+    private void httpRequest(String user, String pass){
+        i = new Intent(this, MapsActivity.class);
         String url = "http://10.0.2.2:3001/drinker/signup";
 
         RequestBody formBody = new FormBody.Builder()
@@ -87,17 +84,19 @@ public class SignupActivity extends AppCompatActivity {
 
         HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
         String fullUrl = urlBuilder.build().toString();
-
         Request request = new Request.Builder()
                 .url(fullUrl)
                 .post(formBody)
                 .build();
 
+        System.out.println(request.toString());
+
         try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(Objects.requireNonNull(response.body()).toString());
             if(response.code() == 400){
                 Info.setText("Username is already in use");
-            }
-            else{
+            } else {
                 Info.setText("Account created successfully");
             }
         } catch (IOException | NullPointerException e) {

@@ -21,25 +21,24 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class menu extends AppCompatActivity {
+public class profile extends AppCompatActivity {
 
-    private TextView menuDisplay;
+    private TextView Display;
     private Button Back;
+    private Button Edit;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.activity_profile);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        menuDisplay = (TextView) findViewById(R.id.displaymenu);
+        Display = (TextView) findViewById(R.id.display);
         Back = (Button) findViewById(R.id.goBack);
-
-        menuDisplay.setText(getMenu());
-
+        Edit = (Button) findViewById(R.id.Edit);
 
 
         Back.setOnClickListener(new View.OnClickListener() {
@@ -49,18 +48,31 @@ public class menu extends AppCompatActivity {
             }
         });
 
+        Edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openEdit();
+            }
+        });
+
+
+        request();
     }
 
-    private void getUserDB(String userID, String sellerID) {
-        String url = "http://10.0.2.2:3001/drinker/get_menu";
-
+    /**
+     * connect to database and verify user
+     *
+     * HOW DO YOU EDIT DATABASE DATA
+     */
+    private void request() {
         OkHttpClient client = new OkHttpClient();
+        String url = "http://10.0.2.2:3001/drinker/signup";
+        String userID = ((MyApplication) this.getApplication()).getUser();
 
+        // given login information is sent to check
         RequestBody formBody = new FormBody.Builder()
                 .add("userid", userID)
-                .add("seller_id",sellerID )
                 .build();
-
         HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
         String fullUrl = urlBuilder.build().toString();
         Request request = new Request.Builder()
@@ -69,23 +81,25 @@ public class menu extends AppCompatActivity {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            System.out.println(response.code());
-            System.out.println(Objects.requireNonNull(response.body()).string());
+            if (response.code() == 200) {
+                //print the past orders
+                //Display.setText();
+            } else if (response.code() != 200) {
+                //print nothing
+                Display.setText("");
+            }
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
     }
 
-    public String getMenu(){
-        //request to get menu from database
-        return null;
+    private void openBack() {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 
-    private void openBack() {
-        Intent intent = new Intent(this, UpdateMenuActivity.class);
+    private void openEdit() {
+        Intent intent = new Intent(this, EditProfile.class);
         startActivity(intent);
     }
 }
-
-
-

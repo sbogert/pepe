@@ -20,15 +20,15 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.Objects;
 
-
 /** class for users logging into the app */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText Name;
     private EditText Password;
     private Intent i;
-    private OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient();
     private int count = 4;
+    public String userID;
 
 
     @Override
@@ -88,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
     private boolean getUserDB (String givenName, String givenPass) {
         i = new Intent(this, MapsActivity.class);
         String url = "http://10.0.2.2:3001/drinker/login";
-        String id;
         boolean noUser = true;
 
         // given login information is sent to check
@@ -104,17 +103,15 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            id = Objects.requireNonNull(response.body()).string();
+            userID = Objects.requireNonNull(response.body()).string();
             if (response.code() == 200) {
                 noUser = false;
-                i.putExtra("USERID", id);
             } else if (response.code() != 200) {
                 noUser = true;
             }
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
-
         return noUser;
     }
 }

@@ -44,6 +44,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="location">Location</string>
+    <string name="title_activity_edit_profile">EditProfile</string>
 
 
 </resources>
