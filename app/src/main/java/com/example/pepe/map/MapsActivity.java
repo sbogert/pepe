@@ -22,7 +22,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    Intent i;
+    private Intent i;
+    private LatLng uscStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap mMap) {
         // map initially is focused on USC/centered on USC
-        LatLng uscStart = new LatLng(34.02226492129773, -118.2876243116412);
+        uscStart = new LatLng(34.02226492129773, -118.2876243116412);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uscStart, 13F));
         // getting the map markers
         try {
@@ -77,7 +78,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         i = new Intent(this, ViewStore.class);
         i.putExtra("storeName", marker.getTitle());
         startActivity(i);
-
         return true;
     }
 }
