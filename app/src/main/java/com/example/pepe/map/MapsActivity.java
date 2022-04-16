@@ -22,7 +22,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    Intent i = new Intent(this, ViewStore.class);
+    Intent i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(final Marker marker) {
         // send store name to next page
+        i = new Intent(this, ViewStore.class);
         i.putExtra("storeName", marker.getTitle());
         startActivity(i);
 
