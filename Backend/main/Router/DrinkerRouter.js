@@ -24,7 +24,7 @@ router.get("/signup", (req, res) => {
 });
 
 router.post("/get_near_by_sellers", (req, res) => {
-    let userId = req.body.userId
+    let userId = 0
     //console.log(location.latitude);
     //console.log("Receive get sellers request from user:", userId);
     SellerMapper.SelectNearBySeller([res, userId], null, null, DrinkerService.drinkerGetNearBySeller) // note the pass the response to adminMapper.js, to let it do the rest
