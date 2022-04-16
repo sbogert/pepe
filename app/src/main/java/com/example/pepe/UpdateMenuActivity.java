@@ -2,25 +2,18 @@ package com.example.pepe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
-import com.example.pepe.Objects.Item;
+import com.example.pepe.data.model.Item;
 import com.example.pepe.map.MapsActivity;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Objects;
 
 import okhttp3.FormBody;
@@ -84,7 +77,7 @@ public class UpdateMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /** connect to database and verify user */
+    /** add item to menu */
     private void request(String n, Integer p, Integer c) {
         OkHttpClient client = new OkHttpClient();
         String url = "http://10.0.2.2:3001/seller/update_menu";
