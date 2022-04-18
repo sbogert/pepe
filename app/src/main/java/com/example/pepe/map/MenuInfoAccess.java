@@ -2,6 +2,10 @@ package com.example.pepe.map;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pepe.data.model.Item;
+import com.example.pepe.data.model.SellerInfo;
+import com.example.pepe.data.model.StoreLocation;
+import com.example.pepe.data.model.StoreLocationArray;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -54,5 +58,38 @@ public class MenuInfoAccess extends AppCompatActivity {
             e.printStackTrace();
         }
         return storeLocArray;
+    }
+
+    public static List<Item> MenuInfo(Integer sellerID, Integer drinkerID) {
+        String url = "http://10.0.2.2:3001/drinker/get_menu";
+        SellerInfo sellerMenu = new SellerInfo();
+        List<Item> itemList = null;
+
+        RequestBody formBody = new FormBody.Builder()
+                .build();
+
+        HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
+        String fullUrl = urlBuilder.build().toString();
+        Request request = new Request.Builder()
+                .url(fullUrl)
+                .post(formBody)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            // parse response
+            JSONArray jsonArr = new JSONArray(Objects.requireNonNull(response.body()).string());
+            Gson gson = new Gson();
+            itemList =
+                    gson.fromJson(String.valueOf(jsonArr),
+                            new TypeToken<List<Item>>() {}.getType());
+
+            // add locations to the array
+            for (Item i :itemList) {
+                System.out.println(i.getName());
+            }
+        } catch (IOException | NullPointerException | JSONException e) {
+            e.printStackTrace();
+        }
+        return itemList;
     }
 }

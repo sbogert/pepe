@@ -1,15 +1,26 @@
-package com.example.pepe.Objects;
+package com.example.pepe.data.model;
 
 public class Item{
-    public Item(String name, int price, int caffeine){
-    }
 
     //Creating properties of the class
+    private Integer id;
     private String name;
     private int price;
     private int caffeine;
 
+    public Item(String name, int price, int caffeine){
+        this.name = name;
+        this.price = price;
+        this.caffeine = caffeine;
+    }
+
     //Setter and Getters
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
     public int getPrice() {
         return price;
     }
@@ -33,5 +44,4 @@ public class Item{
     public String toString() {
         return "[ Name = " + name + ",  Price = " + price + ", Caffeine = " + caffeine + "]";
     }
-
 }

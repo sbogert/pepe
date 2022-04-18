@@ -1,4 +1,4 @@
-package com.example.pepe.map;
+package com.example.pepe.data.model;
 
 /* class for different store locations to be shown on map */
 public class StoreLocation {

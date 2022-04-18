@@ -7,8 +7,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.pepe.data.model.Item;
+import com.example.pepe.map.MenuInfoAccess;
+
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViewStore extends AppCompatActivity {
     private TextView StoreName;
@@ -41,6 +45,15 @@ public class ViewStore extends AppCompatActivity {
         if (extras != null) {
             StoreName.setText(extras.getString("storeName"));
         }
+
+        String userID = ((MyApplication) this.getApplication()).getUser();
+        List<Item> menuItems = MenuInfoAccess.MenuInfo(storeID, Integer.parseInt(userID));
+
+        ArrayList<Item> menuArray = new ArrayList<>(menuItems);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, android.R.layout
+//        .simple_spinner_item, menuArray);
+
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
     }
 

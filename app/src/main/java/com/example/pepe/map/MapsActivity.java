@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import com.example.pepe.R;
 import com.example.pepe.ViewStore;
+import com.example.pepe.data.model.StoreLocation;
+import com.example.pepe.data.model.StoreLocationArray;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,6 +26,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
     private Intent i;
     private LatLng uscStart;
+    private int storeID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 float lat = (float) storeLoc.getLatitude();
                 float lng = (float) storeLoc.getLongitude();
                 LatLng latlng = new LatLng(lat, lng);
-                System.out.println(lat + "\t" + lng);
                 mMap.addMarker(new MarkerOptions()
                             .position(latlng)
                             .title(storeLoc.getName()));
@@ -77,6 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // send store name to next page
         i = new Intent(this, ViewStore.class);
         i.putExtra("storeName", marker.getTitle());
+        i.putExtra("storeID", storeID);
         startActivity(i);
         return true;
     }
