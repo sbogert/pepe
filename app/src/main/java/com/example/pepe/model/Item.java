@@ -1,4 +1,4 @@
-package com.example.pepe.data.model;
+package com.example.pepe.model;
 
 public class Item{
 

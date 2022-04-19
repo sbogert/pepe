@@ -1,4 +1,4 @@
-package com.example.pepe.data.model;
+package com.example.pepe.model;
 
 public class SellerInfo {
     private Item[] items; // an array of Item

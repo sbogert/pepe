@@ -7,8 +7,8 @@ import android.os.Bundle;
 
 import com.example.pepe.R;
 import com.example.pepe.ViewStore;
-import com.example.pepe.data.model.StoreLocation;
-import com.example.pepe.data.model.StoreLocationArray;
+import com.example.pepe.model.StoreLocation;
+import com.example.pepe.model.StoreLocationArray;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
