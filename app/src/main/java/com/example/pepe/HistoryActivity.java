@@ -33,7 +33,7 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        listView = (ListView) findViewById(R.id.menuListView);
+//        listView = (ListView) findViewById(R.id.menuListView);
 
         // for loop will add each element from the list of menu items that is passed here
         for (int i=0; i < 5; i++) {
