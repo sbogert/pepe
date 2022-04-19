@@ -25,7 +25,7 @@ import com.example.pepe.model.StoreLocation;
 import com.example.pepe.model.StoreLocationArray;
 import com.google.android.gms.maps.model.Marker;
 
-
+// TODO: set up onMarkerClick stuff
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private ActivityMapsBinding binding;
@@ -61,14 +61,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         uscStart = new LatLng(34.02226492129773, -118.2876243116412);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uscStart, 13F));
 
+        // get markers from firestore
         DocumentReference documentReference = db.collection("sellers").document("r51igMingFvB2Ko5MvCn");
-
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (value != null && value.exists()) {
-                    // below line is to create a geo point and we are getting
-                    // geo point from firebase and setting to it.
+                    // create a geo point with info from firebase
                     GeoPoint mapMarker = value.getGeoPoint("location");
 
                     // getting lat and long from geo point and setting it to location.
@@ -101,7 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mMap.setOnMarkerClickListener(this);
 //    }
 
-//    /** Called when the user clicks a marker. */
+    /** Called when the user clicks a marker. */
 //    @Override
 //    public boolean onMarkerClick(final Marker marker) {
 //        // send store name to next page
