@@ -37,6 +37,9 @@
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity
+            android:name=".UpdateProfile"
+            android:exported="false" />
+        <activity
             android:name=".seller_enter_info"
             android:exported="false" />
         <activity
