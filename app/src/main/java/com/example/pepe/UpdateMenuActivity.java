@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.pepe.Models.MenuItem_Model;
-import com.example.pepe.data.model.Item;
+//import com.example.pepe.data.model.Item;
 
 import com.example.pepe.map.MapsActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -80,14 +80,14 @@ public class UpdateMenuActivity extends AppCompatActivity {
                 dbReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        dbReference.child(itemID).setValue(MenuItem_Model);
+//                        dbReference.child(itemID).setValue(MenuItem_Model);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
-                })
+                });
 
 
 
@@ -110,12 +110,12 @@ public class UpdateMenuActivity extends AppCompatActivity {
 
 
 
-        Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openMap();
-            }
-        });
+//        Back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openMap();
+//            }
+//        });
 
 
 
@@ -129,12 +129,12 @@ public class UpdateMenuActivity extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient();
         String url = "http://10.0.2.2:3001/seller/update_menu";
 
-        Item drink = new Item(n, p, c);
-        String myItem  = new Gson().toJson(drink);
+//        Item drink = new Item(n, p, c);
+//        String myItem  = new Gson().toJson(drink);
 
         // given login information is sent to check
         RequestBody formBody = new FormBody.Builder()
-                .add("items", myItem)
+//                .add("items", myItem)
                 .build();
         HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
         String fullUrl = urlBuilder.build().toString();
