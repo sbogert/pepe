@@ -37,9 +37,7 @@ public class SignupActivity extends AppCompatActivity {
     private Button login;
     private Button signup;
     FirebaseAuth fAuth;
-    //private TextView Info;
-    //private Intent i;
-    //private final OkHttpClient client = new OkHttpClient();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +50,6 @@ public class SignupActivity extends AppCompatActivity {
         signup = (Button) findViewById(R.id.signupButton);
 
         fAuth = FirebaseAuth.getInstance();
-
-        if(fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-            finish();
-        }
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +84,7 @@ public class SignupActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(SignupActivity.this, "User Created", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                            finish();
                         }else{
                             Toast.makeText(SignupActivity.this, "Error!!!", Toast.LENGTH_SHORT).show();
                         }
@@ -99,16 +93,6 @@ public class SignupActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = fAuth.getCurrentUser();
-        if(currentUser != null){
-            currentUser.reload();
-        }
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.pepe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,8 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.pepe.Models.MenuItem_Model;
 import com.example.pepe.data.model.Item;
 import com.example.pepe.map.MapsActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -30,6 +38,10 @@ public class UpdateMenuActivity extends AppCompatActivity {
     private EditText Caffeine;
     private Button Add;
     private Button Back;
+    private FirebaseDatabase db;
+    private DatabaseReference dbReference;
+
+
 
 
     @Override
@@ -45,6 +57,57 @@ public class UpdateMenuActivity extends AppCompatActivity {
         Caffeine = (EditText) findViewById(R.id.etCaffine);
         Add = (Button) findViewById(R.id.addButton);
         Back = (Button) findViewById(R.id.back);
+        db = FirebaseDatabase.getInstance();
+        dbReference = db.getReference("Items");
+
+
+        Add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String value = Name.getText().toString();
+
+                String value1 = Price.getText().toString();
+                Double p = Double.parseDouble(value1);
+
+                String value2 = Caffeine.getText().toString();
+                Integer c = Integer.parseInt(value2);
+
+                String itemID = value;
+
+                MenuItem_Model item = new MenuItem_Model(value, p, c);
+
+                dbReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        dbReference.child(itemID).setValue(MenuItem_Model);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                })
+
+
+
+
+                Name.setText("");
+                Price.setText("");
+                Caffeine.setText("");
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
 
         Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,24 +116,7 @@ public class UpdateMenuActivity extends AppCompatActivity {
             }
         });
 
-        Add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String value = Name.getText().toString();
-                String value1 = Price.getText().toString();
-                String value2 = Caffeine.getText().toString();
 
-                Integer v = Integer.parseInt(value1);
-                Integer v1 = Integer.parseInt(value2);
-
-                request(value, v, v1);
-
-                Name.setText("");
-                Price.setText("");
-                Caffeine.setText("");
-            }
-        });
-    }
 
     private void openMap() {
         Intent intent = new Intent(this, MapsActivity.class);
