@@ -3,14 +3,12 @@ package com.example.pepe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.pepe.data.model.Item;
+import com.example.pepe.model.Item;
 import com.example.pepe.map.MenuInfoAccess;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 

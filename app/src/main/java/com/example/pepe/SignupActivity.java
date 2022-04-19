@@ -91,6 +91,7 @@ public class SignupActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(SignupActivity.this, "User Created", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                            finish();
                         }else{
                             Toast.makeText(SignupActivity.this, "Error!!!", Toast.LENGTH_SHORT).show();
                         }

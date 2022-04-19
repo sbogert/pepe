@@ -2,10 +2,10 @@ package com.example.pepe.map;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pepe.data.model.Item;
-import com.example.pepe.data.model.SellerInfo;
-import com.example.pepe.data.model.StoreLocation;
-import com.example.pepe.data.model.StoreLocationArray;
+import com.example.pepe.model.Item;
+import com.example.pepe.model.SellerInfo;
+import com.example.pepe.model.StoreLocation;
+import com.example.pepe.model.StoreLocationArray;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
