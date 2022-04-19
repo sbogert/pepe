@@ -26,7 +26,7 @@ import com.example.pepe.model.StoreLocationArray;
 import com.google.android.gms.maps.model.Marker;
 
 // TODO: set up onMarkerClick stuff
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private ActivityMapsBinding binding;
     private GoogleMap mMap;
@@ -80,6 +80,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+        // Set a listener for marker click.
+        mMap.setOnMarkerClickListener(this);
     }
 //        // getting the map markers
 //        try {
@@ -96,18 +98,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        } catch (ClassNotFoundException e) {
 //            e.printStackTrace();
 //        }
-//        // Set a listener for marker click.
-//        mMap.setOnMarkerClickListener(this);
+//
 //    }
 
     /** Called when the user clicks a marker. */
-//    @Override
-//    public boolean onMarkerClick(final Marker marker) {
-//        // send store name to next page
-//        i = new Intent(this, ViewStore.class);
-//        i.putExtra("storeName", marker.getTitle());
-//        i.putExtra("storeID", storeID);
-//        startActivity(i);
-//        return true;
-//    }
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        // send store name to next page
+        i = new Intent(this, ViewStore.class);
+        i.putExtra("storeName", marker.getTitle());
+        System.out.println(marker.getTitle());
+        startActivity(i);
+        return true;
+    }
 }
