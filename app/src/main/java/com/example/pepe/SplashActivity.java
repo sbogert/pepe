@@ -58,7 +58,7 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void openUS() {
-        Intent intent = new Intent(this, SignupTest.class);
+        Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
     }
     private void openSS() {

@@ -28,19 +28,20 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/prompt_password"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etName"
-        app:layout_constraintVertical_bias="0.028"
-        android:importantForAutofill="no" />
+        app:layout_constraintVertical_bias="0.028" />
 
     <Button
         android:id="@+id/signupButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="148dp"
         android:radius="2dp"
         android:text="@string/sign_up"
@@ -51,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.474"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/incorrect"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword"
         app:layout_constraintVertical_bias="0.061" />
 
     <Button
@@ -67,17 +68,6 @@
         app:layout_constraintStart_toEndOf="@+id/haveaccount"
         app:layout_constraintTop_toBottomOf="@+id/signupButton"
         app:layout_constraintVertical_bias="0.133" />
-
-    <TextView
-        android:id="@+id/info"
-        android:layout_width="2dp"
-        android:layout_height="13dp"
-        android:textColor="#880808"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword"
-        app:layout_constraintVertical_bias="0.035" />
 
 
     <TextView
