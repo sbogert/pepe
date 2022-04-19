@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.pepe.model.SellerInfo;
 import com.example.pepe.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,8 +30,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class SignupActivity_Sellers extends AppCompatActivity {
-    private EditText Name;
+    private EditText Email;
     private EditText Password;
+    private EditText Name;
     private Button login;
     private Button signup;
     FirebaseAuth fAuth;
@@ -42,7 +44,8 @@ public class SignupActivity_Sellers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_sellers);
 
-        Name = (EditText) findViewById(R.id.etEmail);
+        Email = (EditText) findViewById(R.id.etEmail);
+        Name = (EditText) findViewById(R.id.etName);
         Password = (EditText) findViewById(R.id.etPassword);
         login = (Button) findViewById(R.id.loginButton);
         signup = (Button) findViewById(R.id.signupButton);
@@ -72,11 +75,16 @@ public class SignupActivity_Sellers extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user = Name.getText().toString().trim();
+                String email = Email.getText().toString().trim();
+                String name = Name.getText().toString().trim();
                 String pass = Password.getText().toString().trim();
 
-                if(TextUtils.isEmpty(user)){
-                    Name.setError("Username is Required.");
+                if(TextUtils.isEmpty(email)){
+                    Email.setError("Email is Required.");
+                    return;
+                }
+                if(TextUtils.isEmpty(name)){
+                    Name.setError("Name is Required.");
                     return;
                 }
                 if(TextUtils.isEmpty(pass)){
@@ -89,17 +97,19 @@ public class SignupActivity_Sellers extends AppCompatActivity {
                     return;
                 }
 
-                fAuth.createUserWithEmailAndPassword(user,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            String email = Name.getText().toString();
+                            String email = Email.getText().toString();
+                            String name = Name.getText().toString();
                             String password = Password.getText().toString();
-                            UserInfo newUser = new UserInfo(email, password);
+                            SellerInfo newSeller = new SellerInfo(email, name, password);
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             CollectionReference menuReference = db.collection("sellers");
-                            menuReference.document(email).set(newUser);
-                            Toast.makeText(SignupActivity_Sellers.this, "User Created", Toast.LENGTH_SHORT).show();
+                            menuReference.document(email).set(newSeller);
+                            Toast.makeText(SignupActivity_Sellers.this, "Welcome " + name + "!",
+                                    Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), SellerMain.class));
                         }else{
                             Toast.makeText(SignupActivity_Sellers.this, "Error!!!", Toast.LENGTH_SHORT).show();

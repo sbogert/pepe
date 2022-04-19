@@ -62,7 +62,10 @@ public class MenuInfoAccess extends AppCompatActivity {
 
     public static List<Item> MenuInfo(Integer sellerID, Integer drinkerID) {
         String url = "http://10.0.2.2:3001/drinker/get_menu";
-        SellerInfo sellerMenu = new SellerInfo();
+        String email = "";
+        String storeName = "";
+        String password = "";
+        SellerInfo sellerMenu = new SellerInfo(email, storeName, password);
         List<Item> itemList = null;
 
         RequestBody formBody = new FormBody.Builder()
