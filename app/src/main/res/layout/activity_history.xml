@@ -90,20 +90,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/orderHistory">
 
-        <LinearLayout
+        <CardView
+            android:id="@+id/menuListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
 
-    <TextView
-        android:id="@+id/displayOrderHistory"
-        android:layout_width="283dp"
-        android:layout_height="265dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderHistory"
-        app:layout_constraintVertical_bias="0.095" />
+<!--    <TextView-->
+<!--        android:id="@+id/displayOrderHistory"-->
+<!--        android:layout_width="283dp"-->
+<!--        android:layout_height="265dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/orderHistory"-->
+<!--        app:layout_constraintVertical_bias="0.095" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
