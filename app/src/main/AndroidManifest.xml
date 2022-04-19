@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".seller_enter_info"
+            android:exported="false" />
+        <activity
             android:name=".LoginTest"
             android:exported="false" />
         <activity
