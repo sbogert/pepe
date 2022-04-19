@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewStore extends AppCompatActivity {
+
     private TextView StoreName;
     private Spinner Menu;
+    private int storeID;
 
 
     @Override
@@ -28,34 +30,26 @@ public class ViewStore extends AppCompatActivity {
         Menu = (Spinner) findViewById(R.id.menu);
 
 
-        //populate menuItems with arraylist of menu items
-        ArrayList<String> menuItems = new ArrayList<String>();
-
-        String[] menu = menuItems.toArray(new String[menuItems.size()]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, menu);
-        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
-
-        Menu.setAdapter(adapter);
-
-
-
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             StoreName.setText(extras.getString("storeName"));
-        }
+            storeID = Integer.parseInt(extras.getString("storeID"));
+            System.out.println(storeID);
 
-        String userID = ((MyApplication) this.getApplication()).getUser();
-        List<Item> menuItems = MenuInfoAccess.MenuInfo(storeID, Integer.parseInt(userID));
+            //Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                StoreName.setText(extras.getString("storeName"));
+            }
 
-        ArrayList<Item> menuArray = new ArrayList<>(menuItems);
+            String userID = ((MyApplication) this.getApplication()).getUser();
+            List<Item> menuItems = MenuInfoAccess.MenuInfo(storeID, Integer.parseInt(userID));
+
+            ArrayList<Item> menuArray = new ArrayList<>(menuItems);
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, android.R.layout
 //        .simple_spinner_item, menuArray);
 
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
+        }
     }
-
-
 }

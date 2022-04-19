@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "34261665400",
+    "project_id": "csci310-f0249",
+    "storage_bucket": "csci310-f0249.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34261665400:android:713b9b3b68bc0482a6cf8d",
+        "android_client_info": {
+          "package_name": "com.example.pepe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34261665400-l64as5jfgd1l4dfm4a9oo0vii5eap2de.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkoWDpgGAT0hbiGXHWmTUC6lC8vFx0nMg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34261665400-l64as5jfgd1l4dfm4a9oo0vii5eap2de.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
