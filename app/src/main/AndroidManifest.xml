@@ -55,7 +55,7 @@
             android:name=".profile"
             android:exported="false" />
         <activity
-            android:name=".sellerMain"
+            android:name=".SellerMain"
             android:exported="false" />
         <activity
             android:name=".ViewStore"

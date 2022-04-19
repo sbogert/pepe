@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.pepe.map.MapsActivity;
 
-public class sellerMain extends AppCompatActivity {
+public class SellerMain extends AppCompatActivity {
 
     private Button Profile;
     private Button Edit;

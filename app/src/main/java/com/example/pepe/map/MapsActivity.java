@@ -69,13 +69,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (value != null && value.exists()) {
                     // below line is to create a geo point and we are getting
                     // geo point from firebase and setting to it.
-                    GeoPoint geoPoint = value.getGeoPoint("location");
+                    GeoPoint mapMarker = value.getGeoPoint("location");
 
                     // getting lat and long from geo point and setting it to location.
-                    LatLng location = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
+                    LatLng location = new LatLng(mapMarker.getLatitude(), mapMarker.getLongitude());
 
                     // adding marker to each location on google maps
-                    mMap.addMarker(new MarkerOptions().position(location).title("Marker"));
+                    mMap.addMarker(new MarkerOptions().position(location).title(value.getString("storeName")));
                 } else {
                     Toast.makeText(MapsActivity.this, "Error found is " + error, Toast.LENGTH_SHORT).show();
                 }
