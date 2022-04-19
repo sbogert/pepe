@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">USCDoorDrink</string>
     <!-- Strings related to login and signup -->
-    <string name="prompt_username">Username</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_name">Name</string>
     <string name="prompt_password">Password</string>
     <string name="title_activity_signup">SignupActivity</string>
     <string name="user_signup">User Signup</string>
@@ -45,6 +46,12 @@
     <string name="title_notifications">Notifications</string>
     <string name="location">Location</string>
     <string name="title_activity_edit_profile">EditProfile</string>
+    <string name="ur_mum">ur mum</string>
+    <string name="caffine">Caffine</string>
+    <string name="price">Price</string>
+    <string name="done">Done</string>
+    <string name="name">Name</string>
+    <string name="update_menu">Update Menu</string>
 
 
 </resources>

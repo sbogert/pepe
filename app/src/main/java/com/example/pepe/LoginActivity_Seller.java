@@ -13,11 +13,6 @@ import android.widget.TextView;
 import com.example.pepe.map.MapsActivity;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Arrays;
 
 import okhttp3.Authenticator;
@@ -48,7 +43,7 @@ public class LoginActivity_Seller extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_seller);
 
-        Name = (EditText) findViewById(R.id.etName);
+        Name = (EditText) findViewById(R.id.etEmail);
         Password = (EditText) findViewById(R.id.etPassword);
         login = (Button) findViewById(R.id.signupButton);
         signup = (Button) findViewById(R.id.loginButton);

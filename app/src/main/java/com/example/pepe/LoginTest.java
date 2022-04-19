@@ -2,12 +2,9 @@ package com.example.pepe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-
-import okhttp3.OkHttpClient;
 
 public class LoginTest extends AppCompatActivity {
 
@@ -20,7 +17,7 @@ public class LoginTest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_test);
 
-        Name = (EditText) findViewById(R.id.etName);
+        Name = (EditText) findViewById(R.id.etEmail);
         Password = (EditText) findViewById(R.id.etPassword);
     }
 }

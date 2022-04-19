@@ -1,30 +1,25 @@
 package com.example.pepe.model;
 
+import androidx.annotation.NonNull;
+
 public class Item{
 
     //Creating properties of the class
-    private Integer id;
     private String name;
-    private int price;
+    private double price;
     private int caffeine;
 
-    public Item(String name, int price, int caffeine){
+    public Item(String name, double price, int caffeine){
         this.name = name;
         this.price = price;
         this.caffeine = caffeine;
     }
 
     //Setter and Getters
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
     public String getName() {
@@ -40,6 +35,7 @@ public class Item{
         this.caffeine = caffeine;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "[ Name = " + name + ",  Price = " + price + ", Caffeine = " + caffeine + "]";
