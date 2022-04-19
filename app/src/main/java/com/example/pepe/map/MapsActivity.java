@@ -1,29 +1,34 @@
 package com.example.pepe.map;
 
-import androidx.fragment.app.FragmentActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.pepe.R;
-import com.example.pepe.ViewStore;
-import com.example.pepe.model.StoreLocation;
-import com.example.pepe.model.StoreLocationArray;
+import android.widget.Toast;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.example.pepe.databinding.ActivityMapsBinding;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
+import android.content.Intent;
+import com.example.pepe.R;
+import com.example.pepe.ViewStore;
+import com.example.pepe.model.StoreLocation;
+import com.example.pepe.model.StoreLocationArray;
+import com.google.android.gms.maps.model.Marker;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
-    private ActivityMapsBinding binding;
+    FirebaseFirestore db;
     private Intent i;
     private LatLng uscStart;
     private int storeID;
@@ -32,8 +37,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMapsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        // initialize firebase firestore
+        db = FirebaseFirestore.getInstance();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -43,17 +48,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     /**
      * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
      */
     @Override
     public void onMapReady(GoogleMap mMap) {
         // map initially is focused on USC/centered on USC
         uscStart = new LatLng(34.02226492129773, -118.2876243116412);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uscStart, 13F));
+
         // getting the map markers
         try {
             StoreLocationArray markerArray = MenuInfoAccess.getMarkers();
