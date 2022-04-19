@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +14,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HistoryActivity extends AppCompatActivity {
@@ -20,11 +24,24 @@ public class HistoryActivity extends AppCompatActivity {
     private static final String user = "hitesh";
     private static final String pass = "1234";
     TextView txtData;
+    ListView listView;
+    List itemList = new ArrayList();
+    ArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        listView = (ListView) findViewById(R.id.menuListView);
+
+        // for loop will add each element from the list of menu items that is passed here
+        for (int i=0; i < 5; i++) {
+            itemList.add(i);
+        }
+
+        arrayAdapter = new ArrayAdapter(HistoryActivity.this, android.R.layout.simple_list_item_1, itemList);
+        listView.setAdapter(arrayAdapter);
     }
 
     private class ConnectMySql extends AsyncTask<String, Void, String> {

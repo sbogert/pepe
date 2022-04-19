@@ -45,6 +45,7 @@ public class ViewStore extends AppCompatActivity {
             List<Item> menuItems = MenuInfoAccess.MenuInfo(storeID, Integer.parseInt(userID));
 
             ArrayList<Item> menuArray = new ArrayList<>(menuItems);
+
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, android.R.layout
 //        .simple_spinner_item, menuArray);
 
