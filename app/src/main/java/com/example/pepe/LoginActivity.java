@@ -37,11 +37,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button signup;
     private FirebaseAuth fAuth;
 
-    //private Intent i;
-    //private final OkHttpClient client = new OkHttpClient();
-    //private int count = 4;
-    //public String userID;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
