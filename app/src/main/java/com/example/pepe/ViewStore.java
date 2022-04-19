@@ -16,9 +16,9 @@ public class ViewStore extends AppCompatActivity {
 
     private TextView StoreName;
     private Spinner Menu;
-    private int storeID;
 
-
+    // do something about passing along store name vs email or waht
+    // in case two stores have same name
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,18 +31,11 @@ public class ViewStore extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             StoreName.setText(extras.getString("storeName"));
-            storeID = Integer.parseInt(extras.getString("storeID"));
-            System.out.println(storeID);
-
-            //Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                StoreName.setText(extras.getString("storeName"));
-            }
 
             String userID = ((MyApplication) this.getApplication()).getUser();
-            List<Item> menuItems = MenuInfoAccess.MenuInfo(storeID, Integer.parseInt(userID));
-
-            ArrayList<Item> menuArray = new ArrayList<>(menuItems);
+//            List<Item> menuItems = MenuInfoAccess.MenuInfo(storeID, Integer.parseInt(userID));
+//
+//            ArrayList<Item> menuArray = new ArrayList<>(menuItems);
 
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, android.R.layout
 //        .simple_spinner_item, menuArray);
