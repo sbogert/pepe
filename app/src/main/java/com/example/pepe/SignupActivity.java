@@ -62,6 +62,7 @@ public class SignupActivity extends AppCompatActivity {
                 return;
             }
 
+            // add user info to database as well
             fAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
                     String email1 = Email.getText().toString();
@@ -71,9 +72,8 @@ public class SignupActivity extends AppCompatActivity {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     CollectionReference collectionReference = db.collection("drinkers");
                     collectionReference.document(email1).set(newUser);
-                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-
                     Toast.makeText(SignupActivity.this, "Welcome " + name1 + "!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                 }else{
                     Toast.makeText(SignupActivity.this, "Error!!!", Toast.LENGTH_SHORT).show();
                 }
