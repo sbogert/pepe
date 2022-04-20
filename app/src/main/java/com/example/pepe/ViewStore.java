@@ -27,12 +27,11 @@ public class ViewStore extends AppCompatActivity {
         StoreName = (TextView) findViewById(R.id.storeName);
         Menu = (Spinner) findViewById(R.id.menu);
 
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             StoreName.setText(extras.getString("storeName"));
-
-            String userID = ((MyApplication) this.getApplication()).getUser();
+            
+        }
 //            List<Item> menuItems = MenuInfoAccess.MenuInfo(storeID, Integer.parseInt(userID));
 //
 //            ArrayList<Item> menuArray = new ArrayList<>(menuItems);
