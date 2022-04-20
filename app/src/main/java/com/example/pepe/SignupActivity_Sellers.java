@@ -9,11 +9,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.pepe.model.SellerInfo;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -33,7 +33,7 @@ public class SignupActivity_Sellers extends AppCompatActivity {
     private EditText StoreName;
     private EditText StoreLocation;
     FirebaseAuth fAuth;
-    private static LatLng storeLatLng;
+    private static GeoPoint geoPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +41,12 @@ public class SignupActivity_Sellers extends AppCompatActivity {
         setContentView(R.layout.activity_signup_sellers);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        Email = (EditText) findViewById(R.id.etEmailSeller);
+        Email = (EditText) findViewById(R.id.etEmail);
         StoreName = (EditText) findViewById(R.id.etStoreName);
-        Password = (EditText) findViewById(R.id.etPasswordSeller);
-        StoreLocation = (EditText) findViewById(R.id.etLocationSeller);
-        Button login = (Button) findViewById(R.id.loginButtonSeller);
-        Button signup = (Button) findViewById(R.id.signupButtonSeller);
+        Password = (EditText) findViewById(R.id.etPassword);
+        StoreLocation = (EditText) findViewById(R.id.etLocation);
+        Button login = (Button) findViewById(R.id.loginButton);
+        Button signup = (Button) findViewById(R.id.signupButton);
 
         fAuth = FirebaseAuth.getInstance();
         // sign out any previous users so that a new user can register
@@ -123,11 +123,10 @@ public class SignupActivity_Sellers extends AppCompatActivity {
                     String email1 = Email.getText().toString();
                     String name1 = StoreName.getText().toString();
                     String password = Password.getText().toString();
-                    SellerInfo newSeller = new SellerInfo(email1, name1, password, storeLatLng);
+                    SellerInfo newSeller = new SellerInfo(email1, name1, password, geoPoint);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    String uniqueId = fAuth.getUid();
+                    String uniqueId = fAuth.getCurrentUser().getUid();
                     CollectionReference menuReference = db.collection("sellers");
-                    assert uniqueId != null;
                     menuReference.document(uniqueId).set(newSeller);
                     Toast.makeText(SignupActivity_Sellers.this, "Welcome " + name1 + "!",
                             Toast.LENGTH_SHORT).show();
@@ -153,6 +152,6 @@ public class SignupActivity_Sellers extends AppCompatActivity {
     private static void dumpLocationJsonObject(final JsonObject location) {
         final double latitude = location.getAsJsonPrimitive("lat").getAsDouble();
         final double longitude = location.getAsJsonPrimitive("lng").getAsDouble();
-        storeLatLng = new LatLng(latitude, longitude);
+        geoPoint = new GeoPoint(latitude, longitude);
     }
 }

@@ -8,7 +8,7 @@
     tools:context=".SignupActivity_Sellers">
 
     <EditText
-        android:id="@+id/etEmailSeller"
+        android:id="@+id/etEmail"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:ems="10"
@@ -23,7 +23,7 @@
         tools:ignore="Autofill" />
 
     <EditText
-        android:id="@+id/etPasswordSeller"
+        android:id="@+id/etPassword"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:ems="10"
@@ -48,12 +48,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmailSeller"
+        app:layout_constraintTop_toBottomOf="@+id/etEmail"
         app:layout_constraintVertical_bias="0.132"
         tools:ignore="Autofill" />
 
     <Button
-        android:id="@+id/signupButtonSeller"
+        android:id="@+id/signupButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -71,7 +71,7 @@
         app:layout_constraintVertical_bias="0.142" />
 
     <Button
-        android:id="@+id/loginButtonSeller"
+        android:id="@+id/loginButton"
         android:layout_width="100dp"
         android:layout_height="48dp"
         android:radius="2dp"
@@ -81,7 +81,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toEndOf="@+id/haveaccount"
-        app:layout_constraintTop_toBottomOf="@+id/signupButtonSeller"
+        app:layout_constraintTop_toBottomOf="@+id/signupButton"
         app:layout_constraintVertical_bias="0.133" />
 
     <TextView
@@ -93,7 +93,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.293"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupButtonSeller"
+        app:layout_constraintTop_toBottomOf="@+id/signupButton"
         app:layout_constraintVertical_bias="0.179" />
 
     <TextView
@@ -137,7 +137,7 @@
         app:layout_constraintVertical_bias="0.099" />
 
     <EditText
-        android:id="@+id/etLocationSeller"
+        android:id="@+id/etLocation"
         android:layout_width="208dp"
         android:layout_height="48dp"
         android:hint="@string/location"
