@@ -65,7 +65,7 @@ public class MenuInfoAccess extends AppCompatActivity {
         String email = "";
         String storeName = "";
         String password = "";
-        SellerInfo sellerMenu = new SellerInfo(email, storeName, password);
+//        SellerInfo sellerMenu; = new SellerInfo(email, storeName, password);
         List<Item> itemList = null;
 
         RequestBody formBody = new FormBody.Builder()

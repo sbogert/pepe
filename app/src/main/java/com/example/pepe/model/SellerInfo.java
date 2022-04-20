@@ -1,16 +1,19 @@
 package com.example.pepe.model;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class SellerInfo {
     private String email;
     private String storeName;
     private String password;
-    private String location;
+    private LatLng location;
     private Item[] items; // an array of Item
 
-    public SellerInfo(String email, String storeName, String password) {
+    public SellerInfo(String email, String storeName, String password, LatLng latLng) {
         this.email = email;
         this.storeName = storeName;
         this.password = password;
+        this.location = latLng;
     }
 
     public Item[] getItems() {
