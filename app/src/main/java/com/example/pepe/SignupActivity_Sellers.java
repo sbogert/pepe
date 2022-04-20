@@ -1,18 +1,25 @@
 package com.example.pepe;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.pepe.model.AutocompleteEditText;
 import com.example.pepe.model.SellerInfo;
 import com.example.pepe.model.UserInfo;
 import com.google.android.gms.maps.model.LatLng;
@@ -40,6 +47,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Objects;
 
 import okhttp3.FormBody;
@@ -52,21 +60,52 @@ import okhttp3.Response;
 //import com.parse.ParseGeoPoint;
 //import com.parse.ParseQuery;
 //import com.parse.ParseUser;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AddressComponent;
+import com.google.android.libraries.places.api.model.AddressComponents;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 
 public class SignupActivity_Sellers extends AppCompatActivity {
     private EditText Email;
     private EditText Password;
     private EditText StoreName;
-    private EditText StoreLocation;
+    private AutocompleteEditText StoreLocation;
+    private String city = "Los Angeles";
+    private String state = "California";
+    private EditText postalField;
+    private String country = "United States";
     private String prettyLocation;
     private static LatLng storeLatLng;
     private Button login;
     private Button signup;
     FirebaseAuth fAuth;
     LocationManager locationManager;
+    private PlacesClient placesClient;
 
+    private final ActivityResultLauncher<Intent> startAutocomplete = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            (ActivityResultCallback<ActivityResult>) result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent intent = result.getData();
+                    if (intent != null) {
+                        Place place = Autocomplete.getPlaceFromIntent(intent);
 
+                        // Write a method to read the address components from the Place
+                        // and populate the form with the address components
+
+                        System.out.println("Place: " + place.getAddressComponents());
+                        fillInAddress(place);
+                    }
+                } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
+                    // The user canceled the operation.
+                    System.out.println("User canceled autocomplete");
+                }
+            });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,10 +114,13 @@ public class SignupActivity_Sellers extends AppCompatActivity {
         Email = (EditText) findViewById(R.id.etEmail);
         StoreName = (EditText) findViewById(R.id.etStoreName);
         Password = (EditText) findViewById(R.id.etPassword);
-        StoreLocation = (EditText) findViewById(R.id.etLocation);
+        StoreLocation = findViewById(R.id.etLocation);
         login = (Button) findViewById(R.id.loginButton);
         signup = (Button) findViewById(R.id.signupButton);
 
+        placesClient = Places.createClient(this);
+
+        StoreLocation.setOnClickListener(v -> startAutocompleteIntent());
         fAuth = FirebaseAuth.getInstance();
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -86,7 +128,35 @@ public class SignupActivity_Sellers extends AppCompatActivity {
         // sign out any previous users so that a new user can register
         if(fAuth.getCurrentUser() != null){
             fAuth.signOut();
+
+        String apiKey = getString(R.string.api_key);
+        Places.initialize(getApplicationContext(), apiKey);
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), apiKey);
         }
+
+// Create a new Places client instance.
+        PlacesClient placesClient = Places.createClient(this);
+        }
+
+        // [START maps_solutions_android_autocomplete_intent]
+        private void startAutocompleteIntent() {
+
+            // Set the fields to specify which types of place data to
+            // return after the user has made a selection.
+            List<Place.Field> fields = Arrays.asList(Place.Field.ADDRESS_COMPONENTS,
+                    Place.Field.LAT_LNG, Place.Field.VIEWPORT);
+
+            // Build the autocomplete intent with field, country, and type filters applied
+            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                    .setCountry("US")
+                    .setTypeFilter(TypeFilter.ADDRESS)
+                    .build(this);
+            startAutocomplete.launch(intent);
+        }
+        // [END maps_solutions_android_autocomplete_intent]
+
+
 
         // send to login screen
         login.setOnClickListener(new View.OnClickListener() {
@@ -133,50 +203,49 @@ public class SignupActivity_Sellers extends AppCompatActivity {
                     return;
                 }
 
-                // getting the correct location
-                URL url;
-                try {
-                    String urlParam = URLEncoder.encode(loc, StandardCharsets.UTF_8.toString()).replace("+", "%20");
-                    url = new URL("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input" +
-                            "=" + urlParam + "&inputtype=textquery&fields=formatted_address%2Cgeometry&key=AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ");
-                    System.out.println(url.toString());
-                } catch (UnsupportedEncodingException | MalformedURLException ex) {
-                    throw new RuntimeException(ex.getCause());
-                }
+//                // getting the correct location
+//                URL url;
+//                try {
+//                    String urlParam = URLEncoder.encode(loc, StandardCharsets.UTF_8.toString()).replace("+", "%20");
+//                    url = new URL("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + urlParam + "&inputtype=textquery&fields=formatted_address%2Cgeometry&key=AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ");
+//                    System.out.println(url.toString());
+//                } catch (UnsupportedEncodingException | MalformedURLException ex) {
+//                    throw new RuntimeException(ex.getCause());
+//                }
+//
+////                OkHttpClient client = new OkHttpClient().newBuilder()
+////                        .build();
+////                Request request = new Request.Builder()
+////                        .url("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + urlParam + "&inputtype=textquery&fields=formatted_address%2Cgeometry&key=AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ")
+////                        .method("GET", null)
+////                        .build();
+//                try (final Reader reader = new BufferedReader(new InputStreamReader(url.openStream()))){
+////                    Response response = client.newCall(request).execute();
+//                    final JsonParser jsonParser = new JsonParser();
+//                    // Extract the `results` array
+//                    final JsonArray array =
+//                            jsonParser.parse(reader)
+//                            .getAsJsonObject()
+//                            .get("candidates")
+//                            .getAsJsonArray();
+////                    JSONArray array = new JSONArray(response);
+//                    for(int i=0; i<array.size(); i++) {
+//                        JsonObject resultJsonObject = array.get(i).getAsJsonObject();
+//                        prettyLocation =
+//                                resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString();
+//                        System.out.println(resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString());
+//                        StoreLocation.setText(resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString());
+////                        JSONObject object = array.getJSONObject(i);
+////                        String fancyLocation = object.getString("formatted_address");
+//                        JsonObject geometryJsonObject = resultJsonObject.get("geometry").getAsJsonObject();
+//                        // And dumping the location
+//                        JsonObject locationJsonObject = geometryJsonObject.get("location").getAsJsonObject();
+//                        dumpLocationJsonObject("Location", locationJsonObject);
 
-//                OkHttpClient client = new OkHttpClient().newBuilder()
-//                        .build();
-//                Request request = new Request.Builder()
-//                        .url("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + urlParam + "&inputtype=textquery&fields=formatted_address%2Cgeometry&key=AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ")
-//                        .method("GET", null)
-//                        .build();
-                try (final Reader reader = new BufferedReader(new InputStreamReader(url.openStream()))){
-//                    Response response = client.newCall(request).execute();
-                    final JsonParser jsonParser = new JsonParser();
-                    // Extract the `results` array
-                    final JsonArray array =
-                            jsonParser.parse(reader)
-                            .getAsJsonObject()
-                            .get("candidates")
-                            .getAsJsonArray();
-//                    JSONArray array = new JSONArray(response);
-                    for(int i=0; i<array.size(); i++) {
-                        JsonObject resultJsonObject = array.get(i).getAsJsonObject();
-                        prettyLocation =
-                                resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString();
-                        System.out.println(resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString());
-                        StoreLocation.setText(resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString());
-//                        JSONObject object = array.getJSONObject(i);
-//                        String fancyLocation = object.getString("formatted_address");
-                        JsonObject geometryJsonObject = resultJsonObject.get("geometry").getAsJsonObject();
-                        // And dumping the location
-                        JsonObject locationJsonObject = geometryJsonObject.get("location").getAsJsonObject();
-                        dumpLocationJsonObject("Location", locationJsonObject);
-
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 
                 fAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

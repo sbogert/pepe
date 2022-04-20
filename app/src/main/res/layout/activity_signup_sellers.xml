@@ -147,19 +147,20 @@
         app:layout_constraintTop_toBottomOf="@+id/ddlogo"
         app:layout_constraintVertical_bias="0.099" />
 
-    <EditText
+    <com.example.pepe.model.AutocompleteEditText
         android:id="@+id/etLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/location"
-        android:importantForAutofill="no"
-        android:inputType="textPostalAddress"
+        android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword"
-        app:layout_constraintVertical_bias="0.135" />
+        app:layout_constraintVertical_bias="0.135"
+        android:autofillHints=""
+        android:imeOptions="actionNext"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
