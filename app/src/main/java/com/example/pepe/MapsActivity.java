@@ -5,6 +5,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import com.example.pepe.databinding.ActivityMapsBinding;
@@ -14,7 +16,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -25,6 +30,8 @@ import android.content.Intent;
 import android.widget.Toolbar;
 
 import com.google.android.gms.maps.model.Marker;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 // TODO: set up onMarkerClick stuff
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -32,10 +39,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
     private GoogleMap mMap;
     FirebaseFirestore db;
-    private Intent i;
     private LatLng uscStart;
     private int storeID;
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         //toolbar
-        toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setActionBar(toolbar);
 
 //        binding = ActivityMapsBinding.inflate(getLayoutInflater());
@@ -54,6 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
     }
 
@@ -61,29 +67,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Manipulates the map once available.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         // map initially is focused on USC/centered on USC
         uscStart = new LatLng(34.02226492129773, -118.2876243116412);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uscStart, 13F));
 
         // get markers from firestore
-        DocumentReference documentReference = db.collection("sellers").document("r51igMingFvB2Ko5MvCn");
-        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (value != null && value.exists()) {
-                    // create a geo point with info from firebase
-                    GeoPoint mapMarker = value.getGeoPoint("location");
+        db.collection("sellers").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    System.out.println(document.getId() + " => " + document.getData());
+                    db.collection("sellers").document(document.getId())
+                            .addSnapshotListener((value, error) -> {
+                                if (value != null && value.exists()) {
+                                    // create a geo point with info from firebase
+                                    GeoPoint mapMarker = value.getGeoPoint("location");
 
-                    // getting lat and long from geo point and setting it to location.
-                    LatLng location = new LatLng(mapMarker.getLatitude(), mapMarker.getLongitude());
+                                    // getting lat and long from geo point and setting it to location.
+                                    LatLng location = new LatLng(mapMarker.getLatitude(), mapMarker.getLongitude());
 
-                    // adding marker to each location on google maps
-                    mMap.addMarker(new MarkerOptions().position(location).title(value.getString("storeName")));
-                } else {
-                    Toast.makeText(MapsActivity.this, "Error found is " + error, Toast.LENGTH_SHORT).show();
+                                    // adding marker to each location on google maps
+                                    mMap.addMarker(new MarkerOptions().position(location).title(value.getString("storeName")));
+                                } else {
+                                    Toast.makeText(MapsActivity.this, "Error found is " + error, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
+            } else {
+                System.out.println("Error getting documents");
             }
         });
         // Set a listener for marker click.
@@ -111,7 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(final Marker marker) {
         // send store name to next page
-        i = new Intent(this, ViewStore.class);
+        Intent i = new Intent(this, ViewStore.class);
         i.putExtra("storeName", marker.getTitle());
         System.out.println(marker.getTitle());
         startActivity(i);
