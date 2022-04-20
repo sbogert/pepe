@@ -47,14 +47,4 @@ public class UpdateProfile extends AppCompatActivity {
         inflater.inflate(R.menu.my_menu,menu);
         return true;
     }
-
-    public void logout(MenuItem item) {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, SplashActivity.class));
-    }
-    public void toProfile(MenuItem item) {
-    }
-    public void toMap(MenuItem item) {
-        startActivity(new Intent(this, MapsActivity.class));
-    }
 }

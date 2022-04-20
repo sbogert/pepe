@@ -144,7 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void toProfile(MenuItem item) {
-        startActivity(new Intent(this, UpdateProfile.class));
+        startActivity(new Intent(this, ProfileActivity.class));
     }
 
     public void toMap(MenuItem item) {
