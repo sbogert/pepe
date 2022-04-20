@@ -85,6 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     GeoPoint mapMarker = value.getGeoPoint("location");
 
                                     // getting lat and long from geo point and setting it to location.
+                                    assert mapMarker != null;
                                     LatLng location = new LatLng(mapMarker.getLatitude(), mapMarker.getLongitude());
 
                                     // adding marker to each location on google maps

@@ -41,12 +41,12 @@ public class SignupActivity_Sellers extends AppCompatActivity {
         setContentView(R.layout.activity_signup_sellers);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        Email = (EditText) findViewById(R.id.etEmail);
+        Email = (EditText) findViewById(R.id.etEmailSeller);
         StoreName = (EditText) findViewById(R.id.etStoreName);
-        Password = (EditText) findViewById(R.id.etPassword);
-        StoreLocation = (EditText) findViewById(R.id.etLocation);
-        Button login = (Button) findViewById(R.id.loginButton);
-        Button signup = (Button) findViewById(R.id.signupButton);
+        Password = (EditText) findViewById(R.id.etPasswordSeller);
+        StoreLocation = (EditText) findViewById(R.id.etLocationSeller);
+        Button login = (Button) findViewById(R.id.loginButtonSeller);
+        Button signup = (Button) findViewById(R.id.signupButtonSeller);
 
         fAuth = FirebaseAuth.getInstance();
         // sign out any previous users so that a new user can register
@@ -101,12 +101,10 @@ public class SignupActivity_Sellers extends AppCompatActivity {
 
             if (TextUtils.isEmpty(email)) {
                 Email.setError("Email is Required.");
-                return;
-            }
+                return; }
             if (TextUtils.isEmpty(name)) {
                 StoreName.setError("Store Name is Required.");
-                return;
-            }
+                return; }
             if (TextUtils.isEmpty(pass)) {
                 Password.setError("Password is Required.");
                 return;

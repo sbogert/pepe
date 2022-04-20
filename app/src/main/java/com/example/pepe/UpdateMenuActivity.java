@@ -45,7 +45,7 @@ public class UpdateMenuActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         /*seller's menu*/
         CollectionReference menuReference =
-                db.collection("sellers").document("r51igMingFvB2Ko5MvCn").collection("menu");
+                db.collection("sellers").document(uniqueId).collection("menu");
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,9 +56,8 @@ public class UpdateMenuActivity extends AppCompatActivity {
                 String value2 = Caffeine.getText().toString();
                 Integer caffeine = Integer.parseInt(value2);
                 Item newItem = new Item(name, price, caffeine);
-                menuReference.document(name).set(newItem);
+                menuReference.add(newItem);
                 Toast.makeText(UpdateMenuActivity.this, name + " added menu", Toast.LENGTH_LONG).show();
-
 
                 Name.setText("");
                 Price.setText("");

@@ -66,8 +66,10 @@ public class SignupActivity extends AppCompatActivity {
                     String password = Password.getText().toString();
                     UserInfo newUser = new UserInfo(email1, name1, password);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    String uniqueId = fAuth.getUid();
                     CollectionReference collectionReference = db.collection("drinkers");
-                    collectionReference.document(email1).set(newUser);
+                    assert uniqueId != null;
+                    collectionReference.document(uniqueId).set(newUser);
                     Toast.makeText(SignupActivity.this, "Welcome " + name1 + "!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                 }else{
