@@ -31,7 +31,7 @@ public class PastOrders extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        Display = (TextView) findViewById(R.id.display);
+        Display = (TextView) findViewById(R.id.displayName);
         Back = (Button) findViewById(R.id.goBack);
 
         Back.setOnClickListener(new View.OnClickListener() {

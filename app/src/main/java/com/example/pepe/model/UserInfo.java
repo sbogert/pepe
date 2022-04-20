@@ -41,7 +41,6 @@ public class UserInfo {
     public void setOrderHistory(OrderHistory orderHistory) {
         this.orderHistory = orderHistory;
     }
-
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 }
