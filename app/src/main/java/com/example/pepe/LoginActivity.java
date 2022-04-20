@@ -9,10 +9,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /** class for users logging into the app */
@@ -68,31 +64,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = fAuth.getCurrentUser();
-
         if (currentUser != null) {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("drinkers").get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    AtomicBoolean isDrinker = new AtomicBoolean(false);
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        db.collection("drinkers").document(document.getId())
-                                .addSnapshotListener((value, error) -> {
-                                    if (document.getId().equals(currentUser.getUid())) {
-                                        isDrinker.set(true);
-                                        Intent i = new Intent(this, MapsActivity.class);
-                                        startActivity(i);
-                                        this.finish();
-                                    }
-                                });
-                    }
-                    if (!isDrinker.get()) {
-                        fAuth.signOut();
-                    }
-                }
-            });
+            fAuth.signOut();
         }
     }
 }

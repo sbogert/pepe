@@ -9,10 +9,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /** class for seller login*/
@@ -21,7 +17,6 @@ public class LoginActivity_Seller extends AppCompatActivity {
     private EditText Email;
     private EditText Password;
     private FirebaseAuth fAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,31 +62,10 @@ public class LoginActivity_Seller extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = fAuth.getCurrentUser();
-
         if (currentUser != null) {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("sellers").get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    AtomicBoolean isSeller = new AtomicBoolean(false);
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        db.collection("sellers").document(document.getId())
-                                .addSnapshotListener((value, error) -> {
-                                    if (document.getId().equals(currentUser.getUid())) {
-                                        isSeller.set(true);
-                                        Intent i = new Intent(this, MapsActivity.class);
-                                        startActivity(i);
-                                        this.finish();
-                                    }
-                                });
-                    }
-                    if (!isSeller.get()) {
-                        fAuth.signOut();
-                    }
-                }
-            });
+            fAuth.signOut();
         }
     }
 }
