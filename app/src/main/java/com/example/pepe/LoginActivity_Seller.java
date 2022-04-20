@@ -1,39 +1,22 @@
 package com.example.pepe;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.view.View;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-import java.io.IOException;
-import java.util.Arrays;
 
-import okhttp3.Authenticator;
-import okhttp3.CipherSuite;
-import okhttp3.ConnectionSpec;
-import okhttp3.Credentials;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.Route;
-import okhttp3.TlsVersion;
-
+/** class for seller login*/
 public class LoginActivity_Seller extends AppCompatActivity {
 
-    private EditText Name;
+    private EditText Email;
     private EditText Password;
-    private TextView Info;
-    private Button login;
-    private Button signup;
-    private static final String url = "jdbc:mysql://localhost:3306/CS310project";
-    private static final String user = "root";
-    private static final String pass = "root";
+    private FirebaseAuth fAuth;
 
 
     @Override
@@ -41,187 +24,51 @@ public class LoginActivity_Seller extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_seller);
 
-        Name = (EditText) findViewById(R.id.etEmail);
+        Email = (EditText) findViewById(R.id.etEmail);
         Password = (EditText) findViewById(R.id.etPassword);
-        login = (Button) findViewById(R.id.signupButton);
-        signup = (Button) findViewById(R.id.loginButton);
+        Button login = (Button) findViewById(R.id.loginButton);
+        Button signup = (Button) findViewById(R.id.signupButton);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        fAuth = FirebaseAuth.getInstance();
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String proxyHost = System.getProperty("http.proxyHost");
-                String proxyPort = System.getProperty("http.proxyPort");
-                String proxyUser = System.getProperty("http.proxyUser");
-                String proxyPassword = System.getProperty("http.proxyPassword");
-                System.out.println("Using proxy with host: "+ proxyHost + ", port: "+ proxyPort + ", user: " + proxyUser);
-                getUserDB(Name.getText().toString(), Password.getText().toString());
+        login.setOnClickListener(view -> {
+            String email = Email.getText().toString().trim();
+            String pass = Password.getText().toString().trim();
+
+            if (TextUtils.isEmpty(email)) {
+                Email.setError("Email is Required.");
+                return;
             }
-        });
-
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openSignUp();
+            if (TextUtils.isEmpty(pass)) {
+                Password.setError("Password is Required.");
+                return;
             }
-        });
-    }
 
-    //Enter name for signup page
-    private void openSignUp() {
-        Intent intent = new Intent(this, SignupActivity_Sellers.class);
-        startActivity(intent);
-    }
-
-        private void getUserDB(String givenName, String givenPass) {
-            Intent i = new Intent(this, MapsActivity.class);
-            String url = "http://localhost:3306/310project";
-
-            // prints the user and pass twice
-            // goes through all of this each time login is clicked, dont do that
-            // find way to only sent request first time
-//        .header("Connection", "close")
-//        .header("Accept-Encoding", "identity")
-            ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS)
-                    .supportsTlsExtensions(true)
-                    .tlsVersions(TlsVersion.TLS_1_2, TlsVersion.TLS_1_1, TlsVersion.TLS_1_0)
-                    .cipherSuites(
-                            CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-                            CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-                            CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
-                            CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
-                            CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
-                            CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
-                            CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-                            CipherSuite.TLS_ECDHE_ECDSA_WITH_RC4_128_SHA,
-                            CipherSuite.TLS_ECDHE_RSA_WITH_RC4_128_SHA,
-                            CipherSuite.TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
-                            CipherSuite.TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
-                            CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA)
-                    .build();
-
-            Authenticator proxyAuthenticator = new Authenticator() {
-                @Override public Request authenticate(Route route, Response response) throws IOException {
-                    String credential = Credentials.basic(user, pass);
-                    return response.request().newBuilder()
-                            .header("Proxy-Authorization", credential)
-                            .build();
+            fAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(this, "Welcome " + email +
+                            "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                } else {
+                    Toast.makeText(this, "Incorrect email or password",
+                            Toast.LENGTH_SHORT).show();
                 }
-            };
+            });
+        });
 
-            OkHttpClient client =
-                    new OkHttpClient.Builder().connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT)).build();
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(url)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .client(client)
-//                .build();
+        signup.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SignupActivity.class)));
+    }
 
-            HttpUrl.Builder urlBuilder = HttpUrl.parse(url + "/drinkers").newBuilder();
-            urlBuilder.addQueryParameter("username", givenName);
-            String fullUrl = urlBuilder.build().toString();
-            Request request = new Request.Builder()
-                    .url(fullUrl)
-                    .build();
-            try (Response response = client.newCall(request).execute()) {
-                System.out.println(response.body().string());
-            } catch (IOException | NullPointerException e) {
-                e.printStackTrace();
-            }
-//        // github says these errors are on the server side
-//        Call call  = client.newCall(request);
-//        call.enqueue(new Callback() {
-//            public void onFailure( Call call, IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            public void onResponse(Call call, Response response) throws IOException {
-//                try (ResponseBody responseBody = response.body()) {
-//                    if (!response.isSuccessful()) {
-//                        throw new IOException("Unexpected code " + response);
-//                    }
-//
-//                    assert responseBody != null;
-//                    System.out.println("N   " + responseBody.string() + "    N");
-//
-//                    Gson gson =
-//                            new GsonBuilder().registerTypeAdapter(UserProfiles.class,
-//                                    new MyDeserializer()).create();
-//                    userProfiles = gson.fromJson(Objects.requireNonNull(response.body()).string(),
-//                            UserProfiles.class);
-//
-//                } finally {
-//                    response.close();
-//                    String id = userProfiles.findUser(givenName, givenPass).getId();
-//                    i.putExtra("USERID", id);
-//                }
-//
-//            }
-//        });
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = fAuth.getCurrentUser();
+        if (currentUser != null) {
+            Intent i = new Intent(this, MapsActivity.class);
             startActivity(i);
+            this.finish();
         }
     }
-//
-//    private void validate(String username, String password) throws Exception {
-//        try {
-//            //establish connection
-//            //Class.forName("com.mysql.jdbc.Driver");
-//            Connection con = DriverManager.getConnection(url, user, pass);
-//            Statement stmt = con.createStatement();
-//
-//            //database name
-//            ResultSet rs = stmt.executeQuery("select * from sellers");
-//            while (rs.next()) {
-//                String u = rs.getString("username");
-//                String p = rs.getString("password");
-//                //user exists
-//                if (u == username && p == password) {
-//                    //get user id
-//                    rs = stmt.executeQuery("select id from sellers where username = " + username);
-//                    Integer userID = rs.getInt("id");
-//                    Intent i = new Intent(this, MapsActivity.class);
-//                    i.putExtra("USERID",userID);
-//                    startActivity(i);
-//                }
-//                //user does not exist
-//                else {
-//                    Info.setText("@string/incorrect_login");
-//                }
-//            }
-//        } catch (SQLException err) {
-//            System.out.println(err.getMessage());
-//        }
-//    }
-//}
-
-    /*
-     private void t() throws Exception {
-        URL url = new URL("http://localhost:3001");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
-
-
-
-        HttpGet request = new HttpGet("https://");
-
-        // add request headers
-        request.addHeader("custom-key", "mkyong");
-
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-            // Get HttpResponse Status
-            System.out.println(response.getStatusLine().toString());
-
-            HttpEntity entity = response.getEntity();
-            Header headers = entity.getContentType();
-            System.out.println(headers);
-
-            if (entity != null) {
-                // return it as a String
-                String result = EntityUtils.toString(entity);
-                System.out.println(result);
-            }
-        }
-    }
-     */
+}

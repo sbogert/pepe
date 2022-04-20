@@ -1,9 +1,7 @@
 package com.example.pepe;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -20,7 +18,6 @@ public class SignupActivity extends AppCompatActivity {
     private EditText Email;
     private EditText Name;
     private EditText Password;
-    LocationManager locationManager;
 
     FirebaseAuth fAuth;
 
@@ -36,7 +33,6 @@ public class SignupActivity extends AppCompatActivity {
         Button signup = findViewById(R.id.signupButton);
 
         fAuth = FirebaseAuth.getInstance();
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
         login.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), LoginActivity.class)));
 
@@ -75,7 +71,8 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this, "Welcome " + name1 + "!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                 }else{
-                    Toast.makeText(SignupActivity.this, "Error!!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "Error:/ please retry", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), SplashActivity.class));
                 }
             });
         });

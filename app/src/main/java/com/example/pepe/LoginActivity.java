@@ -1,18 +1,12 @@
 package com.example.pepe;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -22,8 +16,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText Email;
     private EditText Password;
-    private Button login;
-    private Button signup;
     private FirebaseAuth fAuth;
 
 
@@ -34,50 +26,39 @@ public class LoginActivity extends AppCompatActivity {
 
         Email = (EditText) findViewById(R.id.etEmail);
         Password = (EditText) findViewById(R.id.etPassword);
-        login = (Button) findViewById(R.id.loginButton);
-        signup = (Button) findViewById(R.id.signupButton);
+        Button login = (Button) findViewById(R.id.loginButton);
+        Button signup = (Button) findViewById(R.id.signupButton);
 
         fAuth = FirebaseAuth.getInstance();
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = Email.getText().toString().trim();
-                String pass = Password.getText().toString().trim();
+        login.setOnClickListener(view -> {
+            String email = Email.getText().toString().trim();
+            String pass = Password.getText().toString().trim();
 
-                if(TextUtils.isEmpty(email)){
-                    Email.setError("Email is Required.");
-                    return;
-                }
-                if(TextUtils.isEmpty(pass)){
-                    Password.setError("Password is Required.");
-                    return;
-                }
-
-                fAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "Welcome "+ email +
-                                            "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-                        }
-                        else{
-                            Toast.makeText(LoginActivity.this, "Incorrect email or password",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+            if(TextUtils.isEmpty(email)){
+                Email.setError("Email is Required.");
+                return;
             }
+            if(TextUtils.isEmpty(pass)){
+                Password.setError("Password is Required.");
+                return;
+            }
+
+            fAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    Toast.makeText(LoginActivity.this, "Welcome "+ email +
+                                    "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                }
+                else{
+                    Toast.makeText(LoginActivity.this, "Incorrect email or password",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), SignupActivity.class));
-            }
-        });
+        signup.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SignupActivity.class)));
     }
 
     @Override

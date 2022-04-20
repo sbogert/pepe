@@ -40,4 +40,12 @@ public class SellerInfo {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public LatLng getLocation() {
+        return location;
+    }
+
+    public void setLocation(LatLng location) {
+        this.location = location;
+    }
 }

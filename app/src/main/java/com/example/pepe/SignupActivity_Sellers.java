@@ -1,20 +1,15 @@
 package com.example.pepe;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 import com.example.pepe.model.SellerInfo;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -22,18 +17,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -44,17 +32,8 @@ public class SignupActivity_Sellers extends AppCompatActivity {
     private EditText Password;
     private EditText StoreName;
     private EditText StoreLocation;
-    private String city = "Los Angeles";
-    private String state = "California";
-    private EditText postalField;
-    private String country = "United States";
-    private String prettyLocation;
-    private static LatLng storeLatLng;
-    private Button login;
-    private Button signup;
     FirebaseAuth fAuth;
-    LocationManager locationManager;
-
+    private static LatLng storeLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,120 +45,99 @@ public class SignupActivity_Sellers extends AppCompatActivity {
         StoreName = (EditText) findViewById(R.id.etStoreName);
         Password = (EditText) findViewById(R.id.etPassword);
         StoreLocation = (EditText) findViewById(R.id.etLocation);
-        login = (Button) findViewById(R.id.loginButton);
-        signup = (Button) findViewById(R.id.signupButton);
+        Button login = (Button) findViewById(R.id.loginButton);
+        Button signup = (Button) findViewById(R.id.signupButton);
 
         fAuth = FirebaseAuth.getInstance();
         // sign out any previous users so that a new user can register
-        if(fAuth.getCurrentUser() != null){
+        if (fAuth.getCurrentUser() != null) {
             fAuth.signOut();
         }
 
         // send to login screen
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity_Seller.class));
-            }
-        });
+        login.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), LoginActivity_Seller.class)));
 
         // signup verification on button click
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = Email.getText().toString().trim();
-                String name = StoreName.getText().toString().trim();
-                String pass = Password.getText().toString().trim();
-                String loc = StoreLocation.getText().toString().trim();
+        signup.setOnClickListener(view -> {
 
-                if(TextUtils.isEmpty(email)){
-                    Email.setError("Email is Required.");
-                    return;
-                }
-                if(TextUtils.isEmpty(name)){
-                    StoreName.setError("Store Name is Required.");
-                    return;
-                }
-                if(TextUtils.isEmpty(pass)){
-                    Password.setError("Password is Required.");
-                    return;
-                }
-                if(pass.length() < 6){
-                    Password.setError("Password must be more than 6 characters");
-                    return;
-                }
-                if(TextUtils.isEmpty(loc)){
-                    StoreLocation.setError("Store Location is Required.");
-                    return;
-                }
+            String email = Email.getText().toString().trim();
+            String name = StoreName.getText().toString().trim();
+            String pass = Password.getText().toString().trim();
+            String loc = StoreLocation.getText().toString().trim();
 
-                // getting the correct location
-                String url;
-                try {
-                    String urlParam = URLEncoder.encode(loc, StandardCharsets.UTF_8.toString());
-                    url =  "https://maps.googleapis.com/maps/api/geocode/json?address=" + urlParam +
-                            ",+Los" +
-                        "+Angeles,+CA&key=AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ";
-                    System.out.println(url);
-                } catch (UnsupportedEncodingException ex) {
-                    throw new RuntimeException(ex.getCause());
-                }
-
-                OkHttpClient client = new OkHttpClient().newBuilder().build();
-                Request request = new Request.Builder()
-                        .url(url)
-                        .method("GET", null)
-                        .build();
-                try (Response response = client.newCall(request).execute()){
-                    System.out.println(Objects.requireNonNull(response.body()).string());
-//                    JsonParser jsonParser = new JsonParser();
-//                    // Extract the `results` array
-//                    JsonArray array =
-//                            jsonParser.parse(response.body().toString())
-//                            .getAsJsonObject()
-//                            .get("candidates")
-//                            .getAsJsonArray();
-////                    JSONArray array = new JSONArray(response);
-//                    for(int i=0; i<array.size(); i++) {
-//                        JsonObject resultJsonObject = array.get(i).getAsJsonObject();
-//                        prettyLocation =
-//                                resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString();
-//                        System.out.println(resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString());
-//                        StoreLocation.setText(resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString());
-////                        JSONObject object = array.getJSONObject(i);
-////                        String fancyLocation = object.getString("formatted_address");
-//                        JsonObject geometryJsonObject = resultJsonObject.get("geometry").getAsJsonObject();
-//                        // And dumping the location
-//                        JsonObject locationJsonObject = geometryJsonObject.get("location").getAsJsonObject();
-//                        dumpLocationJsonObject("Location", locationJsonObject);
-
-                    } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-//            } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-
-                fAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            String email = Email.getText().toString();
-                            String name = StoreName.getText().toString();
-                            String password = Password.getText().toString();
-                            SellerInfo newSeller = new SellerInfo(email, name, password, storeLatLng);
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            CollectionReference menuReference = db.collection("sellers");
-                            menuReference.document(email).set(newSeller);
-                            Toast.makeText(SignupActivity_Sellers.this, "Welcome " + name + "!",
-                                    Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), SellerMain.class));
-                        } else {
-                            Toast.makeText(SignupActivity_Sellers.this, "Error!!!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+            // get the latitude and longitude of the address with geocode api
+            String url;
+            try {
+                String urlParam = URLEncoder.encode(loc, StandardCharsets.UTF_8.toString());
+                url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + urlParam +
+                        ",+Los+Angeles,+CA&key=AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ";
+            } catch (UnsupportedEncodingException ex) {
+                throw new RuntimeException(ex.getCause());
             }
+            OkHttpClient client = new OkHttpClient().newBuilder().build();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .method("GET", null)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                // Extract the results array
+                JsonArray array =
+                        JsonParser.parseString(Objects.requireNonNull(response.body()).string())
+                                .getAsJsonObject()
+                                .get("results")
+                                .getAsJsonArray();
+                // parse the results array
+                for (int i = 0; i < array.size(); i++) {
+                    JsonObject resultJsonObject = array.get(i).getAsJsonObject();
+                    String prettyLocation = resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString();
+                    StoreLocation.setText(prettyLocation);
+                    JsonObject geometryJsonObject = resultJsonObject.get("geometry").getAsJsonObject();
+                    JsonObject locationJsonObject = geometryJsonObject.get("location").getAsJsonObject();
+                    dumpLocationJsonObject(locationJsonObject);
+                }
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+            if (TextUtils.isEmpty(email)) {
+                Email.setError("Email is Required.");
+                return;
+            }
+            if (TextUtils.isEmpty(name)) {
+                StoreName.setError("Store Name is Required.");
+                return;
+            }
+            if (TextUtils.isEmpty(pass)) {
+                Password.setError("Password is Required.");
+                return;
+            }
+            if (pass.length() < 6) {
+                Password.setError("Password must be more than 6 characters");
+                return;
+            }
+            if (TextUtils.isEmpty(loc)) {
+                StoreLocation.setError("Store Location is Required.");
+                return;
+            }
+
+            fAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    String email1 = Email.getText().toString();
+                    String name1 = StoreName.getText().toString();
+                    String password = Password.getText().toString();
+                    SellerInfo newSeller = new SellerInfo(email1, name1, password, storeLatLng);
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    String uniqueId = fAuth.getUid();
+                    CollectionReference menuReference = db.collection("sellers");
+                    assert uniqueId != null;
+                    menuReference.document(uniqueId).set(newSeller);
+                    Toast.makeText(SignupActivity_Sellers.this, "Welcome " + name1 + "!",
+                            Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), SellerMain.class));
+                } else {
+                    Toast.makeText(SignupActivity_Sellers.this, "Error!!!", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
     }
 
@@ -194,39 +152,9 @@ public class SignupActivity_Sellers extends AppCompatActivity {
     }
 
     // get location as LatLng
-    private static void dumpLocationJsonObject(final String name, final JsonObject location) {
+    private static void dumpLocationJsonObject(final JsonObject location) {
         final double latitude = location.getAsJsonPrimitive("lat").getAsDouble();
         final double longitude = location.getAsJsonPrimitive("lng").getAsDouble();
         storeLatLng = new LatLng(latitude, longitude);
-        System.out.println("\t" + name + ": (" + latitude + "; " + longitude + ")");
     }
-
-//    private void getLocation() {
-//        int requestLoc = 1;
-//        if(ActivityCompat.checkSelfPermission(UsersActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(UsersActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-//            ActivityCompat.requestPermissions(UsersActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-//        }
-//        else {
-//            // getting last know user's location
-//            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-            // checking if the location is null
-//            if(location != null){
-//                // if it isn't, save it to Back4App Dashboard
-//                ParseGeoPoint currentUserLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
-//
-//                ParseUser currentUser = ParseUser.getCurrentUser();
-//
-//                if (currentUser != null) {
-//                    currentUser.put("Location", currentUserLocation);
-//                    currentUser.saveInBackground();
-//                } else {
-//                    // do something like coming back to the login activity
-//                }
-//            }
-//            else {
-//                // if it is null, do something like displaying error and coming back to the menu activity
-//            }
-//        }
-//
 }

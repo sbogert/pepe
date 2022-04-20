@@ -1,12 +1,12 @@
 package com.example.pepe;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -19,33 +19,13 @@ public class SplashActivity extends AppCompatActivity {
         Button userSignup = (Button) findViewById(R.id.userSignup);
         Button sellerSignup = (Button) findViewById(R.id.sellerSignup);
 
-        userLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openUL();
-            }
-        });
+        userLogin.setOnClickListener(view -> openUL());
 
-        sellerLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openSL();
-            }
-        });
+        sellerLogin.setOnClickListener(view -> openSL());
 
-        userSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openUS();
-            }
-        });
+        userSignup.setOnClickListener(view -> openUS());
 
-        sellerSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openSS();
-            }
-        });
+        sellerSignup.setOnClickListener(view -> openSS());
 
     }
 
