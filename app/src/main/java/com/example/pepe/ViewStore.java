@@ -30,8 +30,8 @@ public class ViewStore extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             StoreName.setText(extras.getString("storeName"));
-            
-        }
+
+
 //            List<Item> menuItems = MenuInfoAccess.MenuInfo(storeID, Integer.parseInt(userID));
 //
 //            ArrayList<Item> menuArray = new ArrayList<>(menuItems);
