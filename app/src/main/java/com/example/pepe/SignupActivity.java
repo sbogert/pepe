@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.example.pepe.map.MapsActivity;
+
 import com.example.pepe.model.UserInfo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;

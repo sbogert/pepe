@@ -5,7 +5,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class viewOrder_steps {
-    @When("^I click my profile$")
+    @When("^I click my ProfileActivity$")
     public void iClickMyProfile() {
     }
 

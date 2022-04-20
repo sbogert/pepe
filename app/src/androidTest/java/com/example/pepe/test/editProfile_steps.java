@@ -10,11 +10,11 @@ public class editProfile_steps {
     public void iAmOnTheMapsPageAsASeller() {
     }
 
-    @When("^I click view profile$")
+    @When("^I click view ProfileActivity$")
     public void iClickViewProfile() {
     }
 
-    @And("^I click edit profile$")
+    @And("^I click edit ProfileActivity$")
     public void iClickEditProfile() {
     }
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +19,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class SignupActivity_Sellers extends AppCompatActivity {
@@ -42,7 +60,8 @@ public class SignupActivity_Sellers extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_sellers);
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         Email = (EditText) findViewById(R.id.etEmail);
         StoreName = (EditText) findViewById(R.id.etStoreName);
         Password = (EditText) findViewById(R.id.etPassword);
@@ -54,7 +73,6 @@ public class SignupActivity_Sellers extends AppCompatActivity {
         // sign out any previous users so that a new user can register
         if(fAuth.getCurrentUser() != null){
             fAuth.signOut();
-
         }
 
         // send to login screen
@@ -64,13 +82,6 @@ public class SignupActivity_Sellers extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), LoginActivity_Seller.class));
             }
         });
-
-        /*in some textview container or somethign to get the current location, or autofill the seller's
-        entered text
-
-        LocationGpsListener mGPS = new LocationGpsListener(this);
-        currentLocation = mGPS.getLocation();
-*/
 
         // signup verification on button click
         signup.setOnClickListener(new View.OnClickListener() {
@@ -102,28 +113,29 @@ public class SignupActivity_Sellers extends AppCompatActivity {
                     return;
                 }
 
-//                // getting the correct location
-//                URL url;
-//                try {
-//                    String urlParam = URLEncoder.encode(loc, StandardCharsets.UTF_8.toString()).replace("+", "%20");
-//                    url = new URL("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + urlParam + "&inputtype=textquery&fields=formatted_address%2Cgeometry&key=AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ");
-//                    System.out.println(url.toString());
-//                } catch (UnsupportedEncodingException | MalformedURLException ex) {
-//                    throw new RuntimeException(ex.getCause());
-//                }
-//
-////                OkHttpClient client = new OkHttpClient().newBuilder()
-////                        .build();
-////                Request request = new Request.Builder()
-////                        .url("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + urlParam + "&inputtype=textquery&fields=formatted_address%2Cgeometry&key=AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ")
-////                        .method("GET", null)
-////                        .build();
-//                try (final Reader reader = new BufferedReader(new InputStreamReader(url.openStream()))){
-////                    Response response = client.newCall(request).execute();
-//                    final JsonParser jsonParser = new JsonParser();
+                // getting the correct location
+                String url;
+                try {
+                    String urlParam = URLEncoder.encode(loc, StandardCharsets.UTF_8.toString());
+                    url =  "https://maps.googleapis.com/maps/api/geocode/json?address=" + urlParam +
+                            ",+Los" +
+                        "+Angeles,+CA&key=AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ";
+                    System.out.println(url);
+                } catch (UnsupportedEncodingException ex) {
+                    throw new RuntimeException(ex.getCause());
+                }
+
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+                Request request = new Request.Builder()
+                        .url(url)
+                        .method("GET", null)
+                        .build();
+                try (Response response = client.newCall(request).execute()){
+                    System.out.println(Objects.requireNonNull(response.body()).string());
+//                    JsonParser jsonParser = new JsonParser();
 //                    // Extract the `results` array
-//                    final JsonArray array =
-//                            jsonParser.parse(reader)
+//                    JsonArray array =
+//                            jsonParser.parse(response.body().toString())
 //                            .getAsJsonObject()
 //                            .get("candidates")
 //                            .getAsJsonArray();
@@ -141,8 +153,10 @@ public class SignupActivity_Sellers extends AppCompatActivity {
 //                        JsonObject locationJsonObject = geometryJsonObject.get("location").getAsJsonObject();
 //                        dumpLocationJsonObject("Location", locationJsonObject);
 
-//                    }
-//                } catch (IOException e) {
+                    } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+//            } catch (IOException e) {
 //                    e.printStackTrace();
 //                }
 

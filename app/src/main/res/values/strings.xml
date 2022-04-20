@@ -56,6 +56,9 @@
     <string name="update_menu">Update Menu</string>
     <string name="uscdoordrink_logo">USCDoorDrink Logo</string>
     <string name="store_name">Store Name</string>
+    <string name="profile">Profile</string>
+    <string name="map">Map</string>
+    <string name="logout">Logout</string>
 
 
 </resources>

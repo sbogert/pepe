@@ -20,7 +20,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key" />
         <activity
-            android:name=".map.MapsActivity"
+            android:name=".MapsActivity"
             android:exported="false" />
         <activity
             android:name=".UpdateProfile"
@@ -38,7 +38,7 @@
             android:name=".PastOrders"
             android:exported="false" />
         <activity
-            android:name=".profile"
+            android:name=".ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".SellerMain"

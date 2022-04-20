@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.pepe.map.MapsActivity;
-
 import java.io.IOException;
 import java.util.Arrays;
 

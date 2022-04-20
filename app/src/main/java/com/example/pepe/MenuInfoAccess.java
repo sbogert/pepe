@@ -1,4 +1,4 @@
-package com.example.pepe.map;
+package com.example.pepe;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -1,12 +1,12 @@
-package com.example.pepe.map;
+package com.example.pepe;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
-
 import com.example.pepe.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -23,10 +24,6 @@ import com.google.firebase.firestore.GeoPoint;
 import android.content.Intent;
 import android.widget.Toolbar;
 
-import com.example.pepe.R;
-import com.example.pepe.ViewStore;
-import com.example.pepe.model.StoreLocation;
-import com.example.pepe.model.StoreLocationArray;
 import com.google.android.gms.maps.model.Marker;
 
 // TODO: set up onMarkerClick stuff
@@ -43,13 +40,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_maps);
 
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setActionBar(toolbar);
 
-        binding = ActivityMapsBinding.inflate(getLayoutInflater());
+//        binding = ActivityMapsBinding.inflate(getLayoutInflater());
 
         // initialize firebase firestore
         db = FirebaseFirestore.getInstance();
@@ -126,5 +123,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my_menu,menu);
         return true;
+    }
+
+    public void logout(MenuItem item) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(this, SplashActivity.class));
+    }
+
+    public void toProfile(MenuItem item) {
+        startActivity(new Intent(this, UpdateProfile.class));
+    }
+
+    public void toMap(MenuItem item) {
     }
 }

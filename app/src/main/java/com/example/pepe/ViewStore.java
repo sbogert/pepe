@@ -9,13 +9,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.pepe.map.MapsActivity;
-import com.example.pepe.model.Item;
-import com.example.pepe.map.MenuInfoAccess;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class ViewStore extends AppCompatActivity {
 
     private TextView StoreName;

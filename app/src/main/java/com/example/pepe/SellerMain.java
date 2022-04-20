@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-
-import com.example.pepe.map.MapsActivity;
 
 public class SellerMain extends AppCompatActivity {
 
@@ -49,7 +46,7 @@ public class SellerMain extends AppCompatActivity {
     }
 
     private void openProfile() {
-        Intent intent = new Intent(this, profile.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
     private void openEdit() {

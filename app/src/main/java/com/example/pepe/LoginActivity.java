@@ -10,17 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.pepe.map.MapsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
 /** class for users logging into the app */
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText Name;
+    private EditText Email;
     private EditText Password;
     private Button login;
     private Button signup;
@@ -32,22 +32,21 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Name = (EditText) findViewById(R.id.etEmail);
+        Email = (EditText) findViewById(R.id.etEmail);
         Password = (EditText) findViewById(R.id.etPassword);
         login = (Button) findViewById(R.id.loginButton);
         signup = (Button) findViewById(R.id.signupButton);
-        fAuth = FirebaseAuth.getInstance();
 
+        fAuth = FirebaseAuth.getInstance();
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String user = Name.getText().toString().trim();
+                String email = Email.getText().toString().trim();
                 String pass = Password.getText().toString().trim();
 
-                if(TextUtils.isEmpty(user)){
-                    Name.setError("Username is Required.");
+                if(TextUtils.isEmpty(email)){
+                    Email.setError("Email is Required.");
                     return;
                 }
                 if(TextUtils.isEmpty(pass)){
@@ -55,27 +54,23 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(pass.length() < 6){
-                    Password.setError("Password must be more than 6 characters");
-                    return;
-                }
-
-                fAuth.signInWithEmailAndPassword(user, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                            Toast.makeText(LoginActivity.this, "Welcome "+ email +
+                                            "Logged in Successfully", Toast.LENGTH_SHORT).show();
                             finish();
+                            startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                         }
                         else{
-                            Toast.makeText(LoginActivity.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Incorrect email or password",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         });
-
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,8 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = fAuth.getCurrentUser();
         if(currentUser != null){
-            Toast.makeText(LoginActivity.this, "Welcome " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(LoginActivity.this, MapsActivity.class);
+            Intent i = new Intent(this, MapsActivity.class);
             startActivity(i);
             this.finish();
         }
