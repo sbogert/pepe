@@ -1,6 +1,8 @@
 package com.example.pepe.map;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -19,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import android.content.Intent;
+import android.widget.Toolbar;
+
 import com.example.pepe.R;
 import com.example.pepe.ViewStore;
 import com.example.pepe.model.StoreLocation;
@@ -34,13 +38,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Intent i;
     private LatLng uscStart;
     private int storeID;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(binding.getRoot());
+
+        //toolbar
+        toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setActionBar(toolbar);
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
         // initialize firebase firestore
         db = FirebaseFirestore.getInstance();
@@ -109,6 +118,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         i.putExtra("storeName", marker.getTitle());
         System.out.println(marker.getTitle());
         startActivity(i);
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.my_menu,menu);
         return true;
     }
 }

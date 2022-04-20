@@ -90,9 +90,11 @@
             android:label="@string/title_activity_prev_order_detail_host"
             android:resizeableActivity="true"
             tools:targetApi="24" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ" />
+
         <activity
             android:name=".map.MapsActivity"
             android:exported="false"
