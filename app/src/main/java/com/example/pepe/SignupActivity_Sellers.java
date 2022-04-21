@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.gson.JsonArray;
@@ -27,7 +28,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
+/** class for seller signup */
 public class SignupActivity_Sellers extends AppCompatActivity {
     private EditText Email;
     private EditText Password;
@@ -40,8 +41,10 @@ public class SignupActivity_Sellers extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_sellers);
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
         Email = (EditText) findViewById(R.id.etEmail);
         StoreName = (EditText) findViewById(R.id.etStoreName);
         Password = (EditText) findViewById(R.id.etPassword);
@@ -49,8 +52,8 @@ public class SignupActivity_Sellers extends AppCompatActivity {
         Button login = (Button) findViewById(R.id.loginButton);
         Button signup = (Button) findViewById(R.id.signupButton);
 
-        fAuth = FirebaseAuth.getInstance();
         // sign out any previous users so that a new user can register
+        fAuth = FirebaseAuth.getInstance();
         if (fAuth.getCurrentUser() != null) {
             fAuth.signOut();
         }
@@ -60,7 +63,6 @@ public class SignupActivity_Sellers extends AppCompatActivity {
 
         // signup verification on button click
         signup.setOnClickListener(view -> {
-
             String email = Email.getText().toString().trim();
             String name = StoreName.getText().toString().trim();
             String pass = Password.getText().toString().trim();
@@ -81,12 +83,14 @@ public class SignupActivity_Sellers extends AppCompatActivity {
                     .method("GET", null)
                     .build();
             try (Response response = client.newCall(request).execute()) {
+
                 // Extract the results array
                 JsonArray array =
                         JsonParser.parseString(Objects.requireNonNull(response.body()).string())
                                 .getAsJsonObject()
                                 .get("results")
                                 .getAsJsonArray();
+
                 // parse the results array
                 for (int i = 0; i < array.size(); i++) {
                     JsonObject resultJsonObject = array.get(i).getAsJsonObject();
@@ -119,21 +123,31 @@ public class SignupActivity_Sellers extends AppCompatActivity {
                 return;
             }
 
+            // create the authenticated user in firebase
             fAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     String email1 = Email.getText().toString();
                     String name1 = StoreName.getText().toString();
                     String password = Password.getText().toString();
+
+                    // set seller's display name
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     UserProfileChangeRequest profileUpdates =
                             new UserProfileChangeRequest.Builder().setDisplayName(name1).build();
                     assert user != null;
                     user.updateProfile(profileUpdates);
+
+                    // add seller to database
                     SellerInfo newSeller = new SellerInfo(email1, name1, password, geoPoint);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    String uniqueId = fAuth.getCurrentUser().getUid();
-                    CollectionReference menuReference = db.collection("sellers");
-                    menuReference.document(uniqueId).set(newSeller);
+                    String uniqueId = user.getUid();
+                    CollectionReference sellersReference = db.collection("sellers");
+                    sellersReference.document(uniqueId).set(newSeller);
+
+                    // add menu collection
+                    DocumentReference sellerDocRef = sellersReference.document(uniqueId);
+                    sellerDocRef.collection("menu");
+
                     Toast.makeText(SignupActivity_Sellers.this, "Welcome " + name1 + "!",
                             Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), SellerMain.class));
