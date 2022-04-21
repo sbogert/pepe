@@ -16,7 +16,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 public class ViewStore extends AppCompatActivity {
 
@@ -34,7 +33,7 @@ public class ViewStore extends AppCompatActivity {
         StoreName = (TextView) findViewById(R.id.storeName);
         StoreAddress = (TextView) findViewById(R.id.storeAddress);
         Menu = (Spinner) findViewById(R.id.menu);
-        Back = (Button) findViewById(R.id.backtomap);
+        Back = (Button) findViewById(R.id.back_to_map);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
