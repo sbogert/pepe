@@ -12,6 +12,13 @@ public class UserInfo {
         private OrderHistory orderHistory;
         private Integer CaffeineLimit;
 
+    private String email = "";
+    private String name = "";
+    private String password = "";
+    private LatLng location;
+//        private OrderHistory orderHistory;
+
+
 
     public UserInfo() {
     }
