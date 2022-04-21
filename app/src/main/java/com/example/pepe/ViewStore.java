@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -16,6 +17,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 /** TODO: set up menu items display
  * remember to have a check for if it is empty
@@ -34,6 +37,9 @@ public class ViewStore extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_store);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         StoreName = (TextView) findViewById(R.id.storeName);
         StoreAddress = (TextView) findViewById(R.id.storeAddress);
         Menu = (Spinner) findViewById(R.id.menu);
@@ -41,7 +47,7 @@ public class ViewStore extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // get store object
+        // fill in textview items
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String storeID = extras.getString("storeID");
@@ -54,7 +60,8 @@ public class ViewStore extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             StoreName.setText(document.getString("storeName"));
-                            StoreAddress.setText(document.getString("address"));
+                            String storeAddress = Objects.requireNonNull(document.getString("address")).split(",")[0];
+                            StoreAddress.setText(storeAddress);
                         }
                     } else {
                         System.out.println("get failed with " + task.getException());

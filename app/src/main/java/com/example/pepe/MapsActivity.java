@@ -38,6 +38,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setActionBar(toolbar);
