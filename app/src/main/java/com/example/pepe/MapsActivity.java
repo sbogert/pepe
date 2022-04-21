@@ -1,13 +1,14 @@
 package com.example.pepe;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import com.example.pepe.databinding.ActivityMapsBinding;
+//import com.example.pepe.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,24 +24,28 @@ import android.widget.Toolbar;
 import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.Objects;
+
 /** MapsActivity displays the map and user can select map markers to view stores */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    private ActivityMapsBinding binding;
+//    private ActivityMapsBinding binding;
     private GoogleMap mMap;
     FirebaseFirestore db;
-    private LatLng uscStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setActionBar(toolbar);
 
-        // initialize firebase firestore
+        // initialize firebase firestorm
         db = FirebaseFirestore.getInstance();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -57,10 +62,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         // map initially is focused on USC/centered on USC
-        uscStart = new LatLng(34.02226492129773, -118.2876243116412);
+        LatLng uscStart = new LatLng(34.02226492129773, -118.2876243116412);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uscStart, 13F));
 
-        // get markers from firestore
+        // get markers from firestorm
         db.collection("sellers").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
@@ -75,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     LatLng location = new LatLng(mapMarker.getLatitude(), mapMarker.getLongitude());
 
                                     // adding marker to each location on google maps
-                                    mMap.addMarker(new MarkerOptions().position(location).title(value.getString("storeName")).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                                    mMap.addMarker(new MarkerOptions().position(location).title(value.getString("storeName")));
                                 } else {
                                     Toast.makeText(MapsActivity.this, "Error found is " + error, Toast.LENGTH_SHORT).show();
                                 }
@@ -91,7 +96,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     /** Called when the user clicks a marker. */
     @Override
-    public boolean onMarkerClick(final Marker marker) {
+    public boolean onMarkerClick(@NonNull final Marker marker) {
         Intent i = new Intent(this, ViewStore.class);
         // find sellerID to pass to next activity
         db.collection("sellers").get().addOnCompleteListener(task -> {
@@ -100,8 +105,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     db.collection("sellers").document(document.getId())
                             .addSnapshotListener((value, error) -> {
                                 if (value != null && value.exists()) {
-                                    if (value.getString("storeName") == marker.getTitle()) {
+                                    if (Objects.requireNonNull(value.getString("storeName")).equals(marker.getTitle())) {
                                         i.putExtra("storeID", value.getId());
+                                        startActivity(i);
                                     }
                                 } else {
                                     Toast.makeText(MapsActivity.this, "Error found is " + error, Toast.LENGTH_SHORT).show();
@@ -112,7 +118,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 System.out.println("Error getting documents");
             }
         });
-        startActivity(i);
         return true;
     }
 

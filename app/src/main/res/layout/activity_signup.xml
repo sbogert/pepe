@@ -43,7 +43,7 @@
         android:layout_height="48dp"
         android:ems="10"
         android:hint="@string/prompt_name"
-        android:inputType="textPersonName"
+        android:inputType="textCapWords"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.527"
@@ -80,13 +80,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@+id/haveaccount"
+        app:layout_constraintStart_toEndOf="@+id/have_account"
         app:layout_constraintTop_toBottomOf="@+id/signupButton"
         app:layout_constraintVertical_bias="0.133" />
 
 
     <TextView
-        android:id="@+id/haveaccount"
+        android:id="@+id/have_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/already_have_an_account"

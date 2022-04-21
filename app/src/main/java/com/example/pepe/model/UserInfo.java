@@ -1,6 +1,5 @@
 package com.example.pepe.model;
 
-
 import com.google.android.gms.maps.model.LatLng;
 
 public class UserInfo {
@@ -18,7 +17,7 @@ public class UserInfo {
     //private LatLng location;
     //private OrderHistory orderHistory;
 
-
+    
     public UserInfo() {
     }
 
@@ -28,8 +27,6 @@ public class UserInfo {
         this.password = password;
     }
 
-
-
     // getters and setters
     public String getEmail() {
         return email;
@@ -37,6 +34,8 @@ public class UserInfo {
     public void setEmail(String email) {
         this.email = email;
     }
+    public String getName() {return name;}
+    public void setName(String name) {this.name = name;}
     public String getPassword() {
         return password;
     }
@@ -50,17 +49,17 @@ public class UserInfo {
         this.location = location;
     }
     public Integer getCaffeineLimit() {
-        return CaffeineLimit;
+        return caffeineLimit;
     }
     public void setCaffeineLimit(Integer cf) {
-        this.CaffeineLimit = cf;
+        this.caffeineLimit = cf;
     }
-    public OrderHistory getOrderHistory() {
-        return orderHistory;
-    }
+<<<<<<< HEAD
     public void setOrderHistory(OrderHistory orderHistory) {
         this.orderHistory = orderHistory;
     }
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
+=======
+>>>>>>> 10d23c1d64b0dc678776500e3b522bb12cf2359a
 }

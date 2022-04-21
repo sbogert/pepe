@@ -59,6 +59,7 @@
     <string name="profile">Profile</string>
     <string name="map">Map</string>
     <string name="logout">Logout</string>
+    <string name="back">Back</string>
 
 
 </resources>
