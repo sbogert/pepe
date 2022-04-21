@@ -9,11 +9,14 @@ public class UserInfo {
         private Integer location;
         private OrderHistory orderHistory;
 
+    public UserInfo(){}
+
     public UserInfo(String email, String name, String password) {
         this.email = email;
         this.name = name;
         this.password = password;
     }
+
 
 
     // getters and setters

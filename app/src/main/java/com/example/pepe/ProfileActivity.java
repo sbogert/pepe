@@ -34,6 +34,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView Email;
     private Button Edit;
     private FirebaseFirestore db;
+    FirebaseAuth fAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +45,20 @@ public class ProfileActivity extends AppCompatActivity {
         Name = (TextView) findViewById(R.id.displayName);
         Email = (TextView) findViewById(R.id.displayEmail);
         Edit = (Button) findViewById(R.id.Edit);
+        db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uniqueId = user.getUid();
 
         //get info of current user
-        FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        String userUid = currUser.getUid();
-        DocumentReference docRef = db.collection("drinkers").document(userUid);
+        fAuth = FirebaseAuth.getInstance();
+        System.out.println(uniqueId);
+
+        DocumentReference docRef = db.collection("drinkers").document(uniqueId);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 UserInfo user = documentSnapshot.toObject(UserInfo.class);
+
                 System.out.println(user);
                 String userName = user.getDisplayName();
                 String userEmail = user.getEmail();
@@ -60,6 +67,8 @@ public class ProfileActivity extends AppCompatActivity {
                 Email.setText(userEmail);
             }
         });
+
+
 
         Edit.setOnClickListener(new View.OnClickListener() {
             @Override
