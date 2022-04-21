@@ -8,6 +8,7 @@ public class UserInfo {
         private String password;
         private Integer location;
         private OrderHistory orderHistory;
+        private Integer CaffeineLimit;
 
     public UserInfo(){}
 
@@ -37,6 +38,12 @@ public class UserInfo {
     }
     public void setLocation(Integer location) {
         this.location = location;
+    }
+    public Integer getCaffeineLimit() {
+        return CaffeineLimit;
+    }
+    public void setCaffeineLimit(Integer cf) {
+        this.CaffeineLimit = cf;
     }
     public OrderHistory getOrderHistory() {
         return orderHistory;
