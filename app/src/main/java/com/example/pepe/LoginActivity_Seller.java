@@ -45,8 +45,10 @@ public class LoginActivity_Seller extends AppCompatActivity {
 
             fAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Toast.makeText(this, "Welcome " + email +
-                            "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    assert user != null;
+                    Toast.makeText(LoginActivity_Seller.this, "Welcome "+ user.getDisplayName() +
+                            "!", Toast.LENGTH_SHORT).show();
                     finish();
                     startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                 } else {

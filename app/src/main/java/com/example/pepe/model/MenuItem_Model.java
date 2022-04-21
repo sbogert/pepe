@@ -1,4 +1,4 @@
-package com.example.pepe.Models;
+package com.example.pepe.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
