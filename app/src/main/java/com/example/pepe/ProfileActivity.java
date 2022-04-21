@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,16 +17,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.IOException;
-import java.util.Objects;
 
-import okhttp3.FormBody;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
+/** class for drinker to view and update their profile */
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView Name;
@@ -47,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
         Edit = (Button) findViewById(R.id.Edit);
         db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         String uniqueId = user.getUid();
 
         //get info of current user
@@ -60,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
                 UserInfo user = documentSnapshot.toObject(UserInfo.class);
 
                 System.out.println(user);
+                assert user != null;
                 String userName = user.getDisplayName();
                 String userEmail = user.getEmail();
 
@@ -68,15 +61,12 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
-
         Edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openEdit();
             }
         });
-
 
     }
     private void openEdit() {
