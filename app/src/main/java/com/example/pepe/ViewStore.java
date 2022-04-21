@@ -17,6 +17,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/** TODO: set up menu items display
+ * remember to have a check for if it is empty
+ * format for scrolling
+ * */
 public class ViewStore extends AppCompatActivity {
 
     private TextView StoreName;
