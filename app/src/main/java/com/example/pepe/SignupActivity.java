@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.example.pepe.model.UserInfo;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -64,6 +66,11 @@ public class SignupActivity extends AppCompatActivity {
                     String email1 = Email.getText().toString();
                     String name1 = Name.getText().toString();
                     String password = Password.getText().toString();
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    UserProfileChangeRequest profileUpdates =
+                            new UserProfileChangeRequest.Builder().setDisplayName(name1).build();
+                    assert user != null;
+                    user.updateProfile(profileUpdates);
                     UserInfo newUser = new UserInfo(email1, name1, password);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     String uniqueId = fAuth.getUid();

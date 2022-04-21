@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.pepe.model.SellerInfo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -123,6 +124,11 @@ public class SignupActivity_Sellers extends AppCompatActivity {
                     String email1 = Email.getText().toString();
                     String name1 = StoreName.getText().toString();
                     String password = Password.getText().toString();
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    UserProfileChangeRequest profileUpdates =
+                            new UserProfileChangeRequest.Builder().setDisplayName(name1).build();
+                    assert user != null;
+                    user.updateProfile(profileUpdates);
                     SellerInfo newSeller = new SellerInfo(email1, name1, password, geoPoint);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     String uniqueId = fAuth.getCurrentUser().getUid();

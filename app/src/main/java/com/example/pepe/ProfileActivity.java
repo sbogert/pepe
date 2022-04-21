@@ -46,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         //get info of current user
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert currUser != null;
         String userUid = currUser.getUid();
         DocumentReference docRef = db.collection("drinkers").document(userUid);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -53,28 +54,24 @@ public class ProfileActivity extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 UserInfo user = documentSnapshot.toObject(UserInfo.class);
                 System.out.println(user);
+                assert user != null;
                 String userName = user.getDisplayName();
                 String userEmail = user.getEmail();
-
                 Name.setText(userName);
                 Email.setText(userEmail);
             }
         });
-
         Edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openEdit();
             }
         });
-
-
     }
     private void openEdit() {
         Intent intent = new Intent(this, EditProfile.class);
         startActivity(intent);
     }
-
     public void logout(MenuItem item) {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, SplashActivity.class));
@@ -85,21 +82,3 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(new Intent(this, MapsActivity.class));
     }
 }
-
-/*
-FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // Name, email address, and ProfileActivity photo Url
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri photoUrl = user.getPhotoUrl();
-
-            // Check if user's email is verified
-            boolean emailVerified = user.isEmailVerified();
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
-            String uid = user.getUid();
-        }
- */

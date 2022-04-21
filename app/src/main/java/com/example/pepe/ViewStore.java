@@ -15,10 +15,6 @@ public class ViewStore extends AppCompatActivity {
     private Spinner Menu;
     private Button Back;
 
-
-
-    // do something about passing along store name vs email or waht
-    // in case two stores have same name
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,25 +30,11 @@ public class ViewStore extends AppCompatActivity {
                 openBack();
             }
         });
-
-
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            StoreName.setText(extras.getString("storeName"));
-
-//            List<Item> menuItems = MenuInfoAccess.MenuInfo(storeID, Integer.parseInt(userID));
-//
-//            ArrayList<Item> menuArray = new ArrayList<>(menuItems);
-
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, android.R.layout
-//        .simple_spinner_item, menuArray);
-
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-
+            StoreName.setText(extras.getString("storeID"));
         }
     }
-
     private void openBack() {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
