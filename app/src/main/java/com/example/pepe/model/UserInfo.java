@@ -4,12 +4,12 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class UserInfo {
 
-        private String email;
-        private String name;
-        private String password;
-        private Integer location;
-        private OrderHistory orderHistory;
-        private Integer CaffeineLimit;
+        //private String email;
+       // private String name;
+       // private String password;
+       // private Integer location;
+       // private OrderHistory orderHistory;
+       // private Integer CaffeineLimit;
 
     //private String email = "";
     //private String name = "";
@@ -17,7 +17,13 @@ public class UserInfo {
     //private LatLng location;
     //private OrderHistory orderHistory;
 
-    
+    private String email = "";
+    private String name = "";
+    private String password = "";
+    private LatLng location = null;
+    private Integer caffeineLimit = 0;
+
+
     public UserInfo() {
     }
 
