@@ -36,6 +36,7 @@ public class SignupActivity_Sellers extends AppCompatActivity {
     private EditText StoreLocation;
     FirebaseAuth fAuth;
     private static GeoPoint geoPoint;
+    private String prettyAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +95,8 @@ public class SignupActivity_Sellers extends AppCompatActivity {
                 // parse the results array
                 for (int i = 0; i < array.size(); i++) {
                     JsonObject resultJsonObject = array.get(i).getAsJsonObject();
-                    String prettyLocation = resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString();
-                    StoreLocation.setText(prettyLocation);
+                    prettyAddress = resultJsonObject.getAsJsonPrimitive("formatted_address").getAsString();
+                    StoreLocation.setText(prettyAddress);
                     JsonObject geometryJsonObject = resultJsonObject.get("geometry").getAsJsonObject();
                     JsonObject locationJsonObject = geometryJsonObject.get("location").getAsJsonObject();
                     dumpLocationJsonObject(locationJsonObject);
@@ -138,7 +139,7 @@ public class SignupActivity_Sellers extends AppCompatActivity {
                     user.updateProfile(profileUpdates);
 
                     // add seller to database
-                    SellerInfo newSeller = new SellerInfo(email1, name1, password, geoPoint);
+                    SellerInfo newSeller = new SellerInfo(email1, name1, password, geoPoint, prettyAddress);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     String uniqueId = user.getUid();
                     CollectionReference sellersReference = db.collection("sellers");

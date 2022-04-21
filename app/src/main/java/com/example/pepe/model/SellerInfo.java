@@ -7,12 +7,14 @@ public class SellerInfo {
     private String storeName;
     private String password;
     private GeoPoint location;
+    private String address;
 
-    public SellerInfo(String email, String storeName, String password, GeoPoint geoPoint) {
+    public SellerInfo(String email, String storeName, String password, GeoPoint geoPoint, String address) {
         this.email = email;
         this.storeName = storeName;
         this.password = password;
         this.location = geoPoint;
+        this.address = address;
     }
 
 
@@ -41,5 +43,13 @@ public class SellerInfo {
 
     public void setLocation(GeoPoint location) {
         this.location = location;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
