@@ -12,7 +12,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -86,10 +85,6 @@ public class SignupActivity extends AppCompatActivity {
                     String uniqueId = user.getUid();
                     CollectionReference collectionReference = db.collection("drinkers");
                     collectionReference.document(uniqueId).set(newUser);
-
-                    // add orderHistory collection to drinker document
-                    DocumentReference sellerDocRef = collectionReference.document(uniqueId);
-                    sellerDocRef.collection("orderHistory");
 
                     Toast.makeText(SignupActivity.this, "Welcome " + name1 + "!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), MapsActivity.class));
