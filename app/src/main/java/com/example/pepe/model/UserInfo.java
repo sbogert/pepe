@@ -12,12 +12,11 @@ public class UserInfo {
         private OrderHistory orderHistory;
         private Integer CaffeineLimit;
 
-    private String email = "";
-    private String name = "";
-    private String password = "";
-    private LatLng location;
-//        private OrderHistory orderHistory;
-
+    //private String email = "";
+    //private String name = "";
+    //private String password = "";
+    //private LatLng location;
+    //private OrderHistory orderHistory;
 
 
     public UserInfo() {
@@ -50,7 +49,6 @@ public class UserInfo {
     public void setLocation(LatLng location) {
         this.location = location;
     }
-<<<<<<< HEAD
     public Integer getCaffeineLimit() {
         return CaffeineLimit;
     }
@@ -63,8 +61,6 @@ public class UserInfo {
     public void setOrderHistory(OrderHistory orderHistory) {
         this.orderHistory = orderHistory;
     }
-=======
->>>>>>> 955d76b84c9607a85d73a5b33576bf41e263d294
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 }
