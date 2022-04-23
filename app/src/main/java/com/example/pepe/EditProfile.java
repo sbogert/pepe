@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,6 +27,10 @@ public class EditProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+        //toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setActionBar(toolbar);
 
         Button pass = (Button) findViewById(R.id.button3);
         Button name = (Button) findViewById(R.id.button);

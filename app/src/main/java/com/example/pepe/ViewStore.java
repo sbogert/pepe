@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -18,6 +20,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /** TODO: set up menu items display
@@ -31,6 +36,11 @@ public class ViewStore extends AppCompatActivity {
     private Spinner Menu;
     private Button Back;
     private CollectionReference collectionReference;
+    private ListView listView;
+    private ArrayList<String> foodNames = new ArrayList<>();
+    private ArrayList<String> hello = new ArrayList<>();
+    private Map<String, String> map = new HashMap<String, String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +54,16 @@ public class ViewStore extends AppCompatActivity {
         StoreAddress = (TextView) findViewById(R.id.storeAddress);
         Menu = (Spinner) findViewById(R.id.menu);
         Back = (Button) findViewById(R.id.back_to_map);
+        listView = (ListView) findViewById(R.id.menuView);
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //how do you put info in the second elemnt???
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_2,foodNames);
+        listView.setAdapter(arrayAdapter);
+
+
 
         // fill in textview items
         Bundle extras = getIntent().getExtras();
