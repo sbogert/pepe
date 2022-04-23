@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".PastOrders"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -25,16 +28,7 @@
             android:name=".MapsActivity"
             android:exported="false" />
         <activity
-            android:name=".UpdateProfile"
-            android:exported="false" />
-        <activity
-            android:name=".seller_enter_info"
-            android:exported="false" />
-        <activity
             android:name=".EditProfile"
-            android:exported="false" />
-        <activity
-            android:name=".PastOrders"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"

@@ -20,6 +20,7 @@ public class PrevOrderDetailHostActivity extends AppCompatActivity {
         ActivityPrevorderDetailBinding binding = ActivityPrevorderDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        /*
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_prevorder_detail);
         NavController navController = navHostFragment.getNavController();
@@ -34,5 +35,8 @@ public class PrevOrderDetailHostActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_prevorder_detail);
         return navController.navigateUp() || super.onSupportNavigateUp();
+    }
+
+         */
     }
 }
