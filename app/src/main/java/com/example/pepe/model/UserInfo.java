@@ -4,24 +4,12 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class UserInfo {
 
-        //private String email;
-       // private String name;
-       // private String password;
-       // private Integer location;
-       // private OrderHistory orderHistory;
-       // private Integer CaffeineLimit;
-
-    //private String email = "";
-    //private String name = "";
-    //private String password = "";
-    //private LatLng location;
-    //private OrderHistory orderHistory;
-
-    private String email = "";
-    private String name = "";
-    private String password = "";
-    private LatLng location = null;
-    private Integer caffeineLimit = 0;
+        private String email;
+        private String name;
+        private String password;
+        private Integer location;
+        private OrderHistory orderHistory;
+        private Integer caffeineLimit = 0;
 
 
     public UserInfo() {
@@ -33,39 +21,55 @@ public class UserInfo {
         this.password = password;
     }
 
+
     // getters and setters
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getName() {return name;}
-    public void setName(String name) {this.name = name;}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
-    public LatLng getLocation() {
+
+    public Integer getLocation() {
         return location;
     }
-    public void setLocation(LatLng location) {
+
+    public void setLocation(Integer location) {
         this.location = location;
     }
-    public Integer getCaffeineLimit() {
-        return caffeineLimit;
+
+    public OrderHistory getOrderHistory() {
+        return orderHistory;
     }
-    public void setCaffeineLimit(Integer cf) {
-        this.caffeineLimit = cf;
-    }
-<<<<<<< HEAD
+
     public void setOrderHistory(OrderHistory orderHistory) {
         this.orderHistory = orderHistory;
     }
-    public String getName() {return name;}
-    public void setName(String name) {this.name = name;}
-=======
->>>>>>> 10d23c1d64b0dc678776500e3b522bb12cf2359a
+
+    public Integer getCaffeineLimit() {
+        return caffeineLimit;
+    }
+
+    public void setCaffeineLimit(Integer caffeineLimit) {
+        this.caffeineLimit = caffeineLimit;
+    }
+
+
 }

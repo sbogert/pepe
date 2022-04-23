@@ -49,31 +49,6 @@ public class menu extends AppCompatActivity {
 
     }
 
-    private void getUserDB(String userID, String sellerID) {
-        String url = "http://10.0.2.2:3001/drinker/get_menu";
-
-        OkHttpClient client = new OkHttpClient();
-
-        RequestBody formBody = new FormBody.Builder()
-                .add("userid", userID)
-                .add("seller_id",sellerID )
-                .build();
-
-        HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
-        String fullUrl = urlBuilder.build().toString();
-        Request request = new Request.Builder()
-                .url(fullUrl)
-                .post(formBody)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            System.out.println(response.code());
-            System.out.println(Objects.requireNonNull(response.body()).string());
-        } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
     public String getMenu(){
 
         //request to get menu from database
