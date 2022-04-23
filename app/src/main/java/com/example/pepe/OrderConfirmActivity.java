@@ -24,6 +24,7 @@ public class OrderConfirmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /*
         binding = ActivityOrderConfirmBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -40,6 +41,8 @@ public class OrderConfirmActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        
+         */
     }
 
     @Override
