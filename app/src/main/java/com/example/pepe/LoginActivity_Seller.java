@@ -25,8 +25,8 @@ public class LoginActivity_Seller extends AppCompatActivity {
 
         Email = (EditText) findViewById(R.id.etEmail);
         Password = (EditText) findViewById(R.id.etPassword);
-        Button login = (Button) findViewById(R.id.loginButton);
-        Button signup = (Button) findViewById(R.id.signupButton);
+        Button login = (Button) findViewById(R.id.signupButton);
+        Button signup = (Button) findViewById(R.id.loginButton);
 
         fAuth = FirebaseAuth.getInstance();
 
@@ -50,7 +50,7 @@ public class LoginActivity_Seller extends AppCompatActivity {
                     Toast.makeText(LoginActivity_Seller.this, "Welcome "+ user.getDisplayName() +
                             "!", Toast.LENGTH_SHORT).show();
                     finish();
-                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                    startActivity(new Intent(getApplicationContext(), SellerMain.class));
                 } else {
                     Toast.makeText(this, "Incorrect email or password",
                             Toast.LENGTH_SHORT).show();

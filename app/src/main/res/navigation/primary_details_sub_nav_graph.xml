@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/fragment_prevorder_detail"
         android:name="com.example.pepe.PrevOrderDetailFragment"
-        android:label="@string/title_prevorder_detail"
+        android:label="@string/title_prev_order_detail"
         tools:layout="@layout/fragment_prevorder_detail">
         <argument
             android:name="item_id"

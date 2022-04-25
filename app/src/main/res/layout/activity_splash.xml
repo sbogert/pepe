@@ -54,10 +54,10 @@
     <androidx.constraintlayout.widget.Group
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="ddlogo,imageView" />
+        app:constraint_referenced_ids="cup_logo,imageView" />
 
     <TextView
-        android:id="@+id/ddlogo"
+        android:id="@+id/cup_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
@@ -82,6 +82,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.065"
         app:srcCompat="@drawable/logo"
-        android:contentDescription="@string/uscdoordrink_logo" />
+        android:contentDescription="@string/dd_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

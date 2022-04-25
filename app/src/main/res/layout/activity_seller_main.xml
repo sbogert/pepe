@@ -47,10 +47,10 @@
     <androidx.constraintlayout.widget.Group
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="ddlogo,imageView" />
+        app:constraint_referenced_ids="cup_logo,imageView" />
 
     <TextView
-        android:id="@+id/ddlogo"
+        android:id="@+id/cup_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome"

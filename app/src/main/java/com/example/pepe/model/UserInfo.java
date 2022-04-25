@@ -1,15 +1,17 @@
 package com.example.pepe.model;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.GeoPoint;
 
 public class UserInfo {
 
-        private String email;
-        private String name;
-        private String password;
-        private Integer location;
-        private OrderHistory orderHistory;
-        private Integer caffeineLimit = 0;
+    private String email;
+    private String name;
+    private String password;
+    private GeoPoint location = null;
+    private String address = null;
+    private OrderHistory orderHistory;
+    private Integer caffeineLimit = 0;
 
 
     public UserInfo() {
@@ -47,11 +49,11 @@ public class UserInfo {
         this.password = password;
     }
 
-    public Integer getLocation() {
+    public GeoPoint getLocation() {
         return location;
     }
 
-    public void setLocation(Integer location) {
+    public void setLocation(GeoPoint location) {
         this.location = location;
     }
 
@@ -72,4 +74,11 @@ public class UserInfo {
     }
 
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

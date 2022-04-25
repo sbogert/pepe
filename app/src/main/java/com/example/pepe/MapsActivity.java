@@ -13,7 +13,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,13 +22,11 @@ import android.content.Intent;
 import android.widget.Toolbar;
 import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import java.util.Objects;
+
 
 /** MapsActivity displays the map and user can select map markers to view stores */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
-
-//    private ActivityMapsBinding binding;
     private GoogleMap mMap;
     FirebaseFirestore db;
 
@@ -37,9 +34,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
 
         //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -135,6 +129,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void toProfile(MenuItem item) {
         startActivity(new Intent(this, ProfileActivity.class));
     }
-    public void toMap(MenuItem item) {
-    }
+    public void toMap(MenuItem item) {}
 }

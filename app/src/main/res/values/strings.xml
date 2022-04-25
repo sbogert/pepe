@@ -17,13 +17,7 @@
     <string name="signup_offer">Don\'t have an account?</string>
     <string name="login">Login</string>
     <string name="incorrect_login">Username or Password is incorrect</string>
-
     <string name="welcome">"Welcome!"</string>
-
-
-    <string name="title_activity_maps">MapsActivity</string>
-    <string name="title_activity_prev_orders">PrevOrdersActivity</string>
-    <string name="title_activity_menu">MenuActivity</string>
     <string name="api_key">AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ</string>
 
     <string name="large_text">
@@ -31,15 +25,14 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_prev_order_detail_host">PrevOrderDetailHostActivity</string>
-    <string name="title_prevorder_list">PrevOrders</string>
-    <string name="title_prevorder_detail">PrevOrder Detail</string>
+    <string name="title_prev_order_list">PrevOrders</string>
+    <string name="title_prev_order_detail">PrevOrder Detail</string>
     <string name="title_activity_order_confirm">OrderConfirmActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_menu_update">MenuUpdate</string>
@@ -49,17 +42,15 @@
     <string name="location">Location</string>
     <string name="title_activity_edit_profile">EditProfile</string>
     <string name="ur_mum">ur mum</string>
-    <string name="caffine">Caffine</string>
+    <string name="caffeine">Caffeine</string>
     <string name="price">Price</string>
     <string name="done">Done</string>
     <string name="name">Name</string>
     <string name="update_menu">Update Menu</string>
-    <string name="uscdoordrink_logo">USCDoorDrink Logo</string>
+    <string name="dd_logo">USCDoorDrink Logo</string>
     <string name="store_name">Store Name</string>
     <string name="profile">Profile</string>
     <string name="map">Map</string>
     <string name="logout">Logout</string>
     <string name="back">Back</string>
-
-
 </resources>

@@ -65,17 +65,6 @@ public class UpdateMenuActivity extends AppCompatActivity {
             }
         });
 
-        back.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                backMain();
-                startActivity(i);
-            }
-        });
-    }
-
-    private void backMain() {
-        i = new Intent(this, SellerMain.class);
+        back.setOnClickListener(view -> startActivity(new Intent(this, SellerMain.class)));
     }
 }
