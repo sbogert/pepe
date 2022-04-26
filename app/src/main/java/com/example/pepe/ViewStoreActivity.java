@@ -86,7 +86,6 @@ public class ViewStoreActivity extends AppCompatActivity {
         }
 
 
-
         // go to checking delivery address and confirm order
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             // add to checkout cart

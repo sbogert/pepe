@@ -13,7 +13,7 @@ public class UserInfo {
     private OrderHistory orderHistory;
     private Integer caffeineLimit = 0;
 
-
+// have an option where the user can add a default location
     public UserInfo() {
     }
 

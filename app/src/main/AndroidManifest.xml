@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".OrderConfirm"
+            android:exported="false" />
+        <activity
             android:name=".PastOrders"
             android:exported="false" />
 
@@ -37,9 +40,6 @@
             android:exported="false" />
         <activity
             android:name=".ViewStoreActivity"
-            android:exported="false" />
-        <activity
-            android:name=".menu"
             android:exported="false" />
 
         <uses-library
@@ -73,11 +73,6 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
-        <activity
-            android:name=".OrderConfirmActivity"
-            android:exported="false"
-            android:label="@string/title_activity_order_confirm"
-            android:theme="@style/Theme.MyApplication.NoActionBar" />
     </application>
 
 </manifest>
