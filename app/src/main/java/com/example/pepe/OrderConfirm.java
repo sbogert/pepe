@@ -2,6 +2,7 @@ package com.example.pepe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,6 +37,7 @@ public class OrderConfirm extends AppCompatActivity {
         ItemPrice= (TextView) findViewById(R.id.itemPrice);
         ItemCaff = (TextView) findViewById(R.id.itemCaff);
 
+
         // fill in textviews with information
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -44,5 +46,10 @@ public class OrderConfirm extends AppCompatActivity {
             ItemPrice.setText(extras.getString("itemPrice"));
             ItemCaff.setText(extras.getString("itemCaff"));
         }
+
+
     }
+
+
+
 }

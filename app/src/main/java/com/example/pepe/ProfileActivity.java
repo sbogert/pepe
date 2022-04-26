@@ -77,10 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 69bf15d8a316e3bc9e81873173e75fe52db7bdb9
         //open edit page
         edit.setOnClickListener(view -> openEdit());
 
