@@ -47,4 +47,6 @@
     <string name="past_orders">Past Orders</string>
     <string name="menu">Menu</string>
     <string name="large_text">large text</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="review_order">Review Order</string>
 </resources>

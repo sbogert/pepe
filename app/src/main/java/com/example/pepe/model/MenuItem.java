@@ -2,23 +2,26 @@ package com.example.pepe.model;
 
 import androidx.annotation.NonNull;
 
-public class Item{
+public class MenuItem {
 
     //Creating properties of the class
     private String name;
     private String price;
     private String caffeine;
+    private String storeID;
 
-    public Item(){
+    public MenuItem(){
 
     }
-    public Item(String name, String price, String caffeine){
+    public MenuItem(String name, String price, String caffeine){
         this.name = name;
         this.price = price;
         this.caffeine = caffeine;
     }
 
     //Setter and Getters
+    public String getStoreID() {return storeID; }
+    public void setStoreID(String storeID) {this.storeID = storeID; }
     public String getPrice() {
         return price;
     }

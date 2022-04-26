@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.example.pepe.model.Item;
+import com.example.pepe.model.MenuItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,8 +43,8 @@ public class UpdateMenuActivity extends AppCompatActivity {
             String name = Name.getText().toString();
             String price = Price.getText().toString();
             String caffeine = Caffeine.getText().toString();
-            Item newItem = new Item(name, price, caffeine);
-            menuReference.add(newItem);
+            MenuItem newMenuItem = new MenuItem(name, price, caffeine);
+            menuReference.add(newMenuItem);
             Toast.makeText(UpdateMenuActivity.this, name + " added menu", Toast.LENGTH_LONG).show();
 
             Name.setText("");
