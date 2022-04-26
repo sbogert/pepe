@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ecd9ba"
-    tools:context=".SellerMain">
+    tools:context=".SellerMainActivity">
 
     <Button
         android:id="@+id/sellerLogin"
@@ -47,10 +47,10 @@
     <androidx.constraintlayout.widget.Group
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="ddlogo,imageView" />
+        app:constraint_referenced_ids="cup_logo,imageView" />
 
     <TextView
-        android:id="@+id/ddlogo"
+        android:id="@+id/cup_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome"

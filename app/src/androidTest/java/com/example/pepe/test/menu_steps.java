@@ -30,7 +30,7 @@ public class menu_steps {
     public void iPressAdd() {
     }
 
-    @Then("^Item is added to my menu$")
+    @Then("^MenuItem is added to my menu$")
     public void itemIsAddedToMyMenu() {
     }
 }

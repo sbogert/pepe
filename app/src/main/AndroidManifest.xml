@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,12 +16,15 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".OrderConfirm"
+            android:exported="false" />
+        <activity
             android:name=".PastOrders"
             android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/api_key" />
+            android:value="AIzaSyDvuIejoxu5HTZdwkJvhtWyLXFWmdN_ZxQ" />
 
         <activity
             android:name=".MapsActivity"
@@ -34,13 +36,10 @@
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".SellerMain"
+            android:name=".SellerMainActivity"
             android:exported="false" />
         <activity
-            android:name=".ViewStore"
-            android:exported="false" />
-        <activity
-            android:name=".menu"
+            android:name=".ViewStoreActivity"
             android:exported="false" />
 
         <uses-library
@@ -74,17 +73,6 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
-        <activity
-            android:name=".OrderConfirmActivity"
-            android:exported="false"
-            android:label="@string/title_activity_order_confirm"
-            android:theme="@style/Theme.MyApplication.NoActionBar" />
-        <activity
-            android:name=".PrevOrderDetailHostActivity"
-            android:exported="false"
-            android:label="@string/title_activity_prev_order_detail_host"
-            android:resizeableActivity="true"
-            tools:targetApi="24" />
     </application>
 
 </manifest>
