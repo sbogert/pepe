@@ -1,21 +1,16 @@
 package com.example.pepe;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -23,7 +18,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +28,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TextView Name;
     private TextView Email;
-    private Button Edit;
     FirebaseAuth fAuth;
     private CollectionReference collectionReference;
     private ListView lv;
@@ -50,59 +43,52 @@ public class ProfileActivity extends AppCompatActivity {
 
         Name = (TextView) findViewById(R.id.displayName);
         Email = (TextView) findViewById(R.id.displayEmail);
-        Edit = (Button) findViewById(R.id.Edit);
+        Button edit = (Button) findViewById(R.id.Edit);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         String uniqueId = user.getUid();
 
-        //get info of current user
-        fAuth = FirebaseAuth.getInstance();
-
-        //things needed to fill in past orders
+        // things needed to fill in past orders
         lv = (ListView) findViewById(R.id.menuList);
 
         //print name and email
         DocumentReference docRef = db.collection("drinkers").document(uniqueId);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        //fill name and email
-                        Name.setText(document.getString("name"));
-                        Email.setText(document.getString("email"));
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    //fill name and email
+                    Name.setText(document.getString("name"));
+                    Email.setText(document.getString("email"));
 
-                        //fill past orders
-                        List<String> menuItems = (List<String>) document.get("pastOrders");
-                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                                ProfileActivity.this,
-                                android.R.layout.simple_list_item_1,
-                                menuItems );
+                    //fill past orders
+                    // need too add check about if the list is empty or not
+                    List<String> menuItems = (List<String>) document.get("pastOrders");
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                            ProfileActivity.this,
+                            android.R.layout.simple_list_item_1,
+                            menuItems);
 
-                        lv.setAdapter(arrayAdapter);
-                    }
-                } else {
-                    System.out.println("get failed with " + task.getException());
+//                    lv.setAdapter(arrayAdapter);
                 }
+            } else {
+                System.out.println("get failed with " + task.getException());
             }
         });
-
-
-
-
-
 
         //open edit page
-        Edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openEdit();
-            }
-        });
+        edit.setOnClickListener(view -> openEdit());
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.my_menu,menu);
+        return true;
+    }
+
     private void openEdit() {
         Intent intent = new Intent(this, EditProfile.class);
         startActivity(intent);

@@ -6,23 +6,23 @@ public class Item{
 
     //Creating properties of the class
     private String name;
-    private double price;
-    private int caffeine;
+    private String price;
+    private String caffeine;
 
     public Item(){
 
     }
-    public Item(String name, double price, int caffeine){
+    public Item(String name, String price, String caffeine){
         this.name = name;
         this.price = price;
         this.caffeine = caffeine;
     }
 
     //Setter and Getters
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
     public String getName() {
@@ -31,10 +31,10 @@ public class Item{
     public void setName(String name) {
         this.name = name;
     }
-    public int getCaffeine() {
+    public String getCaffeine() {
         return caffeine;
     }
-    public void setCaffeine(int caffeine) {
+    public void setCaffeine(String caffeine) {
         this.caffeine = caffeine;
     }
 

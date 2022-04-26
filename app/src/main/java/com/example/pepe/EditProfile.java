@@ -1,25 +1,21 @@
 package com.example.pepe;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+
+/** EditProfile class is where the user actually changes db and authentication information about their
+ * account
+ * */
 public class EditProfile extends AppCompatActivity {
 
 
@@ -27,10 +23,6 @@ public class EditProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-
-        //toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setActionBar(toolbar);
 
         Button pass = (Button) findViewById(R.id.button3);
         Button name = (Button) findViewById(R.id.button);
@@ -42,88 +34,73 @@ public class EditProfile extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         String uniqueId = user.getUid();
 
-        pass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String NEWPASSWORD = entPass.getText().toString().trim();
-                if(TextUtils.isEmpty(NEWPASSWORD)){
-                    entPass.setError("Password is Required.");
-                    return;
-                }
-
-                //change db
-                db.collection("drinkers").document(uniqueId)
-                        .update(
-                                "password", NEWPASSWORD
-                        );
-
-                //change actual user
-                user.updatePassword(NEWPASSWORD)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(EditProfile.this, "User Password updated.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+        pass.setOnClickListener(view -> {
+            String NEW_PASSWORD = entPass.getText().toString().trim();
+            if(TextUtils.isEmpty(NEW_PASSWORD)){
+                entPass.setError("Password is Required.");
+                return;
             }
+
+            //change db
+            db.collection("drinkers").document(uniqueId)
+                    .update(
+                            "password", NEW_PASSWORD
+                    );
+            //change actual user
+            user.updatePassword(NEW_PASSWORD)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(EditProfile.this, "User Password updated.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
 
-        name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String NEWNAME = entName.getText().toString().trim();
-                if(TextUtils.isEmpty(NEWNAME)){
-                    entName.setError("Name is Required.");
-                    return;
-                }
-
-                //change db
-                db.collection("drinkers").document(uniqueId)
-                        .update(
-                                "name", NEWNAME
-                        );
-                Toast.makeText(EditProfile.this, "User Name updated.", Toast.LENGTH_SHORT).show();
+        name.setOnClickListener(view -> {
+            String NEW_NAME = entName.getText().toString().trim();
+            if(TextUtils.isEmpty(NEW_NAME)){
+                entName.setError("Name is Required.");
+                return;
             }
+            System.out.println(NEW_NAME);
+            //change db
+            db.collection("drinkers").document(uniqueId)
+                    .update(   "name", NEW_NAME);
+            // change authentication display name
+            UserProfileChangeRequest nameUpdate = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(NEW_NAME)
+                    .build();
+            user.updateProfile(nameUpdate)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(EditProfile.this, "User Name updated.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
 
-        email.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String NEWEMAIL = entEmail.getText().toString().trim();
-                if(TextUtils.isEmpty(NEWEMAIL)){
-                    entEmail.setError("Email is Required.");
-                    return;
-                }
-
-                //change db
-                db.collection("drinkers").document(uniqueId)
-                        .update(
-                                "email", NEWEMAIL
-                        );
-
-                //change actual user
-                user.updateEmail(NEWEMAIL)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(EditProfile.this, "User Email updated.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+        email.setOnClickListener(view -> {
+            String NEW_EMAIL = entEmail.getText().toString().trim();
+            if(TextUtils.isEmpty(NEW_EMAIL)){
+                entEmail.setError("Email is Required.");
+                return;
             }
+            //change db
+            db.collection("drinkers").document(uniqueId)
+                    .update(
+                            "email", NEW_EMAIL
+                    );
+            //change actual user
+            user.updateEmail(NEW_EMAIL)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(EditProfile.this, "User Email updated.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
 
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDone();
-            }
-        });
+        done.setOnClickListener(view -> openDone());
     }
 
     private void openDone() {

@@ -53,4 +53,10 @@
     <string name="map">Map</string>
     <string name="logout">Logout</string>
     <string name="back">Back</string>
+    <string name="name_field">Name:</string>
+    <string name="email_field">Email:</string>
+    <string name="edit">Edit</string>
+    <string name="my_profile">My Profile</string>
+    <string name="past_orders">Past Orders</string>
+    <string name="menu">Menu</string>
 </resources>

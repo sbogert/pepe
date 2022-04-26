@@ -4,27 +4,27 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class MenuItem_Model implements Parcelable {
-    private String Name;
-    private Double Price;
-    private Integer Caffeine;
+    private String name;
+    private Double price;
+    private Integer caffeine;
 
     public MenuItem_Model(String Name, Double Price, Integer Caffeine){
-        this.Caffeine = Caffeine;
-        this. Name = Name;
-        this.Price = Price;
+        this.caffeine = Caffeine;
+        this.name = Name;
+        this.price = Price;
     }
 
     protected MenuItem_Model(Parcel in) {
-        Name = in.readString();
+        name = in.readString();
         if (in.readByte() == 0) {
-            Price = null;
+            price = null;
         } else {
-            Price = in.readDouble();
+            price = in.readDouble();
         }
         if (in.readByte() == 0) {
-            Caffeine = null;
+            caffeine = null;
         } else {
-            Caffeine = in.readInt();
+            caffeine = in.readInt();
         }
     }
 
@@ -41,27 +41,27 @@ public class MenuItem_Model implements Parcelable {
     };
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public Double getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(Double price) {
-        Price = price;
+        this.price = price;
     }
 
     public Integer getCaffeine() {
-        return Caffeine;
+        return caffeine;
     }
 
     public void setCaffeine(Integer caffeine) {
-        Caffeine = caffeine;
+        this.caffeine = caffeine;
     }
 
     @Override
@@ -71,18 +71,18 @@ public class MenuItem_Model implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(Name);
-        if (Price == null) {
+        parcel.writeString(name);
+        if (price == null) {
             parcel.writeByte((byte) 0);
         } else {
             parcel.writeByte((byte) 1);
-            parcel.writeDouble(Price);
+            parcel.writeDouble(price);
         }
-        if (Caffeine == null) {
+        if (caffeine == null) {
             parcel.writeByte((byte) 0);
         } else {
             parcel.writeByte((byte) 1);
-            parcel.writeInt(Caffeine);
+            parcel.writeInt(caffeine);
         }
     }
 }
