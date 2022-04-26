@@ -62,8 +62,7 @@ public class ViewStore extends AppCompatActivity {
         //how do you put info in the second elemnt???
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_2,foodNames);
         listView.setAdapter(arrayAdapter);
-
-
+        
 
         // fill in textview items
         Bundle extras = getIntent().getExtras();

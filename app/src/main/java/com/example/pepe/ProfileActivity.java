@@ -90,10 +90,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
         //open edit page
         Edit.setOnClickListener(new View.OnClickListener() {
             @Override

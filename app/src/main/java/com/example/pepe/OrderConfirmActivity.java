@@ -41,7 +41,7 @@ public class OrderConfirmActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        
+
          */
     }
 
