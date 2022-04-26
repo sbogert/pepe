@@ -52,6 +52,6 @@ public class UpdateMenuActivity extends AppCompatActivity {
             Caffeine.setText("");
         });
 
-        back.setOnClickListener(view -> startActivity(new Intent(this, SellerMain.class)));
+        back.setOnClickListener(view -> startActivity(new Intent(this, SellerMainActivity.class)));
     }
 }

@@ -151,7 +151,7 @@ public class SignupActivity_Sellers extends AppCompatActivity {
 
                     Toast.makeText(SignupActivity_Sellers.this, "Welcome " + name1 + "!",
                             Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), SellerMain.class));
+                    startActivity(new Intent(getApplicationContext(), SellerMainActivity.class));
                 } else {
                     Toast.makeText(SignupActivity_Sellers.this, "Error!!!", Toast.LENGTH_SHORT).show();
                 }

@@ -89,7 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /** Called when the user clicks a marker. */
     @Override
     public boolean onMarkerClick(@NonNull final Marker marker) {
-        Intent i = new Intent(this, ViewStore.class);
+        Intent i = new Intent(this, ViewStoreActivity.class);
         // find sellerID to pass to next activity
         db.collection("sellers").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

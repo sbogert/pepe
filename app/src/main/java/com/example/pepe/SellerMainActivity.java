@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class SellerMain extends AppCompatActivity {
+//TODO: make sure to change it so the seller can't look at past orders
+//because that doesntn exist
+
+public class SellerMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

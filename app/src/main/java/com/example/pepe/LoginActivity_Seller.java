@@ -50,7 +50,7 @@ public class LoginActivity_Seller extends AppCompatActivity {
                     Toast.makeText(LoginActivity_Seller.this, "Welcome "+ user.getDisplayName() +
                             "!", Toast.LENGTH_SHORT).show();
                     finish();
-                    startActivity(new Intent(getApplicationContext(), SellerMain.class));
+                    startActivity(new Intent(getApplicationContext(), SellerMainActivity.class));
                 } else {
                     Toast.makeText(this, "Incorrect email or password",
                             Toast.LENGTH_SHORT).show();

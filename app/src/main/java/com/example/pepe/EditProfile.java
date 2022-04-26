@@ -13,6 +13,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
+// TODO: have something else if the person is a seller
+// bc will need to access seller database instead
 /** EditProfile class is where the user actually changes db and authentication information about their
  * account
  * */
