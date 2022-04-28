@@ -31,6 +31,10 @@ public class LoginActivity extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
 
+
+
+
+
         login.setOnClickListener(view -> {
             String email = Email.getText().toString().trim();
             String pass = Password.getText().toString().trim();

@@ -1,19 +1,25 @@
 package com.example.pepe;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -27,13 +33,13 @@ public class ViewStoreActivity extends AppCompatActivity {
     private TextView StoreAddress;
     private ListView listView;
     private String storeID;
+    private String storeName;
     private Intent x;
+    private LatLng storeLocation;
+    private Location userLocation;
 
 
-
-    //    private ArrayList<MenuItem_Model> items = new ArrayList<>();
     private final ArrayList<String> menuItems = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +60,17 @@ public class ViewStoreActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             storeID = extras.getString("storeID");
+            storeLocation = (LatLng) extras.get("storeLocation");
+            userLocation = (Location) extras.get("userLocation");
+            System.out.println("user location: " + userLocation.getLongitude() + ", " + userLocation.getLatitude() );
             DocumentReference docRef = db.collection("sellers").document(storeID);
             docRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        StoreName.setText(document.getString("storeName"));
+                        storeName = document.getString("storeName");
+                        StoreName.setText(storeName);
+
                         String storeAddress = Objects.requireNonNull(document.getString("address")).split(",")[0];
                         StoreAddress.setText(storeAddress);
 
@@ -91,24 +102,50 @@ public class ViewStoreActivity extends AppCompatActivity {
             });
         }
 
-        // go to checking delivery address and confirm order
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String str = (String) adapterView.getItemAtPosition(i);
-                // parse menu item info to pass along
-                String itemName = str.split("\\(")[0];
-                String leftover = str.split("\\(")[1];
-                String itemCaff = leftover.split("m")[0];
-                String lastPrt = leftover.split("m")[1];
-                String itemPrice = lastPrt.split("\\$")[1];
 
-                x.putExtra("storeID", storeID);
-                x.putExtra("itemName", itemName);
-                x.putExtra("itemCaff", itemCaff);
-                x.putExtra("itemPrice", itemPrice);
-                startActivity(x);
-            }
+        // go to checking delivery address and confirm order
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            String str = (String) adapterView.getItemAtPosition(i);
+            // parse menu item info to pass along
+            String itemName = str.split("\\(")[0];
+            String leftover = str.split("\\(")[1];
+            String itemCaff = leftover.split("m")[0];
+            String lastPrt = leftover.split("m")[1];
+            String itemPrice = lastPrt.split("\\$")[1];
+
+            FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+            FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+            assert fUser != null;
+            DocumentReference drinkerReference = db1.collection("drinkers").document(fUser.getUid());
+            drinkerReference.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // get drinkerCaff
+                        long drinkerCaff;
+                        drinkerCaff = document.getLong("caffeineLimit");
+                        int caffeine = Integer.parseInt(itemCaff);
+                        // warn user about consuming too much caffeine
+                        if (caffeine + drinkerCaff >= 400) {
+                            Toast.makeText(ViewStoreActivity.this, "Warning!" +
+                                    "\nYou have exceeded the recommended daily caffeine intake limit.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        // update drinker's caffeine intake total
+                        drinkerCaff += caffeine;
+                        drinkerReference.update("caffeineLimit", drinkerCaff);
+                    }
+                }
+            });
+
+            x.putExtra("storeID", storeID);
+            x.putExtra("storeName", storeName);
+            x.putExtra("itemName", itemName);
+            x.putExtra("itemCaff", itemCaff);
+            x.putExtra("itemPrice", itemPrice);
+            x.putExtra("storeLocation", storeLocation);
+            x.putExtra("userLocation", userLocation);
+            startActivity(x);
         });
 
         // go back to the map page
